@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harvest Hub - Test Version</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#059669',
+                        secondary: '#10B981',
+                        accent: '#F59E0B'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="text-2xl text-primary font-bold">🌾 Harvest Hub</div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button id="cartBtn" class="relative text-gray-700 hover:text-primary transition-colors">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                        <span id="cartCount" class="absolute -top-2 -right-2 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </button>
+                    <button id="loginBtn" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
+                        Sign In
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-r from-primary to-secondary text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                        Fresh Local Food
+                        <span class="block text-accent">Delivered to You</span>
+                    </h1>
+                    <p class="text-xl mb-8 text-gray-100">
+                        Connect with local farmers, bakers, and artisans. Get fresh, seasonal produce and handmade goods from your community.
+                    </p>
+                    
+                    <div class="bg-white rounded-lg p-2 flex items-center max-w-md">
+                        <i class="fas fa-map-marker-alt text-primary ml-3 mr-2"></i>
+                        <input type="text" id="locationInput" placeholder="Enter your zip code or address" 
+                               class="flex-1 px-3 py-2 text-gray-800 placeholder-gray-500 focus:outline-none">
+                        <button id="findFoodBtn" class="bg-primary text-white px-6 py-2 rounded-md hover:bg-primary/90 transition-colors">
+                            Find Food
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="hidden lg:block">
+                    <div class="bg-white/20 backdrop-blur-sm rounded-2xl p-8">
+                        <div class="text-center">
+                            <div class="text-6xl mb-4">🥬🍎🥛</div>
+                            <h3 class="text-2xl font-semibold mb-2">Local Producers Near You</h3>
+                            <p class="text-gray-100">Discover fresh food from trusted local vendors</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Shop by Category</h2>
+                <p class="text-gray-600">Explore fresh local products by category</p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6" id="categoriesGrid">
+                <!-- Categories will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Fresh Products</h2>
+                <p class="text-gray-600">Discover what's available from local producers</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="productsGrid">
+                <!-- Products will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Notification Area -->
+    <div id="notifications" class="fixed top-20 right-4 z-50"></div>
+
+    <script>
+        // Simple JavaScript for testing
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Harvest Hub Test Page Loaded!');
+            
+            // Load mock categories
+            const categories = [
+                { id: 1, name: 'Vegetables', icon: '🥬', description: 'Fresh local vegetables' },
+                { id: 2, name: 'Fruits', icon: '🍎', description: 'Seasonal fruits' },
+                { id: 3, name: 'Dairy', icon: '🥛', description: 'Fresh dairy products' },
+                { id: 4, name: 'Baked Goods', icon: '🥖', description: 'Artisan breads' },
+                { id: 5, name: 'Meat & Poultry', icon: '🍗', description: 'Farm-raised meat' }
+            ];
+            
+            // Load mock products
+            const products = [
+                {
+                    id: 1,
+                    name: 'Organic Tomatoes',
+                    description: 'Fresh, vine-ripened organic tomatoes',
+                    price: 3.99,
+                    unit: 'lb',
+                    producer_name: 'Green Valley Farm',
+                    category: 'Vegetables',
+                    image: 'https://images.unsplash.com/photo-1546094096-0df4bcaaa337?w=300&h=300&fit=crop'
+                },
+                {
+                    id: 2,
+                    name: 'Fresh Milk',
+                    description: 'Whole milk from grass-fed cows',
+                    price: 4.50,
+                    unit: 'gallon',
+                    producer_name: 'Sunny Side Dairy',
+                    category: 'Dairy',
+                    image: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300&h=300&fit=crop'
+                },
+                {
+                    id: 3,
+                    name: 'Sourdough Bread',
+                    description: 'Traditional sourdough bread with crispy crust',
+                    price: 5.99,
+                    unit: 'loaf',
+                    producer_name: "Baker's Corner",
+                    category: 'Baked Goods',
+                    image: 'https://images.unsplash.com/photo-1585478259715-876acc5be8eb?w=300&h=300&fit=crop'
+                },
+                {
+                    id: 4,
+                    name: 'Mixed Greens',
+                    description: 'Fresh mixed salad greens',
+                    price: 2.99,
+                    unit: 'bag',
+                    producer_name: 'Green Valley Farm',
+                    category: 'Vegetables',
+                    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop'
+                }
+            ];
+            
+            // Render categories
+            function renderCategories() {
+                const grid = document.getElementById('categoriesGrid');
+                grid.innerHTML = categories.map(category => `
+                    <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer" 
+                         onclick="filterByCategory(${category.id})">
+                        <div class="text-4xl mb-3">${category.icon}</div>
+                        <h3 class="font-semibold text-gray-900 mb-2">${category.name}</h3>
+                        <p class="text-sm text-gray-600">${category.description}</p>
+                    </div>
+                `).join('');
+            }
+            
+            // Render products
+            function renderProducts() {
+                const grid = document.getElementById('productsGrid');
+                grid.innerHTML = products.map(product => `
+                    <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden">
+                        <div class="h-48 bg-gray-200 overflow-hidden">
+                            <img src="${product.image}" alt="${product.name}" 
+                                 class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                        </div>
+                        
+                        <div class="p-4">
+                            <div class="flex items-start justify-between mb-2">
+                                <h3 class="font-semibold text-gray-900 text-lg">${product.name}</h3>
+                                <span class="text-sm text-gray-500">${product.category}</span>
+                            </div>
+                            
+                            <p class="text-gray-600 text-sm mb-3">${product.description}</p>
+                            
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-lg font-bold text-primary">$${product.price.toFixed(2)}</span>
+                                <span class="text-sm text-gray-500">per ${product.unit}</span>
+                            </div>
+                            
+                            <p class="text-sm text-gray-600 mb-4">by ${product.producer_name}</p>
+                            
+                            <button onclick="addToCart(${product.id})" 
+                                    class="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90 transition-colors">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            // Add to cart function
+            window.addToCart = function(productId) {
+                const product = products.find(p => p.id === productId);
+                if (product) {
+                    showNotification(`${product.name} added to cart!`);
+                    
+                    // Update cart count
+                    const cartCount = document.getElementById('cartCount');
+                    const currentCount = parseInt(cartCount.textContent) || 0;
+                    cartCount.textContent = currentCount + 1;
+                }
+            }
+            
+            // Category filter function
+            window.filterByCategory = function(categoryId) {
+                const category = categories.find(c => c.id === categoryId);
+                if (category) {
+                    showNotification(`Showing ${category.name} products`);
+                }
+            }
+            
+            // Location search
+            document.getElementById('findFoodBtn').addEventListener('click', function() {
+                const location = document.getElementById('locationInput').value.trim();
+                if (location) {
+                    showNotification(`Searching for food near ${location}...`);
+                } else {
+                    showNotification('Please enter a location', 'error');
+                }
+            });
+            
+            // Notification function
+            function showNotification(message, type = 'success') {
+                const notification = document.createElement('div');
+                notification.className = `p-4 rounded-lg shadow-lg mb-4 transition-all duration-300 ${
+                    type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+                }`;
+                notification.textContent = message;
+                
+                document.getElementById('notifications').appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+            }
+            
+            // Initialize page
+            renderCategories();
+            renderProducts();
+            
+            console.log('All content loaded successfully!');
+        });
+    </script>
+</body>
+</html>

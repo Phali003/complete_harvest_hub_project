@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Debug Test - Harvest Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#10B981',
+                        secondary: '#F59E0B', 
+                        accent: '#EF4444'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <div class="max-w-md w-full bg-white rounded-lg shadow-lg p-6">
+            <h1 class="text-2xl font-bold mb-4 text-center">Modal Debug Test</h1>
+            
+            <div class="space-y-4">
+                <button id="openLoginBtn" class="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary/90">
+                    Open Login Modal
+                </button>
+                
+                <button id="directTestBtn" class="w-full bg-secondary text-white py-2 px-4 rounded-lg hover:bg-secondary/90">
+                    Test Sign Up Link Direct
+                </button>
+                
+                <button id="inspectBtn" class="w-full bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700">
+                    Inspect Elements
+                </button>
+            </div>
+            
+            <div id="output" class="mt-6 p-4 bg-gray-100 rounded-lg min-h-20 text-sm font-mono"></div>
+        </div>
+    </div>
+
+    <!-- Login Modal (simplified version) -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="min-h-screen flex items-center justify-center p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-900">Sign In</h2>
+                    <button id="closeLoginModal" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <form id="loginForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input type="email" id="loginEmail" required class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                        <input type="password" id="loginPassword" required class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                    </div>
+                    <button type="submit" class="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90">
+                        Sign In
+                    </button>
+                </form>
+                
+                <div class="mt-4 text-center text-sm text-gray-600">
+                    <p>Don't have an account? 
+                        <a href="#" id="showRegister" class="text-primary hover:underline">Sign up</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Modal (simplified version) -->
+    <div id="registerModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="min-h-screen flex items-center justify-center p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-900">Sign Up</h2>
+                    <button id="closeRegisterModal" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="text-center">
+                    <p class="text-lg text-green-600 font-semibold">Registration Modal Works! 🎉</p>
+                    <p class="text-sm text-gray-600 mt-2">If you can see this, the modal transition is working.</p>
+                </div>
+                
+                <div class="mt-4 text-center text-sm text-gray-600">
+                    <p>Already have an account? 
+                        <a href="#" id="showLoginFromRegister" class="text-primary hover:underline">Sign in</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Debug logging function
+        function log(message) {
+            const output = document.getElementById('output');
+            const timestamp = new Date().toLocaleTimeString();
+            output.innerHTML += `[${timestamp}] ${message}<br>`;
+            output.scrollTop = output.scrollHeight;
+            console.log(message);
+        }
+
+        // Simple modal functions
+        function showModal(modalId) {
+            log(`Attempting to show modal: ${modalId}`);
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('hidden');
+                log(`✅ Modal ${modalId} shown successfully`);
+            } else {
+                log(`❌ Modal ${modalId} not found`);
+            }
+        }
+
+        function hideModal(modalId) {
+            log(`Attempting to hide modal: ${modalId}`);
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('hidden');
+                log(`✅ Modal ${modalId} hidden successfully`);
+            } else {
+                log(`❌ Modal ${modalId} not found`);
+            }
+        }
+
+        // Wait for DOM to load
+        document.addEventListener('DOMContentLoaded', function() {
+            log('DOM loaded, initializing debug test...');
+            
+            // Get elements
+            const openLoginBtn = document.getElementById('openLoginBtn');
+            const directTestBtn = document.getElementById('directTestBtn');
+            const inspectBtn = document.getElementById('inspectBtn');
+            const closeLoginModal = document.getElementById('closeLoginModal');
+            const closeRegisterModal = document.getElementById('closeRegisterModal');
+            const showRegister = document.getElementById('showRegister');
+            const showLoginFromRegister = document.getElementById('showLoginFromRegister');
+
+            // Log element availability
+            log(`Elements found: openLoginBtn=${!!openLoginBtn}, showRegister=${!!showRegister}`);
+
+            // Open login modal
+            if (openLoginBtn) {
+                openLoginBtn.addEventListener('click', () => {
+                    log('Open Login button clicked');
+                    showModal('loginModal');
+                });
+            }
+
+            // Close modals
+            if (closeLoginModal) {
+                closeLoginModal.addEventListener('click', () => {
+                    log('Close Login button clicked');
+                    hideModal('loginModal');
+                });
+            }
+
+            if (closeRegisterModal) {
+                closeRegisterModal.addEventListener('click', () => {
+                    log('Close Register button clicked');
+                    hideModal('registerModal');
+                });
+            }
+
+            // The critical Sign Up link
+            if (showRegister) {
+                log('✅ showRegister element found, adding click listener...');
+                showRegister.addEventListener('click', (e) => {
+                    log('🎯 SIGN UP LINK CLICKED! This should work...');
+                    e.preventDefault();
+                    hideModal('loginModal');
+                    showModal('registerModal');
+                    log('Modal transition should be complete');
+                });
+            } else {
+                log('❌ showRegister element NOT found');
+            }
+
+            // Back to login from register
+            if (showLoginFromRegister) {
+                showLoginFromRegister.addEventListener('click', (e) => {
+                    log('Back to login link clicked');
+                    e.preventDefault();
+                    hideModal('registerModal');
+                    showModal('loginModal');
+                });
+            }
+
+            // Direct test button
+            if (directTestBtn) {
+                directTestBtn.addEventListener('click', () => {
+                    log('Direct test: Attempting to find and click showRegister link...');
+                    const element = document.getElementById('showRegister');
+                    if (element) {
+                        log('✅ Found showRegister element via direct lookup');
+                        log(`Element details: tagName=${element.tagName}, href=${element.href}, textContent="${element.textContent}"`);
+                        element.click();
+                    } else {
+                        log('❌ showRegister element not found via direct lookup');
+                    }
+                });
+            }
+
+            // Inspect button
+            if (inspectBtn) {
+                inspectBtn.addEventListener('click', () => {
+                    log('=== ELEMENT INSPECTION ===');
+                    log(`showRegister element: ${!!showRegister}`);
+                    if (showRegister) {
+                        log(`- ID: ${showRegister.id}`);
+                        log(`- Class: ${showRegister.className}`);
+                        log(`- Tag: ${showRegister.tagName}`);
+                        log(`- Text: "${showRegister.textContent}"`);
+                        log(`- Parent: ${showRegister.parentElement?.tagName || 'none'}`);
+                        log(`- Event listeners: ${getEventListeners ? 'available' : 'not available in console'}`);
+                    }
+                    log('=== END INSPECTION ===');
+                });
+            }
+
+            log('All event listeners attached successfully!');
+        });
+
+        // Close modals when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target.id === 'loginModal') {
+                hideModal('loginModal');
+            }
+            if (e.target.id === 'registerModal') {
+                hideModal('registerModal');
+            }
+        });
+    </script>
+</body>
+</html>

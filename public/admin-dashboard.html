@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Harvest Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#059669',
+                        secondary: '#10B981',
+                        accent: '#F59E0B'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="text-2xl text-primary font-bold">🌾 Harvest Hub</div>
+                    <span class="ml-4 text-gray-600">Admin Dashboard</span>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button class="text-gray-700 hover:text-primary relative">
+                        <i class="fas fa-bell text-xl"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                    </button>
+                    <div class="flex items-center space-x-2">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" 
+                             alt="Admin" class="w-10 h-10 rounded-full">
+                        <span class="text-gray-700">Admin</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex">
+        <!-- Sidebar -->
+        <div class="w-64 bg-white shadow-lg min-h-screen">
+            <nav class="mt-8">
+                <div class="px-4 space-y-2">
+                    <a href="#overview" class="flex items-center px-4 py-2 text-gray-700 bg-primary/10 rounded-lg">
+                        <i class="fas fa-tachometer-alt mr-3"></i>
+                        Overview
+                    </a>
+                    <a href="#users" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+                        <i class="fas fa-users mr-3"></i>
+                        User Management
+                    </a>
+                    <a href="#producers" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+                        <i class="fas fa-store mr-3"></i>
+                        Producer Approvals
+                    </a>
+                    <a href="#products" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+                        <i class="fas fa-box mr-3"></i>
+                        Product Moderation
+                    </a>
+                    <a href="#orders" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+                        <i class="fas fa-receipt mr-3"></i>
+                        Orders & Payments
+                    </a>
+                    <a href="#analytics" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+                        <i class="fas fa-chart-pie mr-3"></i>
+                        Analytics
+                    </a>
+                    <a href="#settings" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+                        <i class="fas fa-cog mr-3"></i>
+                        Platform Settings
+                    </a>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 p-8">
+            <!-- Overview Section -->
+            <div id="overview-content">
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold text-gray-900 mb-2">Platform Overview</h1>
+                    <p class="text-gray-600">Monitor and manage your digital farmers' market platform.</p>
+                </div>
+
+                <!-- Key Metrics -->
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
+                    <div class="bg-white rounded-lg p-6 shadow-md">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600 mb-1">Total Users</p>
+                                <p class="text-2xl font-bold text-gray-900">1,247</p>
+                            </div>
+                            <div class="bg-blue-100 p-3 rounded-full">
+                                <i class="fas fa-users text-blue-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-sm text-green-600 mt-2">+8% this month</p>
+                    </div>
+
+                    <div class="bg-white rounded-lg p-6 shadow-md">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600 mb-1">Active Producers</p>
+                                <p class="text-2xl font-bold text-gray-900">89</p>
+                            </div>
+                            <div class="bg-primary/10 p-3 rounded-full">
+                                <i class="fas fa-store text-primary text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2">12 pending approval</p>
+                    </div>
+
+                    <div class="bg-white rounded-lg p-6 shadow-md">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600 mb-1">Total Products</p>
+                                <p class="text-2xl font-bold text-gray-900">2,156</p>
+                            </div>
+                            <div class="bg-secondary/10 p-3 rounded-full">
+                                <i class="fas fa-box text-secondary text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-sm text-yellow-600 mt-2">47 awaiting review</p>
+                    </div>
+
+                    <div class="bg-white rounded-lg p-6 shadow-md">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600 mb-1">Monthly Revenue</p>
+                                <p class="text-2xl font-bold text-gray-900">$28,547</p>
+                            </div>
+                            <div class="bg-accent/10 p-3 rounded-full">
+                                <i class="fas fa-dollar-sign text-accent text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-sm text-green-600 mt-2">+15% from last month</p>
+                    </div>
+
+                    <div class="bg-white rounded-lg p-6 shadow-md">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600 mb-1">Platform Health</p>
+                                <p class="text-2xl font-bold text-green-600">99.2%</p>
+                            </div>
+                            <div class="bg-green-100 p-3 rounded-full">
+                                <i class="fas fa-heart text-green-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2">Uptime</p>
+                    </div>
+                </div>
+
+                <!-- Recent Activity & Pending Actions -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Pending Approvals -->
+                    <div class="bg-white rounded-lg p-6 shadow-md">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-xl font-semibold text-gray-900">Pending Approvals</h2>
+                            <span class="bg-red-100 text-red-800 text-sm px-3 py-1 rounded-full">Urgent</span>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-store text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-gray-900">Green Valley Organic</p>
+                                        <p class="text-sm text-gray-600">New producer application</p>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700">
+                                        Approve
+                                    </button>
+                                    <button class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700">
+                                        Reject
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-box text-secondary"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-gray-900">Organic Honey Collection</p>
+                                        <p class="text-sm text-gray-600">Product awaiting review</p>
+                                    </div>
+                                </div>
+                                <button class="px-3 py-1 bg-primary text-white text-sm rounded hover:bg-primary/90">
+                                    Review
+                                </button>
+                            </div>
+
+                            <div class="flex items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-exclamation-triangle text-red-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-gray-900">Quality Concern Report</p>
+                                        <p class="text-sm text-gray-600">Customer complaint #CC-2024-15</p>
+                                    </div>
+                                </div>
+                                <button class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700">
+                                    Investigate
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Health -->
+                    <div class="bg-white rounded-lg p-6 shadow-md">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-xl font-semibold text-gray-900">System Health</h2>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                                <span class="text-sm text-green-600">All Systems Operational</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-700">Database Performance</span>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-24 h-2 bg-gray-200 rounded-full">
+                                        <div class="w-20 h-2 bg-green-500 rounded-full"></div>
+                                    </div>
+                                    <span class="text-sm text-gray-600">85%</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-700">API Response Time</span>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-24 h-2 bg-gray-200 rounded-full">
+                                        <div class="w-22 h-2 bg-green-500 rounded-full"></div>
+                                    </div>
+                                    <span class="text-sm text-gray-600">92%</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-700">Payment Gateway</span>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-24 h-2 bg-gray-200 rounded-full">
+                                        <div class="w-24 h-2 bg-green-500 rounded-full"></div>
+                                    </div>
+                                    <span class="text-sm text-gray-600">100%</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-700">Storage Usage</span>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-24 h-2 bg-gray-200 rounded-full">
+                                        <div class="w-16 h-2 bg-yellow-500 rounded-full"></div>
+                                    </div>
+                                    <span class="text-sm text-gray-600">67%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+                                <span class="text-sm text-blue-800">Last backup: 2 hours ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Management Section (Hidden by default) -->
+            <div id="users-content" style="display: none;">
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold text-gray-900 mb-2">User Management</h1>
+                    <p class="text-gray-600">Manage customer accounts, producer profiles, and platform access.</p>
+                </div>
+
+                <!-- User Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white rounded-lg p-6 shadow-md">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Total Users</h3>
+                        <p class="text-3xl font-bold text-primary">1,247</p>
+                    </div>
+                    <div class="bg-white rounded-lg p-6 shadow-md">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Customers</h3>
+                        <p class="text-3xl font-bold text-secondary">1,158</p>
+                    </div>
+                    <div class="bg-white rounded-lg p-6 shadow-md">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Producers</h3>
+                        <p class="text-3xl font-bold text-accent">89</p>
+                    </div>
+                    <div class="bg-white rounded-lg p-6 shadow-md">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Active Today</h3>
+                        <p class="text-3xl font-bold text-green-600">342</p>
+                    </div>
+                </div>
+
+                <!-- User Table -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-semibold text-gray-900">Recent Users</h3>
+                            <div class="flex items-center space-x-4">
+                                <input type="text" placeholder="Search users..." 
+                                       class="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
+                                <select class="px-3 py-2 border border-gray-300 rounded-md">
+                                    <option>All Roles</option>
+                                    <option>Customers</option>
+                                    <option>Producers</option>
+                                    <option>Admins</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Joined</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108755-2616b612b1b4?w=40&h=40&fit=crop&crop=face" alt="">
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
+                                                <div class="text-sm text-gray-500">sarah.j@email.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">Customer</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Jan 15, 2024</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-primary hover:text-primary/80">View</button>
+                                        <button class="ml-4 text-red-600 hover:text-red-800">Suspend</button>
+                                    </td>
+                                </tr>
+                                <!-- More user rows would go here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Admin Dashboard functionality
+        class AdminDashboard {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.setupNavigation();
+                this.loadDashboardData();
+                this.setupApprovalActions();
+            }
+
+            setupNavigation() {
+                const navLinks = document.querySelectorAll('nav a[href^="#"]');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.showSection(link.getAttribute('href').substring(1));
+                        
+                        // Update active nav item
+                        navLinks.forEach(l => l.classList.remove('bg-primary/10'));
+                        link.classList.add('bg-primary/10');
+                    });
+                });
+            }
+
+            showSection(sectionId) {
+                // Hide all sections
+                document.querySelectorAll('[id$="-content"]').forEach(section => {
+                    section.style.display = 'none';
+                });
+                
+                // Show selected section
+                const targetSection = document.getElementById(`${sectionId}-content`) || 
+                                    document.getElementById('overview-content');
+                targetSection.style.display = 'block';
+            }
+
+            setupApprovalActions() {
+                // Add event listeners for approval buttons
+                document.addEventListener('click', (e) => {
+                    if (e.target.textContent === 'Approve') {
+                        this.handleApproval(e.target, true);
+                    } else if (e.target.textContent === 'Reject') {
+                        this.handleApproval(e.target, false);
+                    }
+                });
+            }
+
+            handleApproval(button, isApproved) {
+                const card = button.closest('.p-4');
+                const status = isApproved ? 'approved' : 'rejected';
+                
+                // Simulate API call
+                button.textContent = 'Processing...';
+                button.disabled = true;
+                
+                setTimeout(() => {
+                    card.style.opacity = '0.5';
+                    card.innerHTML = `
+                        <div class="text-center py-4">
+                            <i class="fas fa-check-circle text-green-600 text-2xl mb-2"></i>
+                            <p class="text-gray-700">Item ${status}</p>
+                        </div>
+                    `;
+                }, 1000);
+            }
+
+            async loadDashboardData() {
+                try {
+                    // Load real data from API
+                    // const response = await fetch('/api/admin/overview');
+                    // const data = await response.json();
+                    console.log('Admin dashboard data loaded');
+                } catch (error) {
+                    console.error('Error loading admin dashboard data:', error);
+                }
+            }
+        }
+
+        // Initialize admin dashboard when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new AdminDashboard();
+        });
+    </script>
+</body>
+</html>

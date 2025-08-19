@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harvest Hub - Your Local Farmers' Market</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#059669',
+                        secondary: '#10B981',
+                        accent: '#F59E0B'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="/" class="text-2xl text-primary font-bold">🌾 Harvest Hub</a>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="hidden md:flex flex-1 max-w-lg mx-8">
+                    <div class="relative w-full">
+                        <input type="text" id="searchInput" placeholder="Search for fresh local food..." 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <button class="absolute right-2 top-2 text-gray-400 hover:text-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-12">
+                    <a href="/" class="text-gray-700 hover:text-primary transition-colors">Home</a>
+                    <a href="/producers.html" class="text-gray-700 hover:text-primary transition-colors">Producers</a>
+                    <a href="/categories.html" class="text-gray-700 hover:text-primary transition-colors">Categories</a>
+                    <a href="/about.html" class="text-gray-700 hover:text-primary transition-colors">About</a>
+                </div>
+
+                <!-- User Actions -->
+                <div class="flex items-center space-x-6">
+                    <button id="cartBtn" class="relative text-gray-700 hover:text-primary transition-colors">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                        <span id="cartCount" class="absolute -top-2 -right-2 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </button>
+                    <button id="loginBtn" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
+                        Sign In
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-r from-primary to-secondary text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                        Fresh Local Food
+                        <span class="block text-accent">Delivered to You</span>
+                    </h1>
+                    <p class="text-xl mb-8 text-gray-100">
+                        Connect with local farmers, bakers, and artisans. Get fresh, seasonal produce and handmade goods from your community.
+                    </p>
+                    
+                    <!-- Location Input with Map Integration -->
+                    <div class="bg-white rounded-lg p-2 flex items-center max-w-md">
+                        <i class="fas fa-map-marker-alt text-primary ml-3 mr-2"></i>
+                        <input type="text" id="locationInput" placeholder="Enter your zip code or address" 
+                               class="flex-1 px-3 py-2 text-gray-800 placeholder-gray-500 focus:outline-none">
+                        <button id="findFoodBtn" class="bg-primary text-white px-6 py-2 rounded-md hover:bg-primary/90 transition-colors">
+                            Find Food
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="hidden lg:block">
+                    <div class="relative">
+                        <div class="bg-white/20 backdrop-blur-sm rounded-2xl p-8">
+                            <div class="text-center">
+                                <div class="text-6xl mb-4">🥬🍎🥛</div>
+                                <h3 class="text-2xl font-semibold mb-2">Local Producers Near You</h3>
+                                <p class="text-gray-100">Discover fresh food from trusted local vendors</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Shop by Category</h2>
+                <p class="text-xl text-gray-600">Discover fresh local products from farmers, bakers, and artisans</p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6" id="categoriesGrid">
+                <!-- Fresh Produce -->
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Vegetables')">
+                    <div class="text-4xl mb-3">🥬</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Vegetables</h3>
+                    <p class="text-xs text-gray-600">Fresh local vegetables</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Fruits')">
+                    <div class="text-4xl mb-3">🍎</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Fruits</h3>
+                    <p class="text-xs text-gray-600">Seasonal fresh fruits</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Herbs')">
+                    <div class="text-4xl mb-3">🌿</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Herbs</h3>
+                    <p class="text-xs text-gray-600">Fresh herbs & spices</p>
+                </div>
+
+                <!-- Dairy & Eggs -->
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Dairy')">
+                    <div class="text-4xl mb-3">🥛</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Dairy</h3>
+                    <p class="text-xs text-gray-600">Milk, cheese, yogurt</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Eggs')">
+                    <div class="text-4xl mb-3">🥚</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Eggs</h3>
+                    <p class="text-xs text-gray-600">Farm fresh eggs</p>
+                </div>
+
+                <!-- Meat & Poultry -->
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Meat')">
+                    <div class="text-4xl mb-3">🥩</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Meat</h3>
+                    <p class="text-xs text-gray-600">Grass-fed beef & pork</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Poultry')">
+                    <div class="text-4xl mb-3">🍗</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Poultry</h3>
+                    <p class="text-xs text-gray-600">Free-range chicken</p>
+                </div>
+
+                <!-- Baked Goods -->
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Bread')">
+                    <div class="text-4xl mb-3">🥖</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Bread</h3>
+                    <p class="text-xs text-gray-600">Artisan breads</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Pastries')">
+                    <div class="text-4xl mb-3">🥐</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Pastries</h3>
+                    <p class="text-xs text-gray-600">Fresh pastries</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Cakes')">
+                    <div class="text-4xl mb-3">🎂</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Cakes</h3>
+                    <p class="text-xs text-gray-600">Homemade cakes</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Cookies')">
+                    <div class="text-4xl mb-3">🍪</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Cookies</h3>
+                    <p class="text-xs text-gray-600">Artisan cookies</p>
+                </div>
+
+                <!-- Grains & Legumes -->
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Grains')">
+                    <div class="text-4xl mb-3">🌾</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Grains</h3>
+                    <p class="text-xs text-gray-600">Whole grains</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Legumes')">
+                    <div class="text-4xl mb-3">🫘</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Legumes</h3>
+                    <p class="text-xs text-gray-600">Beans & lentils</p>
+                </div>
+
+                <!-- Nuts & Seeds -->
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Nuts')">
+                    <div class="text-4xl mb-3">🥜</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Nuts</h3>
+                    <p class="text-xs text-gray-600">Fresh nuts</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Seeds')">
+                    <div class="text-4xl mb-3">🌱</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Seeds</h3>
+                    <p class="text-xs text-gray-600">Organic seeds</p>
+                </div>
+
+                <!-- Sweeteners -->
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Honey')">
+                    <div class="text-4xl mb-3">🍯</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Honey</h3>
+                    <p class="text-xs text-gray-600">Raw local honey</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Maple')">
+                    <div class="text-4xl mb-3">🍁</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Maple</h3>
+                    <p class="text-xs text-gray-600">Pure maple syrup</p>
+                </div>
+
+                <!-- Beverages -->
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Juices')">
+                    <div class="text-4xl mb-3">🧃</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Juices</h3>
+                    <p class="text-xs text-gray-600">Fresh pressed juices</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Coffee')">
+                    <div class="text-4xl mb-3">☕</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Coffee</h3>
+                    <p class="text-xs text-gray-600">Local roasters</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Tea')">
+                    <div class="text-4xl mb-3">🫖</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Tea</h3>
+                    <p class="text-xs text-gray-600">Artisan tea blends</p>
+                </div>
+
+                <!-- Preserves & Pickles -->
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Jams')">
+                    <div class="text-4xl mb-3">🍓</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Jams</h3>
+                    <p class="text-xs text-gray-600">Homemade preserves</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Pickles')">
+                    <div class="text-4xl mb-3">🥒</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Pickles</h3>
+                    <p class="text-xs text-gray-600">Fermented foods</p>
+                </div>
+
+                <!-- Mushrooms -->
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Mushrooms')">
+                    <div class="text-4xl mb-3">🍄</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Mushrooms</h3>
+                    <p class="text-xs text-gray-600">Wild & cultivated</p>
+                </div>
+
+                <!-- Flowers -->
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Flowers')">
+                    <div class="text-4xl mb-3">🌸</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Flowers</h3>
+                    <p class="text-xs text-gray-600">Fresh cut flowers</p>
+                </div>
+
+                <!-- Prepared Foods -->
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Sauces')">
+                    <div class="text-4xl mb-3">🥫</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Sauces</h3>
+                    <p class="text-xs text-gray-600">Homemade sauces</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Soups')">
+                    <div class="text-4xl mb-3">🍲</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Soups</h3>
+                    <p class="text-xs text-gray-600">Fresh prepared soups</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Salads')">
+                    <div class="text-4xl mb-3">🥗</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Salads</h3>
+                    <p class="text-xs text-gray-600">Fresh prepared salads</p>
+                </div>
+
+                <!-- Specialty Items -->
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Oils')">
+                    <div class="text-4xl mb-3">🫒</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Oils</h3>
+                    <p class="text-xs text-gray-600">Cold-pressed oils</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Vinegars')">
+                    <div class="text-4xl mb-3">🍷</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Vinegars</h3>
+                    <p class="text-xs text-gray-600">Artisan vinegars</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+                     onclick="app.filterByCategory('Spices')">
+                    <div class="text-4xl mb-3">🧂</div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-sm">Spices</h3>
+                    <p class="text-xs text-gray-600">Fresh ground spices</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Producers Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Featured Local Producers</h2>
+                <p class="text-gray-600">Meet the amazing people behind your food</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="producersGrid">
+                <!-- Producers will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="py-16 bg-white" id="map-section" style="display: none;">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Find Local Producers Near You</h2>
+                <p class="text-gray-600">Explore fresh food options in your area</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Map Container -->
+                <div class="lg:col-span-2">
+                    <div id="map" class="w-full h-96 bg-gray-200 rounded-lg flex items-center justify-center">
+                        <div class="text-center">
+                            <i class="fas fa-map-marked-alt text-4xl text-primary mb-4"></i>
+                            <p class="text-gray-600">Interactive map would be displayed here</p>
+                            <p class="text-sm text-gray-500 mt-2">Using Mapbox or Google Maps API</p>
+                            <div class="mt-4 space-y-2">
+                                <div class="flex items-center justify-center space-x-2">
+                                    <div class="w-4 h-4 bg-primary rounded-full"></div>
+                                    <span class="text-sm text-gray-600">Vegetables & Fruits</span>
+                                </div>
+                                <div class="flex items-center justify-center space-x-2">
+                                    <div class="w-4 h-4 bg-secondary rounded-full"></div>
+                                    <span class="text-sm text-gray-600">Dairy & Eggs</span>
+                                </div>
+                                <div class="flex items-center justify-center space-x-2">
+                                    <div class="w-4 h-4 bg-accent rounded-full"></div>
+                                    <span class="text-sm text-gray-600">Baked Goods</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Producers List -->
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Nearby Producers</h3>
+                    <div class="space-y-4" id="nearby-producers">
+                        <div class="bg-white rounded-lg p-4 shadow-sm">
+                            <div class="flex items-start space-x-3">
+                                <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-store text-primary"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-900">Green Valley Farm</h4>
+                                    <p class="text-sm text-gray-600 mb-2">Organic vegetables & herbs</p>
+                                    <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                        <span><i class="fas fa-map-marker-alt mr-1"></i>2.3 miles</span>
+                                        <span><i class="fas fa-star text-yellow-400 mr-1"></i>4.8</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg p-4 shadow-sm">
+                            <div class="flex items-start space-x-3">
+                                <div class="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-store text-secondary"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-900">Sunny Side Dairy</h4>
+                                    <p class="text-sm text-gray-600 mb-2">Fresh milk & cheese</p>
+                                    <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                        <span><i class="fas fa-map-marker-alt mr-1"></i>3.7 miles</span>
+                                        <span><i class="fas fa-star text-yellow-400 mr-1"></i>4.9</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg p-4 shadow-sm">
+                            <div class="flex items-start space-x-3">
+                                <div class="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-store text-accent"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-900">Baker's Corner</h4>
+                                    <p class="text-sm text-gray-600 mb-2">Artisan breads & pastries</p>
+                                    <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                        <span><i class="fas fa-map-marker-alt mr-1"></i>1.8 miles</span>
+                                        <span><i class="fas fa-star text-yellow-400 mr-1"></i>4.7</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full mt-4 bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary/90 transition-colors">
+                        View All Producers
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Fresh Products</h2>
+                <p class="text-gray-600">Discover what's available from local producers</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="productsGrid">
+                <!-- Products will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="text-2xl text-primary font-bold mb-4">🌾 Harvest Hub</div>
+                    <p class="text-gray-400">Connecting local producers with customers for fresh, sustainable food.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">How It Works</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Become a Producer</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Support</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">FAQs</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Connect</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-facebook text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Harvest Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <!-- Login Modal - Rebuilt -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+        <div class="bg-white rounded-lg max-w-md w-full mx-4 p-6 relative">
+            <!-- Close Button -->
+            <button id="closeLoginModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <!-- Header -->
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">Welcome Back</h2>
+                <p class="text-gray-600 mt-2">Sign in to your HarvestHub account</p>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label for="loginEmail" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                    <input type="email" id="loginEmail" name="email" required 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
+                           placeholder="Enter your email">
+                </div>
+                
+                <div>
+                    <label for="loginPassword" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                    <input type="password" id="loginPassword" name="password" required 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
+                           placeholder="Enter your password">
+                </div>
+                
+                <button type="submit" class="w-full bg-primary text-white py-3 px-4 rounded-md hover:bg-primary/90 transition-colors font-medium">
+                    <i class="fas fa-sign-in-alt mr-2"></i>
+                    Sign In
+                </button>
+            </form>
+            
+            <!-- Divider -->
+            <div class="my-6 flex items-center">
+                <div class="flex-1 border-t border-gray-300"></div>
+                <span class="px-4 text-sm text-gray-500">OR</span>
+                <div class="flex-1 border-t border-gray-300"></div>
+            </div>
+            
+            <!-- Action Links -->
+            <div class="space-y-3 text-center">
+                <button id="showForgotPassword" class="block w-full text-sm text-primary hover:text-primary/80 transition-colors">
+                    <i class="fas fa-key mr-2"></i>
+                    Forgot your password?
+                </button>
+                
+                <div class="text-sm text-gray-600">
+                    Don't have an account?
+                    <button id="showRegister" class="text-primary hover:text-primary/80 font-medium ml-1 transition-colors">
+                        Sign up here
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] flex flex-col">
+                <!-- Header - Fixed at top -->
+                <div class="flex justify-between items-center p-6 border-b flex-shrink-0">
+                    <h3 class="text-xl font-semibold">Shopping Cart</h3>
+                    <button id="closeCartModal" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <!-- Cart Items - Scrollable area -->
+                <div class="flex-1 overflow-y-auto px-6 py-4">
+                    <div id="cartItems" class="space-y-4">
+                        <!-- Cart items will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Footer - Fixed at bottom -->
+                <div class="border-t p-6 flex-shrink-0">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-lg font-semibold">Total:</span>
+                        <span id="cartTotal" class="text-xl font-bold text-primary">$0.00</span>
+                    </div>
+                    
+                    <button id="checkoutBtn" class="w-full bg-primary text-white py-3 px-4 rounded-md hover:bg-primary/90 transition-colors">
+                        Proceed to Checkout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Modal -->
+    <div id="registerModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-md w-full p-6 max-h-[90vh] overflow-y-auto">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 id="registerTitle" class="text-xl font-semibold">Join Harvest Hub</h3>
+                    <button id="closeRegisterModal" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Role Selection Step -->
+                <div id="roleSelectionStep">
+                    <div class="text-center mb-6">
+                        <h4 class="text-lg font-medium text-gray-900 mb-2">Choose Your Account Type</h4>
+                        <p class="text-sm text-gray-600">Select the option that best describes you</p>
+                    </div>
+                    
+                    <div class="space-y-3 mb-6">
+                        <!-- Customer Option -->
+                        <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 hover:border-primary transition-colors role-option" data-role="customer">
+                            <input type="radio" name="userRole" value="customer" class="text-primary focus:ring-primary">
+                            <div class="ml-4 flex-1">
+                                <div class="flex items-center">
+                                    <i class="fas fa-shopping-cart text-primary mr-3 text-xl"></i>
+                                    <div>
+                                        <div class="font-medium text-gray-900">Customer</div>
+                                        <div class="text-sm text-gray-600">Browse and buy fresh local products</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
+
+                        <!-- Producer Option -->
+                        <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 hover:border-secondary transition-colors role-option" data-role="producer">
+                            <input type="radio" name="userRole" value="producer" class="text-secondary focus:ring-secondary">
+                            <div class="ml-4 flex-1">
+                                <div class="flex items-center">
+                                    <i class="fas fa-store text-secondary mr-3 text-xl"></i>
+                                    <div>
+                                        <div class="font-medium text-gray-900">Producer</div>
+                                        <div class="text-sm text-gray-600">Sell your farm products to local customers</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <button id="continueRegister" class="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        Continue
+                    </button>
+                    
+                    <div class="mt-4 text-center">
+                        <p class="text-sm text-gray-600">
+                            Already have an account? 
+                            <a href="#" id="showLoginFromRegister" class="text-primary hover:underline">Sign in</a>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Registration Form Step -->
+                <div id="registrationFormStep" class="hidden">
+                    <div class="mb-4">
+                        <button id="backToRoleSelection" class="flex items-center text-sm text-gray-600 hover:text-gray-800">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            Back to role selection
+                        </button>
+                    </div>
+
+                    <form id="registerForm" class="space-y-4">
+                        <!-- Role Display -->
+                        <div id="selectedRoleDisplay" class="bg-gray-50 p-3 rounded-lg mb-4">
+                            <div class="flex items-center">
+                                <i id="roleIcon" class="mr-3 text-xl"></i>
+                                <div>
+                                    <div class="font-medium text-gray-900" id="roleTitle"></div>
+                                    <div class="text-sm text-gray-600" id="roleDescription"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Basic Information -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
+                                <input type="text" id="registerFirstName" required 
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
+                                <input type="text" id="registerLastName" required 
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
+                            <input type="email" id="registerEmail" required 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
+                            <input type="tel" id="registerPhone" required placeholder="254XXXXXXXXX"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Password *</label>
+                            <input type="password" id="registerPassword" required 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <p class="text-xs text-gray-500 mt-1">At least 6 characters</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Confirm Password *</label>
+                            <input type="password" id="registerConfirmPassword" required 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+
+                        <!-- Producer-specific fields -->
+                        <div id="producerFields" class="hidden space-y-4">
+                            <hr class="my-4">
+                            <div class="bg-secondary/10 p-4 rounded-lg">
+                                <h5 class="font-medium text-gray-900 mb-3 flex items-center">
+                                    <i class="fas fa-store text-secondary mr-2"></i>
+                                    Business Information
+                                </h5>
+                                
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Business Name *</label>
+                                        <input type="text" id="businessName" 
+                                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-secondary focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Business Description</label>
+                                        <textarea id="businessDescription" rows="3" 
+                                                  placeholder="Tell customers about your farm, products, and what makes you special..."
+                                                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-secondary focus:border-transparent"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Terms and Conditions -->
+                        <div class="flex items-start">
+                            <input type="checkbox" id="agreeTerms" required 
+                                   class="mt-1 text-primary focus:ring-primary">
+                            <label for="agreeTerms" class="ml-2 text-sm text-gray-700">
+                                I agree to the <a href="#" class="text-primary hover:underline">Terms of Service</a> 
+                                and <a href="#" class="text-primary hover:underline">Privacy Policy</a>
+                            </label>
+                        </div>
+
+                        <button type="submit" id="registerSubmit" class="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90 transition-colors">
+                            <i class="fas fa-user-plus mr-2"></i>
+                            Create Account
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-md w-full p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-semibold">Reset Your Password</h3>
+                    <button id="closeForgotPasswordModal" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div id="forgotPasswordStep">
+                    <div class="text-center mb-6">
+                        <i class="fas fa-lock text-4xl text-gray-400 mb-4"></i>
+                        <p class="text-gray-600">Enter your email address and we'll send you instructions to reset your password.</p>
+                    </div>
+
+                    <form id="forgotPasswordForm" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <input type="email" id="forgotEmail" required 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                                   placeholder="Enter your email address">
+                        </div>
+
+                        <button type="submit" class="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90 transition-colors">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            Send Reset Instructions
+                        </button>
+                    </form>
+
+                    <div class="mt-4 text-center">
+                        <p class="text-sm text-gray-600">
+                            Remember your password? 
+                            <a href="#" id="showLoginFromForgot" class="text-primary hover:underline">Sign in</a>
+                        </p>
+                    </div>
+                </div>
+
+                <div id="forgotPasswordSuccess" class="text-center hidden">
+                    <i class="fas fa-check-circle text-4xl text-green-500 mb-4"></i>
+                    <h4 class="text-lg font-medium text-gray-900 mb-2">Check Your Email</h4>
+                    <p class="text-gray-600 mb-6">We've sent password reset instructions to your email address.</p>
+                    <button id="backToLogin" class="bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90 transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Back to Sign In
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js?v=20250814121812"></script>
+    
+    <!-- Debug script -->
+    <script>
+        console.log('🔥 HTML DEBUG: Script starting...');
+        
+        // Immediate test
+        console.log('🔍 IMMEDIATE CHECK:');
+        console.log('  showRegister exists:', !!document.getElementById('showRegister'));
+        console.log('  loginModal exists:', !!document.getElementById('loginModal'));
+        console.log('  registerModal exists:', !!document.getElementById('registerModal'));
+        
+        // DOM ready test
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🔍 DOM READY CHECK:');
+            console.log('  showRegister exists:', !!document.getElementById('showRegister'));
+            console.log('  loginModal exists:', !!document.getElementById('loginModal'));
+            console.log('  registerModal exists:', !!document.getElementById('registerModal'));
+            
+            // Test clicking the Sign In button
+            const loginBtn = document.getElementById('loginBtn');
+            if (loginBtn) {
+                console.log('✅ Login button found, adding test click listener');
+                loginBtn.addEventListener('click', () => {
+                    console.log('🎯 LOGIN BUTTON CLICKED!');
+                    setTimeout(() => {
+                        const showRegisterAfterLogin = document.getElementById('showRegister');
+                        console.log('📍 showRegister after login modal opens:', !!showRegisterAfterLogin);
+                        if (showRegisterAfterLogin) {
+                            console.log('📍 showRegister element details:', {
+                                id: showRegisterAfterLogin.id,
+                                textContent: showRegisterAfterLogin.textContent,
+                                visible: window.getComputedStyle(showRegisterAfterLogin).display !== 'none'
+                            });
+                        }
+                    }, 100);
+                });
+            }
+        });
+        
+        // App loaded test
+        setTimeout(() => {
+            console.log('🔍 AFTER APP LOAD CHECK:');
+            console.log('  App object exists:', typeof app !== 'undefined');
+            console.log('  showRegister exists:', !!document.getElementById('showRegister'));
+            
+            // Test the element directly
+            const showRegister = document.getElementById('showRegister');
+            if (showRegister) {
+                console.log('✅ FOUND showRegister! Adding test listener...');
+                showRegister.addEventListener('click', () => {
+                    console.log('🎯 MANUAL CLICK ON SHOWREGISTER WORKED!');
+                });
+            } else {
+                console.log('❌ showRegister NOT FOUND after app load');
+            }
+        }, 2000);
+    </script>
+</body>
+</html> 

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Location Detection</title>
+</head>
+<body>
+    <h1>Test Location Detection</h1>
+    
+    <script>
+        // Test the location detection logic
+        function testLocationDetection(query) {
+            const locationKeywords = [
+                // General location terms
+                'zip', 'code', 'street', 'ave', 'avenue', 'road', 'rd', 'blvd', 'boulevard', 'city', 'state',
+                // Kenyan location terms
+                'county', 'town', 'sub-county', 'constituency', 'ward', 'district',
+                // Kenyan county names
+                'kiambu', 'nakuru', 'nairobi', 'laikipia', 'mombasa', 'kisumu', 'eldoret', 
+                'thika', 'nyeri', 'meru', 'embu', 'machakos', 'kajiado', 'murang\'a', 'kirinyaga',
+                'nyandarua', 'trans nzoia', 'uasin gishu', 'elgeyo marakwet', 'nandi', 'baringo',
+                'turkana', 'west pokot', 'samburu', 'marsabit', 'isiolo', 'garissa', 'wajir',
+                'mandera', 'lamu', 'tana river', 'kilifi', 'taita taveta', 'kwale', 'makueni',
+                'kitui', 'tharaka nithi', 'mwingi', 'bomet', 'kericho', 'nyamira', 'kisii',
+                'migori', 'homa bay', 'siaya', 'busia', 'bungoma', 'kakamega', 'vihiga',
+                // Common Kenyan city/town names
+                'limuru', 'nanyuki', 'kikuyu', 'ruiru', 'juja', 'githunguri', 'lari',
+                'gatundu', 'kiambaa', 'kabete', 'karen', 'langata', 'westlands', 'cbd',
+                'kasarani', 'embakasi', 'dagoretti', 'mathare', 'starehe', 'makadara'
+            ];
+            
+            const hasNumbers = /\d/.test(query);
+            const isZipCode = /^\d{5}(-\d{4})?$/.test(query.trim());
+            const isStateCode = /\b[A-Z]{2}\b/.test(query.toUpperCase());
+            const hasLocationKeywords = locationKeywords.some(keyword => 
+                query.toLowerCase().includes(keyword.toLowerCase())
+            );
+            
+            // Also check if it's a multi-word term (likely a location)
+            const isMultiWord = query.trim().split(' ').length > 1;
+            
+            const seemsLikeLocation = isZipCode || hasNumbers || isStateCode || hasLocationKeywords || isMultiWord;
+            
+            console.log(`Testing: "${query}"`);
+            console.log(`  hasNumbers: ${hasNumbers}`);
+            console.log(`  isZipCode: ${isZipCode}`);
+            console.log(`  isStateCode: ${isStateCode}`);
+            console.log(`  hasLocationKeywords: ${hasLocationKeywords}`);
+            console.log(`  isMultiWord: ${isMultiWord}`);
+            console.log(`  RESULT: ${seemsLikeLocation ? 'LOCATION' : 'FOOD'}`);
+            console.log('---');
+            
+            return seemsLikeLocation;
+        }
+        
+        // Test various searches
+        const testQueries = [
+            'Kiambu County',
+            'Nakuru',
+            'Nairobi CBD',
+            'tomatoes',
+            'fresh milk',
+            'Kikuyu Town',
+            'vegetables',
+            'Laikipia County',
+            'bread',
+            'Limuru'
+        ];
+        
+        console.log('=== Location Detection Tests ===');
+        testQueries.forEach(query => testLocationDetection(query));
+    </script>
+</body>
+</html>
