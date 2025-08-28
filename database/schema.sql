@@ -138,6 +138,21 @@ INSERT INTO categories (name, description, icon) VALUES
 ('Eggs', 'Farm fresh eggs', '🥚'),
 ('Beverages', 'Fresh juices and drinks', '🥤');
 
+-- Password reset tokens table
+CREATE TABLE password_reset_tokens (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(20),
+    token VARCHAR(255) UNIQUE NOT NULL,
+    expires_at TIMESTAMP NOT NULL,
+    used BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    used_at TIMESTAMP NULL,
+    INDEX idx_password_reset_email (email),
+    INDEX idx_password_reset_token (token),
+    INDEX idx_password_reset_expires (expires_at)
+);
+
 -- Create indexes for better performance
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_role ON users(role);

@@ -786,21 +786,34 @@
                     <div class="text-center mb-6">
                         <i class="fas fa-lock text-4xl text-gray-400 mb-4"></i>
                         <p class="text-gray-600">Enter your email address and we'll send you instructions to reset your password.</p>
+                        <div class="mt-3 text-sm text-amber-600 bg-amber-50 p-3 rounded-lg">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            Note: Password reset is currently only available via email.
+                        </div>
                     </div>
 
                     <form id="forgotPasswordForm" class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                            <input type="email" id="forgotEmail" required 
+                            <input type="email" id="forgotIdentifier" name="identifier" required 
                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
                                    placeholder="Enter your email address">
                         </div>
 
-                        <button type="submit" class="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90 transition-colors">
-                            <i class="fas fa-paper-plane mr-2"></i>
-                            Send Reset Instructions
+                        <button type="submit" id="forgotPasswordSubmitBtn" class="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                            <span id="forgotPasswordBtnText">
+                                <i class="fas fa-paper-plane mr-2"></i>
+                                Send Reset Instructions
+                            </span>
+                            <span id="forgotPasswordBtnLoading" class="hidden">
+                                <i class="fas fa-spinner fa-spin mr-2"></i>
+                                Sending...
+                            </span>
                         </button>
                     </form>
+                    
+                    <!-- Error/Success Messages -->
+                    <div id="forgotPasswordMessage" class="hidden mt-4"></div>
 
                     <div class="mt-4 text-center">
                         <p class="text-sm text-gray-600">

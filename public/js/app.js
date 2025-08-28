@@ -1090,20 +1090,19 @@ class HarvestHub {
     }
 
     updateUserInterface() {
+        const loginBtn = document.getElementById('loginBtn');
         if (this.currentUser) {
-            document.getElementById('loginBtn').textContent = this.currentUser.first_name;
-            document.getElementById('loginBtn').classList.remove('bg-primary');
-            document.getElementById('loginBtn').classList.add('bg-secondary');
+            // Just update the login button text to show the user's name
+            loginBtn.textContent = this.currentUser.first_name || 'My Account';
         } else {
-            document.getElementById('loginBtn').textContent = 'Sign In';
-            document.getElementById('loginBtn').classList.remove('bg-secondary');
-            document.getElementById('loginBtn').classList.add('bg-primary');
+            // Revert to Sign In text when logged out
+            loginBtn.textContent = 'Sign In';
         }
     }
 
-    // Comprehensive authentication system - Rebuilt
+    // Authentication system initialization
     initAuth() {
-        console.log('🔧 [AUTH] Initializing rebuilt authentication system...');
+        console.log('🔧 [AUTH] Initializing authentication system...');
         
         // Get main elements
         const loginBtn = document.getElementById('loginBtn');
@@ -1111,53 +1110,16 @@ class HarvestHub {
         const registerModal = document.getElementById('registerModal');
         const forgotPasswordModal = document.getElementById('forgotPasswordModal');
         
-        console.log('🔧 [AUTH] Main elements found:', {
-            loginBtn: !!loginBtn,
-            loginModal: !!loginModal,
-            registerModal: !!registerModal,
-            forgotPasswordModal: !!forgotPasswordModal
-        });
-        
-        // Get forms and buttons
-        const loginForm = document.getElementById('loginForm');
-        const closeLoginModal = document.getElementById('closeLoginModal');
-        const showRegister = document.getElementById('showRegister');
-        const showForgotPassword = document.getElementById('showForgotPassword');
-        
-        // Get register modal elements
-        const closeRegisterModal = document.getElementById('closeRegisterModal');
-        const registerForm = document.getElementById('registerForm');
-        const showLoginFromRegister = document.getElementById('showLoginFromRegister');
-        
-        // Get forgot password modal elements
-        const closeForgotPasswordModal = document.getElementById('closeForgotPasswordModal');
-        const forgotPasswordForm = document.getElementById('forgotPasswordForm');
-        const showLoginFromForgot = document.getElementById('showLoginFromForgot');
-        const backToLogin = document.getElementById('backToLogin');
-        
-        console.log('🔧 [AUTH] Key elements found:', {
-            loginForm: !!loginForm,
-            closeLoginModal: !!closeLoginModal,
-            showRegister: !!showRegister,
-            showForgotPassword: !!showForgotPassword,
-            closeRegisterModal: !!closeRegisterModal,
-            registerForm: !!registerForm,
-            showLoginFromRegister: !!showLoginFromRegister,
-            closeForgotPasswordModal: !!closeForgotPasswordModal,
-            forgotPasswordForm: !!forgotPasswordForm,
-            showLoginFromForgot: !!showLoginFromForgot,
-            backToLogin: !!backToLogin
-        });
-        
-        if (showRegister) {
-            console.log('✅ [AUTH] showRegister element details:', {
-                tagName: showRegister.tagName,
-                textContent: showRegister.textContent?.trim(),
-                id: showRegister.id
-            });
+        // Restore original login button if it was replaced
+        if (document.getElementById('profileContainer')) {
+            const loginHtml = `
+                <button id="loginBtn" class="text-gray-700 hover:text-green-600 transition-colors">
+                    Sign In
+                </button>
+            `;
+            document.getElementById('profileContainer').outerHTML = loginHtml;
         }
         
-        // Initialize login modal
         if (loginBtn && loginModal) {
             loginBtn.addEventListener('click', () => this.showModal('loginModal'));
         }
@@ -1530,34 +1492,99 @@ class HarvestHub {
     }
     
     // Handle forgot password form submission
-    handleForgotPassword(form) {
-        const email = form.querySelector('#forgotEmail').value;
+    async handleForgotPassword(form) {
+        const identifier = form.querySelector('#forgotIdentifier').value;
         
-        if (!email) {
+        if (!identifier) {
             this.showNotification('Please enter your email address', 'error');
             return;
         }
         
         // Show loading state
-        const submitBtn = form.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Sending...';
+        const submitBtn = document.getElementById('forgotPasswordSubmitBtn');
+        const btnText = document.getElementById('forgotPasswordBtnText');
+        const btnLoading = document.getElementById('forgotPasswordBtnLoading');
+        const messageEl = document.getElementById('forgotPasswordMessage');
+        
+        // Clear previous messages
+        messageEl.classList.add('hidden');
+        
+        // Set loading state
         submitBtn.disabled = true;
+        btnText.classList.add('hidden');
+        btnLoading.classList.remove('hidden');
         
-        console.log('Password reset request:', { email });
+        console.log('Password reset request:', { identifier });
         
-        // Simulate API call
-        setTimeout(() => {
-            // Reset button
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
+        try {
+            const response = await fetch('/api/auth/forgot-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ identifier })
+            });
             
-            // Show success step
-            const forgotPasswordStep = document.getElementById('forgotPasswordStep');
-            const forgotPasswordSuccess = document.getElementById('forgotPasswordSuccess');
-            if (forgotPasswordStep) forgotPasswordStep.classList.add('hidden');
-            if (forgotPasswordSuccess) forgotPasswordSuccess.classList.remove('hidden');
-        }, 1500);
+            const result = await response.json();
+            
+            if (response.ok) {
+                // Show success message
+                messageEl.innerHTML = `
+                    <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-md">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        ${result.message}
+                    </div>
+                `;
+                messageEl.classList.remove('hidden');
+                
+                // Clear the form
+                form.reset();
+                
+                // Show success step after a delay
+                setTimeout(() => {
+                    const forgotPasswordStep = document.getElementById('forgotPasswordStep');
+                    const forgotPasswordSuccess = document.getElementById('forgotPasswordSuccess');
+                    if (forgotPasswordStep) forgotPasswordStep.classList.add('hidden');
+                    if (forgotPasswordSuccess) forgotPasswordSuccess.classList.remove('hidden');
+                }, 2000);
+                
+            } else if (response.status === 429) {
+                // Handle rate limit error
+                messageEl.innerHTML = `
+                    <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
+                        <i class="fas fa-exclamation-circle mr-2"></i>
+                        ${result.message || 'Too many attempts. Please try again later.'}
+                    </div>
+                `;
+                messageEl.classList.remove('hidden');
+                
+            } else {
+                // Show error message
+                let errorMessage = result.message || 'Failed to send password reset email';
+                
+                messageEl.innerHTML = `
+                    <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
+                        <i class="fas fa-exclamation-circle mr-2"></i>
+                        ${errorMessage}
+                    </div>
+                `;
+                messageEl.classList.remove('hidden');
+            }
+        } catch (error) {
+            console.error('Password reset error:', error);
+            messageEl.innerHTML = `
+                <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
+                    <i class="fas fa-exclamation-circle mr-2"></i>
+                    Network error. Please check your connection and try again.
+                </div>
+            `;
+            messageEl.classList.remove('hidden');
+        } finally {
+            // Reset button state
+            submitBtn.disabled = false;
+            btnText.classList.remove('hidden');
+            btnLoading.classList.add('hidden');
+        }
     }
     
     // Reset registration modal to initial state
