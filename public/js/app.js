@@ -14,7 +14,11 @@ class HarvestHub {
         console.log('HarvestHub initializing - DOM is ready');
         
         // DOM is guaranteed to be ready at this point
+        // Show stored user name immediately if available
+        this.updateUserInterface();
         this.setupEventListeners();
+        // Apply role-based nav visibility on load
+        this.updateNavByRole();
         
         await this.loadInitialData();
         this.renderCategories();
@@ -89,6 +93,8 @@ class HarvestHub {
             console.log('Loading initial data...');
             // Try to load from API first, but use mock data as fallback
             this.loadMockData(); // Load mock data immediately for testing
+            // Ensure each product has a unique, valid image
+            this.ensureUniqueProductImages();
             
             // Uncomment these when database is set up:
             /*
@@ -525,7 +531,7 @@ class HarvestHub {
                 unit: "bunch",
                 producer_name: "Green Valley Farm",
                 category: "Herbs",
-                image: "https://images.unsplash.com/photo-1618377380890-8e31e540c1a4?w=300&h=300&fit=crop"
+                image: "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=300&h=300&fit=crop"
             },
             {
                 id: 32,
@@ -535,7 +541,7 @@ class HarvestHub {
                 unit: "bunch",
                 producer_name: "Green Valley Farm",
                 category: "Herbs",
-                image: "https://images.unsplash.com/photo-1618377380890-8e31e540c1a4?w=300&h=300&fit=crop"
+                image: "https://images.unsplash.com/photo-1504548840739-580b10ae7715?w=300&h=300&fit=crop"
             },
             {
                 id: 33,
@@ -545,7 +551,7 @@ class HarvestHub {
                 unit: "bunch",
                 producer_name: "Green Valley Farm",
                 category: "Herbs",
-                image: "https://images.unsplash.com/photo-1618377380890-8e31e540c1a4?w=300&h=300&fit=crop"
+                image: "https://images.unsplash.com/photo-1505575972945-2804b47a7ea1?w=300&h=300&fit=crop"
             },
             {
                 id: 34,
@@ -555,7 +561,7 @@ class HarvestHub {
                 unit: "bunch",
                 producer_name: "Green Valley Farm",
                 category: "Herbs",
-                image: "https://images.unsplash.com/photo-1618377380890-8e31e540c1a4?w=300&h=300&fit=crop"
+                image: "https://images.unsplash.com/photo-1506801310323-534be5e7b3f0?w=300&h=300&fit=crop"
             },
             {
                 id: 35,
@@ -565,7 +571,7 @@ class HarvestHub {
                 unit: "bunch",
                 producer_name: "Green Valley Farm",
                 category: "Herbs",
-                image: "https://images.unsplash.com/photo-1618377380890-8e31e540c1a4?w=300&h=300&fit=crop"
+                image: "https://images.unsplash.com/photo-1524594420848-8365491bcd79?w=300&h=300&fit=crop"
             },
             {
                 id: 36,
@@ -575,7 +581,7 @@ class HarvestHub {
                 unit: "bunch",
                 producer_name: "Green Valley Farm",
                 category: "Herbs",
-                image: "https://images.unsplash.com/photo-1618377380890-8e31e540c1a4?w=300&h=300&fit=crop"
+                image: "https://images.unsplash.com/photo-1615486363871-2d635a0bae29?w=300&h=300&fit=crop"
             },
             {
                 id: 37,
@@ -585,7 +591,7 @@ class HarvestHub {
                 unit: "bunch",
                 producer_name: "Green Valley Farm",
                 category: "Herbs",
-                image: "https://images.unsplash.com/photo-1618377380890-8e31e540c1a4?w=300&h=300&fit=crop"
+                image: "https://images.unsplash.com/photo-1587049352840-02b2b7a98736?w=300&h=300&fit=crop"
             },
             {
                 id: 38,
@@ -595,7 +601,7 @@ class HarvestHub {
                 unit: "bunch",
                 producer_name: "Green Valley Farm",
                 category: "Herbs",
-                image: "https://images.unsplash.com/photo-1618377380890-8e31e540c1a4?w=300&h=300&fit=crop"
+                image: "https://images.unsplash.com/photo-1596040033229-7b3f66db8f5a?w=300&h=300&fit=crop"
             },
             {
                 id: 39,
@@ -605,7 +611,7 @@ class HarvestHub {
                 unit: "bunch",
                 producer_name: "Green Valley Farm",
                 category: "Herbs",
-                image: "https://images.unsplash.com/photo-1618377380890-8e31e540c1a4?w=300&h=300&fit=crop"
+                image: "https://images.unsplash.com/photo-1622487506930-f5b2ff6a5d89?w=300&h=300&fit=crop"
             },
             {
                 id: 40,
@@ -615,7 +621,7 @@ class HarvestHub {
                 unit: "bunch",
                 producer_name: "Green Valley Farm",
                 category: "Herbs",
-                image: "https://images.unsplash.com/photo-1618377380890-8e31e540c1a4?w=300&h=300&fit=crop"
+                image: "https://images.unsplash.com/photo-1590080875514-8a8f9c7cdbde?w=300&h=300&fit=crop"
             },
             {
                 id: 41,
@@ -625,7 +631,7 @@ class HarvestHub {
                 unit: "bunch",
                 producer_name: "Green Valley Farm",
                 category: "Herbs",
-                image: "https://images.unsplash.com/photo-1618377380890-8e31e540c1a4?w=300&h=300&fit=crop"
+                image: "https://images.unsplash.com/photo-1524594081293-190a2fe0baae?w=300&h=300&fit=crop"
             },
             {
                 id: 42,
@@ -635,7 +641,7 @@ class HarvestHub {
                 unit: "bunch",
                 producer_name: "Green Valley Farm",
                 category: "Herbs",
-                image: "https://images.unsplash.com/photo-1618377380890-8e31e540c1a4?w=300&h=300&fit=crop"
+                image: "https://images.unsplash.com/photo-1615485737651-9b89e0ee1d3f?w=300&h=300&fit=crop"
             },
             // Dairy (12 products)
             {
@@ -910,7 +916,7 @@ class HarvestHub {
         grid.innerHTML = this.products.map(product => `
             <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden">
                 <div class="h-48 bg-gray-200 overflow-hidden">
-                    <img src="${product.image}" alt="${product.name}" 
+                    <img src="${product.image}" alt="${product.name}" data-category="${product.category}" onerror="handleProductImageError(this, ${product.id}, '${product.name.replace(/'/g, "\\'")}', '${product.category.replace(/'/g, "\\'")}')" 
                          class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
                 </div>
                 
@@ -1077,9 +1083,18 @@ class HarvestHub {
             if (response.ok) {
                 const user = await response.json();
                 this.currentUser = user;
+                if (user && user.role) {
+                    localStorage.setItem('harvestHubRole', user.role);
+                }
                 this.hideModal('loginModal');
                 this.showNotification('Successfully logged in!');
                 this.updateUserInterface();
+                // Redirect by role
+                if (this.isProducer()) {
+                    window.location.href = 'producers.html';
+                } else {
+                    window.location.href = '/';
+                }
             } else {
                 this.showNotification('Login failed. Please check your credentials.', 'error');
             }
@@ -1091,12 +1106,46 @@ class HarvestHub {
 
     updateUserInterface() {
         const loginBtn = document.getElementById('loginBtn');
-        if (this.currentUser) {
-            // Just update the login button text to show the user's name
-            loginBtn.textContent = this.currentUser.first_name || 'My Account';
+        if (!loginBtn) return;
+        const token = localStorage.getItem('harvestHubToken');
+        const storedName = localStorage.getItem('harvestHubDisplayName');
+        if (this.currentUser || token || storedName) {
+            // Determine display name from various possible fields or stored fallback
+            const displayName = (this.currentUser && (this.currentUser.first_name || this.currentUser.firstName || this.currentUser.name || this.currentUser.email)) || storedName || 'My Account';
+            if (displayName) {
+                localStorage.setItem('harvestHubDisplayName', displayName);
+                loginBtn.textContent = displayName;
+            }
         } else {
             // Revert to Sign In text when logged out
             loginBtn.textContent = 'Sign In';
+            localStorage.removeItem('harvestHubDisplayName');
+        }
+        // Sync nav based on current role
+        this.updateNavByRole();
+    }
+
+    // Determine if current user is a producer
+    isProducer() {
+        const storedRole = localStorage.getItem('harvestHubRole');
+        return (this.currentUser && this.currentUser.role === 'producer') || storedRole === 'producer';
+    }
+
+    // Hide/show Producers link based on role
+    updateNavByRole() {
+        try {
+            const producersLink = document.querySelector('a[href="/producers.html"], a[href="producers.html"]');
+            if (producersLink) {
+                if (this.isProducer()) {
+                    producersLink.classList.remove('hidden');
+                    producersLink.style.display = '';
+                } else {
+                    producersLink.classList.add('hidden');
+                    producersLink.style.display = 'none';
+                }
+            }
+        } catch (e) {
+            // no-op
         }
     }
 
@@ -1105,23 +1154,47 @@ class HarvestHub {
         console.log('🔧 [AUTH] Initializing authentication system...');
         
         // Get main elements
-        const loginBtn = document.getElementById('loginBtn');
+        let loginBtn = document.getElementById('loginBtn');
         const loginModal = document.getElementById('loginModal');
         const registerModal = document.getElementById('registerModal');
         const forgotPasswordModal = document.getElementById('forgotPasswordModal');
+
+        // Explicitly query all elements used below (avoid relying on window globals)
+        const closeLoginModal = document.getElementById('closeLoginModal');
+        const loginForm = document.getElementById('loginForm');
+        const closeRegisterModal = document.getElementById('closeRegisterModal');
+        const registerForm = document.getElementById('registerForm');
+        const closeForgotPasswordModal = document.getElementById('closeForgotPasswordModal');
+        const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+        const showRegister = document.getElementById('showRegister');
+        const showForgotPassword = document.getElementById('showForgotPassword');
+        const showLoginFromRegister = document.getElementById('showLoginFromRegister');
+        const showLoginFromForgot = document.getElementById('showLoginFromForgot');
+        const backToLogin = document.getElementById('backToLogin');
         
-        // Restore original login button if it was replaced
+        // Restore original login button if it was replaced (preserve stored name if available)
         if (document.getElementById('profileContainer')) {
+            const storedName = localStorage.getItem('harvestHubDisplayName');
+            const label = storedName || 'Sign In';
             const loginHtml = `
                 <button id="loginBtn" class="text-gray-700 hover:text-green-600 transition-colors">
-                    Sign In
+                    ${label}
                 </button>
             `;
             document.getElementById('profileContainer').outerHTML = loginHtml;
         }
         
-        if (loginBtn && loginModal) {
-            loginBtn.addEventListener('click', () => this.showModal('loginModal'));
+        // Re-select after potential replacement above
+        loginBtn = document.getElementById('loginBtn');
+        if (loginBtn) {
+            loginBtn.addEventListener('click', (e) => {
+                const hasToken = !!localStorage.getItem('harvestHubToken');
+                if (this.currentUser || hasToken) {
+                    this.promptLogout(e.currentTarget);
+                } else if (loginModal) {
+                    this.showModal('loginModal');
+                }
+            });
         }
 
         if (closeLoginModal) {
@@ -1172,6 +1245,8 @@ class HarvestHub {
                 console.log('🔄 [MODAL] Resetting registration modal...');
                 this.resetRegistrationModal();
                 console.log('✅ [MODAL] Registration modal should now be visible');
+                // Ensure the login button keeps the stored display name after modal changes
+                this.updateUserInterface();
             });
             console.log('✅ [AUTH] Click listener successfully added to showRegister');
         } else {
@@ -1224,6 +1299,67 @@ class HarvestHub {
             }
         });
     }
+
+    // Show a small popover asking the user to confirm logout
+    promptLogout(anchorEl) {
+        // Remove any existing popover first
+        const existing = document.getElementById('logoutPopover');
+        if (existing) existing.remove();
+
+        const rect = anchorEl.getBoundingClientRect();
+        const popover = document.createElement('div');
+        popover.id = 'logoutPopover';
+        popover.className = 'fixed bg-white shadow-lg rounded-md border border-gray-200 z-50';
+        popover.style.top = `${rect.bottom + 8 + window.scrollY}px`;
+        popover.style.left = `${rect.right - 160 + window.scrollX}px`;
+        popover.style.width = '160px';
+        popover.innerHTML = `
+            <div class="p-3">
+                <div class="text-sm text-gray-700 mb-2">You are signed in.</div>
+                <button id="confirmLogoutBtn" class="w-full bg-red-500 text-white px-3 py-2 rounded-md hover:bg-red-600 text-sm">Log out</button>
+                <button id="cancelLogoutBtn" class="w-full mt-2 bg-gray-100 text-gray-700 px-3 py-2 rounded-md hover:bg-gray-200 text-sm">Cancel</button>
+            </div>
+        `;
+        document.body.appendChild(popover);
+
+        // Wire events
+        const cleanup = () => {
+            if (popover && popover.parentNode) popover.parentNode.removeChild(popover);
+            document.removeEventListener('click', onOutsideClick, true);
+        };
+
+        const onOutsideClick = (ev) => {
+            if (!popover.contains(ev.target) && ev.target !== anchorEl) {
+                cleanup();
+            }
+        };
+
+        document.getElementById('confirmLogoutBtn').addEventListener('click', async () => {
+            await this.logout();
+            cleanup();
+        });
+        document.getElementById('cancelLogoutBtn').addEventListener('click', cleanup);
+        setTimeout(() => document.addEventListener('click', onOutsideClick, true), 0);
+    }
+
+    // Clear auth state and update UI
+    async logout() {
+        try {
+            localStorage.removeItem('harvestHubToken');
+            localStorage.removeItem('harvestHubRole');
+            localStorage.removeItem('harvestHubDisplayName');
+            this.currentUser = null;
+            this.updateUserInterface();
+            this.showNotification('You have been logged out.');
+            // Redirect to home after logout
+            window.location.href = '/';
+        } catch (err) {
+            console.error('Logout error:', err);
+            this.showNotification('Failed to log out. Please try again.', 'error');
+        }
+    }
+
+    
     
     // Initialize registration flow with role selection
     initRegistrationFlow() {
@@ -1350,6 +1486,9 @@ class HarvestHub {
                 }
                 
                 this.currentUser = result.user;
+                if (result.user && result.user.role) {
+                    localStorage.setItem('harvestHubRole', result.user.role);
+                }
                 this.updateUserInterface();
                 
                 // Close modal
@@ -1357,6 +1496,12 @@ class HarvestHub {
                 
                 // Show success message
                 this.showNotification(`Welcome back, ${result.user.first_name}!`);
+                // Redirect by role
+                if (this.isProducer()) {
+                    window.location.href = 'producers.html';
+                } else {
+                    window.location.href = '/';
+                }
                 
             } else {
                 // Login failed
@@ -1458,6 +1603,13 @@ class HarvestHub {
                 if (result.token) {
                     localStorage.setItem('harvestHubToken', result.token);
                     this.currentUser = result.user;
+                    // Persist role
+                    if (result.user && result.user.role) {
+                        localStorage.setItem('harvestHubRole', result.user.role);
+                    } else if (selectedRole) {
+                        localStorage.setItem('harvestHubRole', selectedRole);
+                        this.currentUser = { ...(this.currentUser || {}), role: selectedRole };
+                    }
                     this.updateUserInterface();
                 }
                 
@@ -1474,6 +1626,12 @@ class HarvestHub {
                 
                 // Show success message
                 this.showNotification(`Welcome to HarvestHub! Your ${selectedRole} account has been created successfully.`);
+                // Redirect by role
+                if (selectedRole === 'producer' || this.isProducer()) {
+                    window.location.href = 'producers.html';
+                } else {
+                    window.location.href = '/';
+                }
                 
             } else {
                 // Registration failed
@@ -1865,7 +2023,7 @@ class HarvestHub {
         grid.innerHTML = products.map(product => `
             <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden">
                 <div class="h-48 bg-gray-200 overflow-hidden">
-                    <img src="${product.image}" alt="${product.name}" 
+                    <img src="${product.image}" alt="${product.name}" data-category="${product.category}" onerror="handleProductImageError(this, ${product.id}, '${product.name.replace(/'/g, "\\'")}', '${product.category.replace(/'/g, "\\'")}')" 
                          class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
                 </div>
                 
@@ -1891,6 +2049,37 @@ class HarvestHub {
                 </div>
             </div>
         `).join('');
+    }
+
+    // Ensure each product has a unique, non-empty image URL
+    ensureUniqueProductImages() {
+        const seenBaseUrls = new Set();
+        this.products = this.products.map((product) => {
+            let imageUrl = typeof product.image === 'string' ? product.image.trim() : '';
+
+            // Helper to create a unique placeholder per product
+            const uniquePlaceholder = () => this.generatePlaceholderImage(product);
+
+            if (!imageUrl) {
+                imageUrl = uniquePlaceholder();
+            } else {
+                const base = imageUrl.split('?')[0];
+                if (seenBaseUrls.has(base)) {
+                    // Duplicate image detected → replace with unique placeholder
+                    imageUrl = uniquePlaceholder();
+                } else {
+                    seenBaseUrls.add(base);
+                }
+            }
+
+            return { ...product, image: imageUrl };
+        });
+    }
+
+    // Build a deterministic unique placeholder URL for a product
+    generatePlaceholderImage(product) {
+        const seed = encodeURIComponent(`harvest-${product.id}-${product.name}`);
+        return `https://picsum.photos/seed/${seed}/300/300`;
     }
 
     showAllProducts() {

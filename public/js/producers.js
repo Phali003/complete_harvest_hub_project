@@ -13,6 +13,14 @@ class ProducersPage {
     }
 
     async init() {
+        // Guard: only allow producers to access this page
+        const role = localStorage.getItem('harvestHubRole');
+        if (role !== 'producer') {
+            window.location.replace('/');
+            return;
+        }
+        // Apply stored display name immediately on page load
+        this.updateUserInterface();
         this.setupEventListeners();
         await this.loadProducers();
         this.loadCart();
@@ -21,8 +29,16 @@ class ProducersPage {
     }
 
     setupEventListeners() {
-        // Modal controls
-        document.getElementById('loginBtn').addEventListener('click', () => this.showModal('loginModal'));
+        // Modal controls (login button shows logout prompt when already signed in)
+        document.getElementById('loginBtn').addEventListener('click', (e) => {
+            const hasToken = !!localStorage.getItem('harvestHubToken');
+            const hasName = !!localStorage.getItem('harvestHubDisplayName');
+            if (hasToken || this.currentUser || hasName) {
+                this.promptLogout(e.currentTarget);
+            } else {
+                this.showModal('loginModal');
+            }
+        });
         document.getElementById('closeLoginModal').addEventListener('click', () => this.hideModal('loginModal'));
         document.getElementById('cartBtn').addEventListener('click', () => this.showModal('cartModal'));
         document.getElementById('closeCartModal').addEventListener('click', () => this.hideModal('cartModal'));
@@ -49,6 +65,59 @@ class ProducersPage {
                 e.target.classList.add('hidden');
             }
         });
+    }
+
+    // Logout popover (mirrors app.js behavior)
+    promptLogout(anchorEl) {
+        const existing = document.getElementById('logoutPopover');
+        if (existing) existing.remove();
+
+        const rect = anchorEl.getBoundingClientRect();
+        const popover = document.createElement('div');
+        popover.id = 'logoutPopover';
+        popover.className = 'fixed bg-white shadow-lg rounded-md border border-gray-200 z-50';
+        popover.style.top = `${rect.bottom + 8 + window.scrollY}px`;
+        popover.style.left = `${rect.right - 160 + window.scrollX}px`;
+        popover.style.width = '160px';
+        popover.innerHTML = `
+            <div class="p-3">
+                <div class="text-sm text-gray-700 mb-2">You are signed in.</div>
+                <button id="confirmLogoutBtn" class="w-full bg-red-500 text-white px-3 py-2 rounded-md hover:bg-red-600 text-sm">Log out</button>
+                <button id="cancelLogoutBtn" class="w-full mt-2 bg-gray-100 text-gray-700 px-3 py-2 rounded-md hover:bg-gray-200 text-sm">Cancel</button>
+            </div>
+        `;
+        document.body.appendChild(popover);
+
+        const cleanup = () => {
+            if (popover && popover.parentNode) popover.parentNode.removeChild(popover);
+            document.removeEventListener('click', onOutsideClick, true);
+        };
+        const onOutsideClick = (ev) => {
+            if (!popover.contains(ev.target) && ev.target !== anchorEl) {
+                cleanup();
+            }
+        };
+        document.getElementById('confirmLogoutBtn').addEventListener('click', async () => {
+            await this.logout();
+            cleanup();
+        });
+        document.getElementById('cancelLogoutBtn').addEventListener('click', cleanup);
+        setTimeout(() => document.addEventListener('click', onOutsideClick, true), 0);
+    }
+
+    async logout() {
+        try {
+            localStorage.removeItem('harvestHubToken');
+            localStorage.removeItem('harvestHubRole');
+            localStorage.removeItem('harvestHubDisplayName');
+            this.currentUser = null;
+            this.clearUserUI();
+            this.showNotification('You have been logged out.');
+            window.location.href = '/';
+        } catch (e) {
+            console.error('Logout error:', e);
+            this.showNotification('Failed to log out. Please try again.', 'error');
+        }
     }
 
     showModal(modalId) {
@@ -492,15 +561,29 @@ class ProducersPage {
     }
 
     updateUserInterface() {
-        if (this.currentUser) {
-            document.getElementById('loginBtn').textContent = this.currentUser.first_name;
-            document.getElementById('loginBtn').classList.remove('bg-primary');
-            document.getElementById('loginBtn').classList.add('bg-secondary');
+        const btn = document.getElementById('loginBtn');
+        if (!btn) return;
+        const token = localStorage.getItem('harvestHubToken');
+        const storedName = localStorage.getItem('harvestHubDisplayName');
+        if (this.currentUser || token || storedName) {
+            const name = (this.currentUser && (this.currentUser.first_name || this.currentUser.firstName || this.currentUser.name || this.currentUser.email)) || storedName || 'My Account';
+            btn.textContent = name;
+            btn.classList.remove('bg-primary');
+            btn.classList.add('bg-secondary');
         } else {
-            document.getElementById('loginBtn').textContent = 'Sign In';
-            document.getElementById('loginBtn').classList.remove('bg-secondary');
-            document.getElementById('loginBtn').classList.add('bg-primary');
+            btn.textContent = 'Sign In';
+            btn.classList.remove('bg-secondary');
+            btn.classList.add('bg-primary');
         }
+    }
+
+    // Expose a small helper to clear UI explicitly on logout redirects (optional)
+    clearUserUI() {
+        const btn = document.getElementById('loginBtn');
+        if (!btn) return;
+        btn.textContent = 'Sign In';
+        btn.classList.remove('bg-secondary');
+        btn.classList.add('bg-primary');
     }
 
     viewProducer(producerId) {
