@@ -1249,11 +1249,14 @@ class HarvestHub {
     const password = document.getElementById("loginPassword").value;
 
     try {
-      const response = await fetch("/api/auth/login", {
+      console.log("Login attempt:", { email });
+
+      // Make API call to backend
+      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-        },
+// ...existing code...
         body: JSON.stringify({ email, password }),
       });
 
@@ -1693,7 +1696,7 @@ class HarvestHub {
       console.log("Login attempt:", { email });
 
       // Make API call to backend
-      const response = await fetch("/api/auth/login", {
+     const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -1845,7 +1848,7 @@ class HarvestHub {
       });
 
       // Make API call to backend
-      const response = await fetch("/api/auth/register", {
+    const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -1944,7 +1947,7 @@ class HarvestHub {
     console.log("Password reset request:", { identifier });
 
     try {
-      const response = await fetch("/api/auth/forgot-password", {
+      const response = await fetch(`${API_BASE_URL}/api/auth/forgot-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
