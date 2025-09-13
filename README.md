@@ -5,6 +5,7 @@ A comprehensive digital marketplace platform that connects local food producers 
 ## 🚀 Features
 
 ### Customer Interface
+
 - **Landing Page**: Beautiful hero section with location-based search
 - **Geospatial Search**: Find producers and products near you
 - **Product Catalog**: Browse fresh local products by category
@@ -14,6 +15,7 @@ A comprehensive digital marketplace platform that connects local food producers 
 - **Reviews & Ratings**: Rate products and producers
 
 ### Producer Dashboard
+
 - **Vendor Registration**: Simple signup process for local producers
 - **Product Management**: Add, edit, and manage product listings
 - **Order Management**: Handle incoming orders and update statuses
@@ -21,6 +23,7 @@ A comprehensive digital marketplace platform that connects local food producers 
 - **Business Profile**: Manage store hours and delivery options
 
 ### Admin Panel
+
 - **User Management**: Approve producers and manage customer accounts
 - **Content Moderation**: Review and approve products/profiles
 - **Transaction Management**: Monitor payments and handle disputes
@@ -30,18 +33,21 @@ A comprehensive digital marketplace platform that connects local food producers 
 ## 🛠️ Technology Stack
 
 ### Frontend
+
 - **HTML5**: Semantic markup for accessibility
 - **Tailwind CSS**: Utility-first CSS framework for modern design
 - **JavaScript (ES6+)**: Vanilla JS with modern features
 - **Responsive Design**: Mobile-first approach
 
 ### Backend
+
 - **Node.js**: Server-side JavaScript runtime
 - **Express.js**: Fast, unopinionated web framework
 - **MySQL**: Robust relational database
 - **JWT**: Secure authentication and authorization
 
 ### Additional Technologies
+
 - **Stripe**: Payment processing
 - **Nodemailer**: Email notifications
 - **Geolib**: Location-based calculations
@@ -59,17 +65,20 @@ Before running this project, make sure you have:
 ## 🚀 Installation & Setup
 
 ### 1. Clone the Repository
+
 ```bash
 git clone <repository-url>
 cd harvest-hub
 ```
 
 ### 2. Install Dependencies
+
 ```bash
 npm install
 ```
 
 ### 3. Database Setup
+
 ```bash
 # Create MySQL database
 mysql -u root -p
@@ -81,6 +90,7 @@ mysql -u root -p harvest_hub < database/schema.sql
 ```
 
 ### 4. Environment Configuration
+
 ```bash
 # Copy environment file
 cp .env.example .env
@@ -90,6 +100,7 @@ nano .env
 ```
 
 ### 5. Start the Application
+
 ```bash
 # Development mode
 npm run dev
@@ -99,6 +110,7 @@ npm start
 ```
 
 The application will be available at:
+
 - **Frontend**: http://localhost:5000
 - **Backend API**: http://localhost:5000/api
 
@@ -106,19 +118,21 @@ The application will be available at:
 
 ### Environment Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `PORT` | Server port | 5000 |
-| `DB_HOST` | MySQL host | localhost |
-| `DB_USER` | MySQL username | root |
-| `DB_PASSWORD` | MySQL password | - |
-| `DB_NAME` | Database name | harvest_hub |
-| `JWT_SECRET` | JWT signing secret | - |
-| `STRIPE_SECRET_KEY` | Stripe secret key | - |
-| `SMTP_HOST` | Email server host | - |
+| Variable            | Description        | Default     |
+| ------------------- | ------------------ | ----------- |
+| `PORT`              | Server port        | 5000        |
+| `DB_HOST`           | MySQL host         | localhost   |
+| `DB_USER`           | MySQL username     | root        |
+| `DB_PASSWORD`       | MySQL password     | -           |
+| `DB_NAME`           | Database name      | harvest_hub |
+| `JWT_SECRET`        | JWT signing secret | -           |
+| `STRIPE_SECRET_KEY` | Stripe secret key  | -           |
+| `SMTP_HOST`         | Email server host  | -           |
 
 ### Database Configuration
+
 The platform uses MySQL with the following main tables:
+
 - `users` - Customer and producer accounts
 - `producer_profiles` - Business information for vendors
 - `products` - Product listings with inventory
@@ -130,28 +144,33 @@ The platform uses MySQL with the following main tables:
 ## 📱 API Endpoints
 
 ### Authentication
+
 - `POST /api/auth/register` - User registration
 - `POST /api/auth/login` - User login
 - `GET /api/auth/me` - Get current user profile
 
 ### Products
+
 - `GET /api/products` - List all products
 - `GET /api/products/:id` - Get product details
 - `POST /api/products` - Create new product (producer only)
 - `PUT /api/products/:id` - Update product (producer only)
 
 ### Producers
+
 - `GET /api/producers` - List all producers
 - `GET /api/producers/featured` - Get featured producers
 - `GET /api/producers/:id` - Get producer details
 - `POST /api/producers` - Create producer profile
 
 ### Orders
+
 - `GET /api/orders` - Get user orders
 - `POST /api/orders` - Create new order
 - `PATCH /api/orders/:id/status` - Update order status
 
 ### Admin
+
 - `GET /api/admin/overview` - Platform statistics
 - `GET /api/admin/producers/pending` - Pending approvals
 - `PATCH /api/admin/producers/:id/approval` - Approve/reject producer
@@ -159,12 +178,15 @@ The platform uses MySQL with the following main tables:
 ## 🎨 Customization
 
 ### Styling
+
 The platform uses Tailwind CSS for styling. Customize the design by:
+
 1. Modifying the Tailwind config in `public/index.html`
 2. Adding custom CSS classes
 3. Updating color schemes and typography
 
 ### Features
+
 - Add new product categories
 - Implement additional payment methods
 - Extend user roles and permissions
@@ -191,6 +213,7 @@ The platform uses Tailwind CSS for styling. Customize the design by:
 ## 🧪 Testing
 
 The platform includes comprehensive error handling and validation:
+
 - Input validation on all API endpoints
 - Database transaction management
 - Error logging and monitoring
@@ -199,6 +222,7 @@ The platform includes comprehensive error handling and validation:
 ## 🚀 Deployment
 
 ### Production Considerations
+
 1. **Environment Variables**: Set production values
 2. **Database**: Use production MySQL instance
 3. **SSL**: Enable HTTPS with proper certificates
@@ -207,6 +231,7 @@ The platform includes comprehensive error handling and validation:
 6. **Scaling**: Consider load balancing for high traffic
 
 ### Docker Deployment (Optional)
+
 ```dockerfile
 FROM node:18-alpine
 WORKDIR /app
@@ -232,6 +257,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 🆘 Support
 
 For support and questions:
+
 - Create an issue in the repository
 - Check the documentation
 - Review the API endpoints
@@ -247,4 +273,4 @@ For support and questions:
 
 ---
 
-**Harvest Hub** - Connecting communities through fresh, local food. 🌱 
+**Harvest Hub** - Connecting communities through fresh, local food. 🌱
