@@ -1,309 +1,377 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/harvest-hub-project/" />
     <title>Producer Dashboard - Harvest Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#059669',
-                        secondary: '#10B981',
-                        accent: '#F59E0B'
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#059669",
+              secondary: "#10B981",
+              accent: "#F59E0B",
+            },
+          },
+        },
+      };
     </script>
-</head>
-<body class="bg-gray-50">
+  </head>
+  <body class="bg-gray-50">
     <!-- Navigation -->
     <nav class="bg-white shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <div class="text-2xl text-primary font-bold">🌾 Harvest Hub</div>
-                    <span class="ml-4 text-gray-600">Producer Dashboard</span>
-                </div>
-                
-                <div class="flex items-center space-x-4">
-                    <button class="text-gray-700 hover:text-primary">
-                        <i class="fas fa-bell text-xl"></i>
-                    </button>
-                    <div class="flex items-center space-x-2">
-                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" 
-                             alt="Profile" class="w-10 h-10 rounded-full">
-                        <span class="text-gray-700">John's Farm</span>
-                    </div>
-                </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center">
+            <div class="text-2xl text-primary font-bold">🌾 Harvest Hub</div>
+            <span class="ml-4 text-gray-600">Producer Dashboard</span>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <button class="text-gray-700 hover:text-primary">
+              <i class="fas fa-bell text-xl"></i>
+            </button>
+            <div class="flex items-center space-x-2">
+              <img
+                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face"
+                alt="Profile"
+                class="w-10 h-10 rounded-full"
+              />
+              <span class="text-gray-700">John's Farm</span>
             </div>
+          </div>
         </div>
+      </div>
     </nav>
 
     <div class="flex">
-        <!-- Sidebar -->
-        <div class="w-64 bg-white shadow-lg min-h-screen">
-            <nav class="mt-8">
-                <div class="px-4 space-y-2">
-                    <a href="#dashboard" class="flex items-center px-4 py-2 text-gray-700 bg-primary/10 rounded-lg">
-                        <i class="fas fa-chart-line mr-3"></i>
-                        Dashboard
-                    </a>
-                    <a href="#products" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
-                        <i class="fas fa-box mr-3"></i>
-                        Products
-                    </a>
-                    <a href="#orders" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
-                        <i class="fas fa-shopping-cart mr-3"></i>
-                        Orders
-                    </a>
-                    <a href="#analytics" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
-                        <i class="fas fa-chart-bar mr-3"></i>
-                        Analytics
-                    </a>
-                    <a href="#profile" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
-                        <i class="fas fa-user mr-3"></i>
-                        Business Profile
-                    </a>
-                    <a href="#schedule" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
-                        <i class="fas fa-calendar mr-3"></i>
-                        Schedule
-                    </a>
+      <!-- Sidebar -->
+      <div class="w-64 bg-white shadow-lg min-h-screen">
+        <nav class="mt-8">
+          <div class="px-4 space-y-2">
+            <a
+              href="#dashboard"
+              class="flex items-center px-4 py-2 text-gray-700 bg-primary/10 rounded-lg"
+            >
+              <i class="fas fa-chart-line mr-3"></i>
+              Dashboard
+            </a>
+            <a
+              href="#products"
+              class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+            >
+              <i class="fas fa-box mr-3"></i>
+              Products
+            </a>
+            <a
+              href="#orders"
+              class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+            >
+              <i class="fas fa-shopping-cart mr-3"></i>
+              Orders
+            </a>
+            <a
+              href="#analytics"
+              class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+            >
+              <i class="fas fa-chart-bar mr-3"></i>
+              Analytics
+            </a>
+            <a
+              href="#profile"
+              class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+            >
+              <i class="fas fa-user mr-3"></i>
+              Business Profile
+            </a>
+            <a
+              href="#schedule"
+              class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+            >
+              <i class="fas fa-calendar mr-3"></i>
+              Schedule
+            </a>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Main Content -->
+      <div class="flex-1 p-8">
+        <!-- Dashboard Overview -->
+        <div id="dashboard-content">
+          <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">
+              Welcome back, John!
+            </h1>
+            <p class="text-gray-600">
+              Here's what's happening with your farm today.
+            </p>
+          </div>
+
+          <!-- Stats Cards -->
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg p-6 shadow-md">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm text-gray-600 mb-1">Total Revenue</p>
+                  <p class="text-2xl font-bold text-gray-900">$2,847</p>
                 </div>
-            </nav>
-        </div>
-
-        <!-- Main Content -->
-        <div class="flex-1 p-8">
-            <!-- Dashboard Overview -->
-            <div id="dashboard-content">
-                <div class="mb-8">
-                    <h1 class="text-3xl font-bold text-gray-900 mb-2">Welcome back, John!</h1>
-                    <p class="text-gray-600">Here's what's happening with your farm today.</p>
+                <div class="bg-primary/10 p-3 rounded-full">
+                  <i class="fas fa-dollar-sign text-primary text-xl"></i>
                 </div>
-
-                <!-- Stats Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                    <div class="bg-white rounded-lg p-6 shadow-md">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-gray-600 mb-1">Total Revenue</p>
-                                <p class="text-2xl font-bold text-gray-900">$2,847</p>
-                            </div>
-                            <div class="bg-primary/10 p-3 rounded-full">
-                                <i class="fas fa-dollar-sign text-primary text-xl"></i>
-                            </div>
-                        </div>
-                        <p class="text-sm text-green-600 mt-2">+12% from last month</p>
-                    </div>
-
-                    <div class="bg-white rounded-lg p-6 shadow-md">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-gray-600 mb-1">Active Products</p>
-                                <p class="text-2xl font-bold text-gray-900">24</p>
-                            </div>
-                            <div class="bg-secondary/10 p-3 rounded-full">
-                                <i class="fas fa-box text-secondary text-xl"></i>
-                            </div>
-                        </div>
-                        <p class="text-sm text-gray-500 mt-2">3 pending approval</p>
-                    </div>
-
-                    <div class="bg-white rounded-lg p-6 shadow-md">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-gray-600 mb-1">Orders This Week</p>
-                                <p class="text-2xl font-bold text-gray-900">47</p>
-                            </div>
-                            <div class="bg-accent/10 p-3 rounded-full">
-                                <i class="fas fa-shopping-cart text-accent text-xl"></i>
-                            </div>
-                        </div>
-                        <p class="text-sm text-green-600 mt-2">+8% from last week</p>
-                    </div>
-
-                    <div class="bg-white rounded-lg p-6 shadow-md">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-gray-600 mb-1">Customer Rating</p>
-                                <p class="text-2xl font-bold text-gray-900">4.8</p>
-                            </div>
-                            <div class="bg-yellow-100 p-3 rounded-full">
-                                <i class="fas fa-star text-yellow-500 text-xl"></i>
-                            </div>
-                        </div>
-                        <p class="text-sm text-gray-500 mt-2">Based on 127 reviews</p>
-                    </div>
-                </div>
-
-                <!-- Recent Orders -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div class="bg-white rounded-lg p-6 shadow-md">
-                        <div class="flex items-center justify-between mb-6">
-                            <h2 class="text-xl font-semibold text-gray-900">Recent Orders</h2>
-                            <button class="text-primary hover:text-primary/80">View All</button>
-                        </div>
-                        
-                        <div class="space-y-4">
-                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                                <div class="flex items-center space-x-4">
-                                    <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                                        <i class="fas fa-user text-primary"></i>
-                                    </div>
-                                    <div>
-                                        <p class="font-semibold text-gray-900">Sarah Johnson</p>
-                                        <p class="text-sm text-gray-600">Order #HH-2024-001</p>
-                                    </div>
-                                </div>
-                                <div class="text-right">
-                                    <p class="font-semibold text-gray-900">$24.50</p>
-                                    <span class="inline-block px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full">
-                                        Preparing
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                                <div class="flex items-center space-x-4">
-                                    <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                                        <i class="fas fa-user text-primary"></i>
-                                    </div>
-                                    <div>
-                                        <p class="font-semibold text-gray-900">Mike Chen</p>
-                                        <p class="text-sm text-gray-600">Order #HH-2024-002</p>
-                                    </div>
-                                </div>
-                                <div class="text-right">
-                                    <p class="font-semibold text-gray-900">$18.75</p>
-                                    <span class="inline-block px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">
-                                        Ready
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                                <div class="flex items-center space-x-4">
-                                    <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                                        <i class="fas fa-user text-primary"></i>
-                                    </div>
-                                    <div>
-                                        <p class="font-semibold text-gray-900">Emily Davis</p>
-                                        <p class="text-sm text-gray-600">Order #HH-2024-003</p>
-                                    </div>
-                                </div>
-                                <div class="text-right">
-                                    <p class="font-semibold text-gray-900">$32.20</p>
-                                    <span class="inline-block px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
-                                        Confirmed
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Sales Analytics -->
-                    <div class="bg-white rounded-lg p-6 shadow-md">
-                        <div class="flex items-center justify-between mb-6">
-                            <h2 class="text-xl font-semibold text-gray-900">Sales Overview</h2>
-                            <select class="px-3 py-1 border border-gray-300 rounded-md text-sm">
-                                <option>Last 7 days</option>
-                                <option>Last 30 days</option>
-                                <option>Last 3 months</option>
-                            </select>
-                        </div>
-                        
-                        <!-- Simple chart placeholder -->
-                        <div class="h-64 bg-gradient-to-t from-primary/10 to-transparent rounded-lg flex items-end justify-center">
-                            <div class="text-center py-8">
-                                <i class="fas fa-chart-line text-4xl text-primary mb-4"></i>
-                                <p class="text-gray-600">Sales chart would go here</p>
-                                <p class="text-sm text-gray-500">Integration with Chart.js recommended</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              </div>
+              <p class="text-sm text-green-600 mt-2">+12% from last month</p>
             </div>
 
-            <!-- Quick Actions -->
-            <div class="mt-8">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <button class="flex items-center justify-center p-4 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
-                        <i class="fas fa-plus mr-2"></i>
-                        Add New Product
-                    </button>
-                    <button class="flex items-center justify-center p-4 bg-secondary text-white rounded-lg hover:bg-secondary/90 transition-colors">
-                        <i class="fas fa-truck mr-2"></i>
-                        Update Delivery
-                    </button>
-                    <button class="flex items-center justify-center p-4 bg-accent text-white rounded-lg hover:bg-accent/90 transition-colors">
-                        <i class="fas fa-calendar mr-2"></i>
-                        Set Availability
-                    </button>
+            <div class="bg-white rounded-lg p-6 shadow-md">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm text-gray-600 mb-1">Active Products</p>
+                  <p class="text-2xl font-bold text-gray-900">24</p>
                 </div>
+                <div class="bg-secondary/10 p-3 rounded-full">
+                  <i class="fas fa-box text-secondary text-xl"></i>
+                </div>
+              </div>
+              <p class="text-sm text-gray-500 mt-2">3 pending approval</p>
             </div>
+
+            <div class="bg-white rounded-lg p-6 shadow-md">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm text-gray-600 mb-1">Orders This Week</p>
+                  <p class="text-2xl font-bold text-gray-900">47</p>
+                </div>
+                <div class="bg-accent/10 p-3 rounded-full">
+                  <i class="fas fa-shopping-cart text-accent text-xl"></i>
+                </div>
+              </div>
+              <p class="text-sm text-green-600 mt-2">+8% from last week</p>
+            </div>
+
+            <div class="bg-white rounded-lg p-6 shadow-md">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm text-gray-600 mb-1">Customer Rating</p>
+                  <p class="text-2xl font-bold text-gray-900">4.8</p>
+                </div>
+                <div class="bg-yellow-100 p-3 rounded-full">
+                  <i class="fas fa-star text-yellow-500 text-xl"></i>
+                </div>
+              </div>
+              <p class="text-sm text-gray-500 mt-2">Based on 127 reviews</p>
+            </div>
+          </div>
+
+          <!-- Recent Orders -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-white rounded-lg p-6 shadow-md">
+              <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-semibold text-gray-900">
+                  Recent Orders
+                </h2>
+                <button class="text-primary hover:text-primary/80">
+                  View All
+                </button>
+              </div>
+
+              <div class="space-y-4">
+                <div
+                  class="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+                >
+                  <div class="flex items-center space-x-4">
+                    <div
+                      class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center"
+                    >
+                      <i class="fas fa-user text-primary"></i>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-gray-900">Sarah Johnson</p>
+                      <p class="text-sm text-gray-600">Order #HH-2024-001</p>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <p class="font-semibold text-gray-900">$24.50</p>
+                    <span
+                      class="inline-block px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full"
+                    >
+                      Preparing
+                    </span>
+                  </div>
+                </div>
+
+                <div
+                  class="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+                >
+                  <div class="flex items-center space-x-4">
+                    <div
+                      class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center"
+                    >
+                      <i class="fas fa-user text-primary"></i>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-gray-900">Mike Chen</p>
+                      <p class="text-sm text-gray-600">Order #HH-2024-002</p>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <p class="font-semibold text-gray-900">$18.75</p>
+                    <span
+                      class="inline-block px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full"
+                    >
+                      Ready
+                    </span>
+                  </div>
+                </div>
+
+                <div
+                  class="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+                >
+                  <div class="flex items-center space-x-4">
+                    <div
+                      class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center"
+                    >
+                      <i class="fas fa-user text-primary"></i>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-gray-900">Emily Davis</p>
+                      <p class="text-sm text-gray-600">Order #HH-2024-003</p>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <p class="font-semibold text-gray-900">$32.20</p>
+                    <span
+                      class="inline-block px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full"
+                    >
+                      Confirmed
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sales Analytics -->
+            <div class="bg-white rounded-lg p-6 shadow-md">
+              <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-semibold text-gray-900">
+                  Sales Overview
+                </h2>
+                <select
+                  class="px-3 py-1 border border-gray-300 rounded-md text-sm"
+                >
+                  <option>Last 7 days</option>
+                  <option>Last 30 days</option>
+                  <option>Last 3 months</option>
+                </select>
+              </div>
+
+              <!-- Simple chart placeholder -->
+              <div
+                class="h-64 bg-gradient-to-t from-primary/10 to-transparent rounded-lg flex items-end justify-center"
+              >
+                <div class="text-center py-8">
+                  <i class="fas fa-chart-line text-4xl text-primary mb-4"></i>
+                  <p class="text-gray-600">Sales chart would go here</p>
+                  <p class="text-sm text-gray-500">
+                    Integration with Chart.js recommended
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <!-- Quick Actions -->
+        <div class="mt-8">
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">
+            Quick Actions
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <button
+              class="flex items-center justify-center p-4 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+            >
+              <i class="fas fa-plus mr-2"></i>
+              Add New Product
+            </button>
+            <button
+              class="flex items-center justify-center p-4 bg-secondary text-white rounded-lg hover:bg-secondary/90 transition-colors"
+            >
+              <i class="fas fa-truck mr-2"></i>
+              Update Delivery
+            </button>
+            <button
+              class="flex items-center justify-center p-4 bg-accent text-white rounded-lg hover:bg-accent/90 transition-colors"
+            >
+              <i class="fas fa-calendar mr-2"></i>
+              Set Availability
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script>
-        // Basic dashboard functionality
-        class ProducerDashboard {
-            constructor() {
-                this.init();
-            }
-
-            init() {
-                this.setupNavigation();
-                this.loadDashboardData();
-            }
-
-            setupNavigation() {
-                const navLinks = document.querySelectorAll('nav a[href^="#"]');
-                navLinks.forEach(link => {
-                    link.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        this.showSection(link.getAttribute('href').substring(1));
-                        
-                        // Update active nav item
-                        navLinks.forEach(l => l.classList.remove('bg-primary/10'));
-                        link.classList.add('bg-primary/10');
-                    });
-                });
-            }
-
-            showSection(sectionId) {
-                // Hide all sections
-                document.querySelectorAll('[id$="-content"]').forEach(section => {
-                    section.style.display = 'none';
-                });
-                
-                // Show selected section
-                const targetSection = document.getElementById(`${sectionId}-content`) || 
-                                    document.getElementById('dashboard-content');
-                targetSection.style.display = 'block';
-            }
-
-            async loadDashboardData() {
-                try {
-                    // Load real data from API
-                    // const response = await fetch('/api/producer/dashboard');
-                    // const data = await response.json();
-                    console.log('Dashboard data loaded');
-                } catch (error) {
-                    console.error('Error loading dashboard data:', error);
-                }
-            }
+      // Basic dashboard functionality
+      class ProducerDashboard {
+        constructor() {
+          this.init();
         }
 
-        // Initialize dashboard when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            new ProducerDashboard();
-        });
+        init() {
+          this.setupNavigation();
+          this.loadDashboardData();
+        }
+
+        setupNavigation() {
+          const navLinks = document.querySelectorAll('nav a[href^="#"]');
+          navLinks.forEach((link) => {
+            link.addEventListener("click", (e) => {
+              e.preventDefault();
+              this.showSection(link.getAttribute("href").substring(1));
+
+              // Update active nav item
+              navLinks.forEach((l) => l.classList.remove("bg-primary/10"));
+              link.classList.add("bg-primary/10");
+            });
+          });
+        }
+
+        showSection(sectionId) {
+          // Hide all sections
+          document.querySelectorAll('[id$="-content"]').forEach((section) => {
+            section.style.display = "none";
+          });
+
+          // Show selected section
+          const targetSection =
+            document.getElementById(`${sectionId}-content`) ||
+            document.getElementById("dashboard-content");
+          targetSection.style.display = "block";
+        }
+
+        async loadDashboardData() {
+          try {
+            // Load real data from API
+            // const response = await fetch('/api/producer/dashboard');
+            // const data = await response.json();
+            console.log("Dashboard data loaded");
+          } catch (error) {
+            console.error("Error loading dashboard data:", error);
+          }
+        }
+      }
+
+      // Initialize dashboard when DOM is loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        new ProducerDashboard();
+      });
     </script>
-</body>
+  </body>
 </html>

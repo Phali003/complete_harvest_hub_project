@@ -1,612 +1,861 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/harvest-hub-project/" />
     <title>Checkout - Harvest Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#059669',
-                        secondary: '#10B981',
-                        accent: '#F59E0B'
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#059669",
+              secondary: "#10B981",
+              accent: "#F59E0B",
+            },
+          },
+        },
+      };
     </script>
-</head>
-<body class="bg-gray-50">
+  </head>
+  <body class="bg-gray-50">
     <!-- Navigation -->
     <nav class="bg-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Logo -->
-                <div class="flex items-center">
-                    <a href="index.html" class="text-2xl text-primary font-bold">🌾 Harvest Hub</a>
-                </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <!-- Logo -->
+          <div class="flex items-center">
+            <a href="index.html" class="text-2xl text-primary font-bold"
+              >🌾 Harvest Hub</a
+            >
+          </div>
 
-                <!-- Breadcrumb -->
-                <div class="hidden md:flex items-center space-x-2 text-sm text-gray-600">
-                    <a href="index.html" class="hover:text-primary">Home</a>
-                    <i class="fas fa-chevron-right text-xs"></i>
-                    <span class="text-gray-900">Checkout</span>
-                </div>
+          <!-- Breadcrumb -->
+          <div
+            class="hidden md:flex items-center space-x-2 text-sm text-gray-600"
+          >
+            <a href="index.html" class="hover:text-primary">Home</a>
+            <i class="fas fa-chevron-right text-xs"></i>
+            <span class="text-gray-900">Checkout</span>
+          </div>
 
-                <!-- Back to Cart -->
-                <button onclick="window.history.back()" class="text-gray-700 hover:text-primary transition-colors">
-                    <i class="fas fa-arrow-left mr-2"></i>
-                    Back to Cart
-                </button>
-            </div>
+          <!-- Back to Cart -->
+          <button
+            onclick="window.history.back()"
+            class="text-gray-700 hover:text-primary transition-colors"
+          >
+            <i class="fas fa-arrow-left mr-2"></i>
+            Back to Cart
+          </button>
         </div>
+      </div>
     </nav>
 
     <!-- Checkout Content -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Header -->
-        <div class="text-center mb-8">
-            <h1 class="text-3xl font-bold text-gray-900 mb-2">Secure Checkout</h1>
-            <p class="text-gray-600">Complete your order and get fresh local food delivered to you</p>
-        </div>
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Secure Checkout</h1>
+        <p class="text-gray-600">
+          Complete your order and get fresh local food delivered to you
+        </p>
+      </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Main Checkout Form -->
-            <div class="lg:col-span-2">
-                <!-- Progress Steps -->
-                <div class="mb-8">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center">
-                            <div class="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center text-sm font-semibold">1</div>
-                            <span class="ml-2 text-sm font-medium text-gray-900">Delivery</span>
-                        </div>
-                        <div class="flex-1 h-0.5 bg-gray-300 mx-4"></div>
-                        <div class="flex items-center">
-                            <div class="w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-sm font-semibold">2</div>
-                            <span class="ml-2 text-sm font-medium text-gray-600">Payment</span>
-                        </div>
-                        <div class="flex-1 h-0.5 bg-gray-300 mx-4"></div>
-                        <div class="flex items-center">
-                            <div class="w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-sm font-semibold">3</div>
-                            <span class="ml-2 text-sm font-medium text-gray-600">Review</span>
-                        </div>
-                    </div>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Main Checkout Form -->
+        <div class="lg:col-span-2">
+          <!-- Progress Steps -->
+          <div class="mb-8">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <div
+                  class="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center text-sm font-semibold"
+                >
+                  1
                 </div>
-
-                <!-- Delivery Information -->
-                <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-                    <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
-                        <i class="fas fa-truck text-primary mr-3"></i>
-                        Delivery Information
-                    </h2>
-                    
-                    <form id="checkoutForm" class="space-y-6">
-                        <!-- Customer Details -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
-                                <input type="text" id="firstName" required
-                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
-                                <input type="text" id="lastName" required
-                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
-                            <input type="email" id="email" required
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
-                            <input type="tel" id="phone" required
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
-                        </div>
-
-                        <!-- Address -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Street Address *</label>
-                            <input type="text" id="address" required
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">City *</label>
-                                <input type="text" id="city" required
-                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">County *</label>
-                                <select id="county" required
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
-                                    <option value="">Select County</option>
-                                    <!-- Major Counties -->
-                                    <option value="Nairobi">Nairobi County</option>
-                                    <option value="Kiambu">Kiambu County</option>
-                                    <option value="Nakuru">Nakuru County</option>
-                                    <option value="Mombasa">Mombasa County</option>
-                                    <option value="Machakos">Machakos County</option>
-                                    <option value="Kajiado">Kajiado County</option>
-                                    <option value="Laikipia">Laikipia County</option>
-                                    <option value="Nyeri">Nyeri County</option>
-                                    <option value="Meru">Meru County</option>
-                                    <option value="Kisumu">Kisumu County</option>
-                                    
-                                    <!-- All 47 Counties in Kenya -->
-                                    <option value="Baringo">Baringo County</option>
-                                    <option value="Bomet">Bomet County</option>
-                                    <option value="Bungoma">Bungoma County</option>
-                                    <option value="Busia">Busia County</option>
-                                    <option value="Elgeyo-Marakwet">Elgeyo-Marakwet County</option>
-                                    <option value="Embu">Embu County</option>
-                                    <option value="Garissa">Garissa County</option>
-                                    <option value="Homa Bay">Homa Bay County</option>
-                                    <option value="Isiolo">Isiolo County</option>
-                                    <option value="Kakamega">Kakamega County</option>
-                                    <option value="Kericho">Kericho County</option>
-                                    <option value="Kilifi">Kilifi County</option>
-                                    <option value="Kirinyaga">Kirinyaga County</option>
-                                    <option value="Kisii">Kisii County</option>
-                                    <option value="Kitui">Kitui County</option>
-                                    <option value="Kwale">Kwale County</option>
-                                    <option value="Lamu">Lamu County</option>
-                                    <option value="Makueni">Makueni County</option>
-                                    <option value="Mandera">Mandera County</option>
-                                    <option value="Marsabit">Marsabit County</option>
-                                    <option value="Migori">Migori County</option>
-                                    <option value="Murang'a">Murang'a County</option>
-                                    <option value="Nandi">Nandi County</option>
-                                    <option value="Narok">Narok County</option>
-                                    <option value="Nyandarua">Nyandarua County</option>
-                                    <option value="Nyamira">Nyamira County</option>
-                                    <option value="Samburu">Samburu County</option>
-                                    <option value="Siaya">Siaya County</option>
-                                    <option value="Taita-Taveta">Taita-Taveta County</option>
-                                    <option value="Tana River">Tana River County</option>
-                                    <option value="Tharaka-Nithi">Tharaka-Nithi County</option>
-                                    <option value="Trans Nzoia">Trans Nzoia County</option>
-                                    <option value="Turkana">Turkana County</option>
-                                    <option value="Uasin Gishu">Uasin Gishu County</option>
-                                    <option value="Vihiga">Vihiga County</option>
-                                    <option value="Wajir">Wajir County</option>
-                                    <option value="West Pokot">West Pokot County</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Postal Code</label>
-                                <input type="text" id="postalCode"
-                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
-                            </div>
-                        </div>
-
-                        <!-- Delivery Options -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-3">Delivery Options</label>
-                            <div class="space-y-3">
-                                <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-                                    <input type="radio" name="delivery" value="standard" checked class="text-primary focus:ring-primary">
-                                    <div class="ml-3 flex-1">
-                                        <div class="font-medium text-gray-900">Standard Delivery (Free)</div>
-                                        <div class="text-sm text-gray-600">3-5 business days</div>
-                                    </div>
-                                    <span class="text-green-600 font-semibold">Free</span>
-                                </label>
-                                
-                                <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-                                    <input type="radio" name="delivery" value="express" class="text-primary focus:ring-primary">
-                                    <div class="ml-3 flex-1">
-                                        <div class="font-medium text-gray-900">Express Delivery</div>
-                                        <div class="text-sm text-gray-600">1-2 business days</div>
-                                    </div>
-                                    <span class="text-gray-900 font-semibold">$5.99</span>
-                                </label>
-                                
-                                <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-                                    <input type="radio" name="delivery" value="pickup" class="text-primary focus:ring-primary">
-                                    <div class="ml-3 flex-1">
-                                        <div class="font-medium text-gray-900">Pickup from Producer</div>
-                                        <div class="text-sm text-gray-600">Schedule pickup time</div>
-                                    </div>
-                                    <span class="text-green-600 font-semibold">Free</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Special Instructions -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Special Instructions (Optional)</label>
-                            <textarea id="instructions" rows="3"
-                                      placeholder="Any special delivery instructions or notes for the producers..."
-                                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"></textarea>
-                        </div>
-                    </form>
+                <span class="ml-2 text-sm font-medium text-gray-900"
+                  >Delivery</span
+                >
+              </div>
+              <div class="flex-1 h-0.5 bg-gray-300 mx-4"></div>
+              <div class="flex items-center">
+                <div
+                  class="w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-sm font-semibold"
+                >
+                  2
                 </div>
-
-                <!-- Payment Information -->
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
-                        <i class="fas fa-credit-card text-primary mr-3"></i>
-                        Payment Information
-                    </h2>
-                    
-                    <!-- Payment Methods -->
-                    <div class="mb-6">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                            <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-                                <input type="radio" name="payment" value="mpesa" checked class="text-primary focus:ring-primary">
-                                <div class="ml-3">
-                                    <div class="font-medium text-gray-900">M-Pesa</div>
-                                    <div class="text-sm text-gray-600">Mobile payment</div>
-                                </div>
-                            </label>
-                            
-                            <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-                                <input type="radio" name="payment" value="card" class="text-primary focus:ring-primary">
-                                <div class="ml-3">
-                                    <div class="font-medium text-gray-900">Credit Card</div>
-                                    <div class="text-sm text-gray-600">Visa, Mastercard</div>
-                                </div>
-                            </label>
-                            
-                            <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-                                <input type="radio" name="payment" value="cash" class="text-primary focus:ring-primary">
-                                <div class="ml-3">
-                                    <div class="font-medium text-gray-900">Cash on Delivery</div>
-                                    <div class="text-sm text-gray-600">Pay when delivered</div>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- M-Pesa Details (default) -->
-                    <div id="mpesaDetails" class="payment-details">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">M-Pesa Phone Number *</label>
-                            <input type="tel" id="mpesaPhone" placeholder="254XXXXXXXXX"
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
-                            <p class="text-sm text-gray-600 mt-1">You will receive an M-Pesa prompt to complete payment</p>
-                        </div>
-                    </div>
-
-                    <!-- Credit Card Details (hidden) -->
-                    <div id="cardDetails" class="payment-details hidden">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                            <div class="md:col-span-2">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Card Number *</label>
-                                <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456"
-                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Expiry Date *</label>
-                                <input type="text" id="cardExpiry" placeholder="MM/YY"
-                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">CVV *</label>
-                                <input type="text" id="cardCvv" placeholder="123"
-                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Cash on Delivery (hidden) -->
-                    <div id="cashDetails" class="payment-details hidden">
-                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                            <div class="flex items-center">
-                                <i class="fas fa-info-circle text-yellow-600 mr-2"></i>
-                                <div>
-                                    <h4 class="font-medium text-yellow-800">Cash on Delivery</h4>
-                                    <p class="text-sm text-yellow-700 mt-1">
-                                        You will pay in cash when your order is delivered. Please have the exact amount ready.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <span class="ml-2 text-sm font-medium text-gray-600"
+                  >Payment</span
+                >
+              </div>
+              <div class="flex-1 h-0.5 bg-gray-300 mx-4"></div>
+              <div class="flex items-center">
+                <div
+                  class="w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-sm font-semibold"
+                >
+                  3
                 </div>
+                <span class="ml-2 text-sm font-medium text-gray-600"
+                  >Review</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Delivery Information -->
+          <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2
+              class="text-xl font-semibold text-gray-900 mb-6 flex items-center"
+            >
+              <i class="fas fa-truck text-primary mr-3"></i>
+              Delivery Information
+            </h2>
+
+            <form id="checkoutForm" class="space-y-6">
+              <!-- Customer Details -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >First Name *</label
+                  >
+                  <input
+                    type="text"
+                    id="firstName"
+                    required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >Last Name *</label
+                  >
+                  <input
+                    type="text"
+                    id="lastName"
+                    required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2"
+                  >Email Address *</label
+                >
+                <input
+                  type="email"
+                  id="email"
+                  required
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2"
+                  >Phone Number *</label
+                >
+                <input
+                  type="tel"
+                  id="phone"
+                  required
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
+              </div>
+
+              <!-- Address -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2"
+                  >Street Address *</label
+                >
+                <input
+                  type="text"
+                  id="address"
+                  required
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >City *</label
+                  >
+                  <input
+                    type="text"
+                    id="city"
+                    required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >County *</label
+                  >
+                  <select
+                    id="county"
+                    required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                  >
+                    <option value="">Select County</option>
+                    <!-- Major Counties -->
+                    <option value="Nairobi">Nairobi County</option>
+                    <option value="Kiambu">Kiambu County</option>
+                    <option value="Nakuru">Nakuru County</option>
+                    <option value="Mombasa">Mombasa County</option>
+                    <option value="Machakos">Machakos County</option>
+                    <option value="Kajiado">Kajiado County</option>
+                    <option value="Laikipia">Laikipia County</option>
+                    <option value="Nyeri">Nyeri County</option>
+                    <option value="Meru">Meru County</option>
+                    <option value="Kisumu">Kisumu County</option>
+
+                    <!-- All 47 Counties in Kenya -->
+                    <option value="Baringo">Baringo County</option>
+                    <option value="Bomet">Bomet County</option>
+                    <option value="Bungoma">Bungoma County</option>
+                    <option value="Busia">Busia County</option>
+                    <option value="Elgeyo-Marakwet">
+                      Elgeyo-Marakwet County
+                    </option>
+                    <option value="Embu">Embu County</option>
+                    <option value="Garissa">Garissa County</option>
+                    <option value="Homa Bay">Homa Bay County</option>
+                    <option value="Isiolo">Isiolo County</option>
+                    <option value="Kakamega">Kakamega County</option>
+                    <option value="Kericho">Kericho County</option>
+                    <option value="Kilifi">Kilifi County</option>
+                    <option value="Kirinyaga">Kirinyaga County</option>
+                    <option value="Kisii">Kisii County</option>
+                    <option value="Kitui">Kitui County</option>
+                    <option value="Kwale">Kwale County</option>
+                    <option value="Lamu">Lamu County</option>
+                    <option value="Makueni">Makueni County</option>
+                    <option value="Mandera">Mandera County</option>
+                    <option value="Marsabit">Marsabit County</option>
+                    <option value="Migori">Migori County</option>
+                    <option value="Murang'a">Murang'a County</option>
+                    <option value="Nandi">Nandi County</option>
+                    <option value="Narok">Narok County</option>
+                    <option value="Nyandarua">Nyandarua County</option>
+                    <option value="Nyamira">Nyamira County</option>
+                    <option value="Samburu">Samburu County</option>
+                    <option value="Siaya">Siaya County</option>
+                    <option value="Taita-Taveta">Taita-Taveta County</option>
+                    <option value="Tana River">Tana River County</option>
+                    <option value="Tharaka-Nithi">Tharaka-Nithi County</option>
+                    <option value="Trans Nzoia">Trans Nzoia County</option>
+                    <option value="Turkana">Turkana County</option>
+                    <option value="Uasin Gishu">Uasin Gishu County</option>
+                    <option value="Vihiga">Vihiga County</option>
+                    <option value="Wajir">Wajir County</option>
+                    <option value="West Pokot">West Pokot County</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >Postal Code</label
+                  >
+                  <input
+                    type="text"
+                    id="postalCode"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                  />
+                </div>
+              </div>
+
+              <!-- Delivery Options -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-3"
+                  >Delivery Options</label
+                >
+                <div class="space-y-3">
+                  <label
+                    class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50"
+                  >
+                    <input
+                      type="radio"
+                      name="delivery"
+                      value="standard"
+                      checked
+                      class="text-primary focus:ring-primary"
+                    />
+                    <div class="ml-3 flex-1">
+                      <div class="font-medium text-gray-900">
+                        Standard Delivery (Free)
+                      </div>
+                      <div class="text-sm text-gray-600">3-5 business days</div>
+                    </div>
+                    <span class="text-green-600 font-semibold">Free</span>
+                  </label>
+
+                  <label
+                    class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50"
+                  >
+                    <input
+                      type="radio"
+                      name="delivery"
+                      value="express"
+                      class="text-primary focus:ring-primary"
+                    />
+                    <div class="ml-3 flex-1">
+                      <div class="font-medium text-gray-900">
+                        Express Delivery
+                      </div>
+                      <div class="text-sm text-gray-600">1-2 business days</div>
+                    </div>
+                    <span class="text-gray-900 font-semibold">$5.99</span>
+                  </label>
+
+                  <label
+                    class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50"
+                  >
+                    <input
+                      type="radio"
+                      name="delivery"
+                      value="pickup"
+                      class="text-primary focus:ring-primary"
+                    />
+                    <div class="ml-3 flex-1">
+                      <div class="font-medium text-gray-900">
+                        Pickup from Producer
+                      </div>
+                      <div class="text-sm text-gray-600">
+                        Schedule pickup time
+                      </div>
+                    </div>
+                    <span class="text-green-600 font-semibold">Free</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Special Instructions -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2"
+                  >Special Instructions (Optional)</label
+                >
+                <textarea
+                  id="instructions"
+                  rows="3"
+                  placeholder="Any special delivery instructions or notes for the producers..."
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                ></textarea>
+              </div>
+            </form>
+          </div>
+
+          <!-- Payment Information -->
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <h2
+              class="text-xl font-semibold text-gray-900 mb-6 flex items-center"
+            >
+              <i class="fas fa-credit-card text-primary mr-3"></i>
+              Payment Information
+            </h2>
+
+            <!-- Payment Methods -->
+            <div class="mb-6">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <label
+                  class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50"
+                >
+                  <input
+                    type="radio"
+                    name="payment"
+                    value="mpesa"
+                    checked
+                    class="text-primary focus:ring-primary"
+                  />
+                  <div class="ml-3">
+                    <div class="font-medium text-gray-900">M-Pesa</div>
+                    <div class="text-sm text-gray-600">Mobile payment</div>
+                  </div>
+                </label>
+
+                <label
+                  class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50"
+                >
+                  <input
+                    type="radio"
+                    name="payment"
+                    value="card"
+                    class="text-primary focus:ring-primary"
+                  />
+                  <div class="ml-3">
+                    <div class="font-medium text-gray-900">Credit Card</div>
+                    <div class="text-sm text-gray-600">Visa, Mastercard</div>
+                  </div>
+                </label>
+
+                <label
+                  class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50"
+                >
+                  <input
+                    type="radio"
+                    name="payment"
+                    value="cash"
+                    class="text-primary focus:ring-primary"
+                  />
+                  <div class="ml-3">
+                    <div class="font-medium text-gray-900">
+                      Cash on Delivery
+                    </div>
+                    <div class="text-sm text-gray-600">Pay when delivered</div>
+                  </div>
+                </label>
+              </div>
             </div>
 
-            <!-- Order Summary -->
-            <div class="lg:col-span-1">
-                <div class="bg-white rounded-lg shadow-md p-6 sticky top-24">
-                    <h2 class="text-xl font-semibold text-gray-900 mb-6">Order Summary</h2>
-                    
-                    <!-- Cart Items -->
-                    <div id="checkoutCartItems" class="space-y-4 mb-6 max-h-60 overflow-y-auto">
-                        <!-- Items will be loaded here -->
-                    </div>
-                    
-                    <!-- Order Totals -->
-                    <div class="border-t pt-4 space-y-2">
-                        <div class="flex justify-between text-sm">
-                            <span class="text-gray-600">Subtotal</span>
-                            <span id="checkoutSubtotal">$0.00</span>
-                        </div>
-                        <div class="flex justify-between text-sm">
-                            <span class="text-gray-600">Delivery</span>
-                            <span id="checkoutDelivery">Free</span>
-                        </div>
-                        <div class="flex justify-between text-sm">
-                            <span class="text-gray-600">Tax (8%)</span>
-                            <span id="checkoutTax">$0.00</span>
-                        </div>
-                        <div class="border-t pt-2">
-                            <div class="flex justify-between font-semibold text-lg">
-                                <span class="text-gray-900">Total</span>
-                                <span id="checkoutTotal" class="text-primary">$0.00</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Place Order Button -->
-                    <button id="placeOrderBtn" class="w-full mt-6 bg-primary text-white py-3 px-4 rounded-lg font-semibold hover:bg-primary/90 transition-colors">
-                        <i class="fas fa-lock mr-2"></i>
-                        Place Secure Order
-                    </button>
-                    
-                    <!-- Security Badge -->
-                    <div class="mt-4 text-center">
-                        <div class="flex items-center justify-center text-sm text-gray-600">
-                            <i class="fas fa-shield-alt text-green-600 mr-1"></i>
-                            Secure SSL Encrypted Payment
-                        </div>
-                    </div>
-                </div>
+            <!-- M-Pesa Details (default) -->
+            <div id="mpesaDetails" class="payment-details">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2"
+                  >M-Pesa Phone Number *</label
+                >
+                <input
+                  type="tel"
+                  id="mpesaPhone"
+                  placeholder="254XXXXXXXXX"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
+                <p class="text-sm text-gray-600 mt-1">
+                  You will receive an M-Pesa prompt to complete payment
+                </p>
+              </div>
             </div>
+
+            <!-- Credit Card Details (hidden) -->
+            <div id="cardDetails" class="payment-details hidden">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div class="md:col-span-2">
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >Card Number *</label
+                  >
+                  <input
+                    type="text"
+                    id="cardNumber"
+                    placeholder="1234 5678 9012 3456"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >Expiry Date *</label
+                  >
+                  <input
+                    type="text"
+                    id="cardExpiry"
+                    placeholder="MM/YY"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >CVV *</label
+                  >
+                  <input
+                    type="text"
+                    id="cardCvv"
+                    placeholder="123"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Cash on Delivery (hidden) -->
+            <div id="cashDetails" class="payment-details hidden">
+              <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <div class="flex items-center">
+                  <i class="fas fa-info-circle text-yellow-600 mr-2"></i>
+                  <div>
+                    <h4 class="font-medium text-yellow-800">
+                      Cash on Delivery
+                    </h4>
+                    <p class="text-sm text-yellow-700 mt-1">
+                      You will pay in cash when your order is delivered. Please
+                      have the exact amount ready.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <!-- Order Summary -->
+        <div class="lg:col-span-1">
+          <div class="bg-white rounded-lg shadow-md p-6 sticky top-24">
+            <h2 class="text-xl font-semibold text-gray-900 mb-6">
+              Order Summary
+            </h2>
+
+            <!-- Cart Items -->
+            <div
+              id="checkoutCartItems"
+              class="space-y-4 mb-6 max-h-60 overflow-y-auto"
+            >
+              <!-- Items will be loaded here -->
+            </div>
+
+            <!-- Order Totals -->
+            <div class="border-t pt-4 space-y-2">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-600">Subtotal</span>
+                <span id="checkoutSubtotal">$0.00</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-600">Delivery</span>
+                <span id="checkoutDelivery">Free</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-600">Tax (8%)</span>
+                <span id="checkoutTax">$0.00</span>
+              </div>
+              <div class="border-t pt-2">
+                <div class="flex justify-between font-semibold text-lg">
+                  <span class="text-gray-900">Total</span>
+                  <span id="checkoutTotal" class="text-primary">$0.00</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Place Order Button -->
+            <button
+              id="placeOrderBtn"
+              class="w-full mt-6 bg-primary text-white py-3 px-4 rounded-lg font-semibold hover:bg-primary/90 transition-colors"
+            >
+              <i class="fas fa-lock mr-2"></i>
+              Place Secure Order
+            </button>
+
+            <!-- Security Badge -->
+            <div class="mt-4 text-center">
+              <div
+                class="flex items-center justify-center text-sm text-gray-600"
+              >
+                <i class="fas fa-shield-alt text-green-600 mr-1"></i>
+                Secure SSL Encrypted Payment
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Success Modal -->
-    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
-        <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="bg-white rounded-lg max-w-md w-full p-6 text-center">
-                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-check text-2xl text-green-600"></i>
-                </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-2">Order Placed Successfully!</h3>
-                <p class="text-gray-600 mb-6">Thank you for your order. You will receive a confirmation email shortly.</p>
-                <div class="space-y-3">
-                    <button onclick="window.location.href='index.html'" 
-                            class="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary/90 transition-colors">
-                        Continue Shopping
-                    </button>
-                </div>
-            </div>
+    <div
+      id="successModal"
+      class="fixed inset-0 bg-black bg-opacity-50 hidden z-50"
+    >
+      <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-lg max-w-md w-full p-6 text-center">
+          <div
+            class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"
+          >
+            <i class="fas fa-check text-2xl text-green-600"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">
+            Order Placed Successfully!
+          </h3>
+          <p class="text-gray-600 mb-6">
+            Thank you for your order. You will receive a confirmation email
+            shortly.
+          </p>
+          <div class="space-y-3">
+            <button
+              onclick="window.location.href='index.html'"
+              class="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary/90 transition-colors"
+            >
+              Continue Shopping
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
     <script>
-        class CheckoutPage {
-            constructor() {
-                this.cart = this.loadCart();
-                this.deliveryFee = 0;
-                this.taxRate = 0.08;
-                
-                this.init();
-            }
-            
-            init() {
-                this.renderCartItems();
-                this.calculateTotals();
-                this.setupEventListeners();
-            }
-            
-            loadCart() {
-                const savedCart = localStorage.getItem('harvestHubCart');
-                return savedCart ? JSON.parse(savedCart) : [];
-            }
-            
-            setupEventListeners() {
-                // Payment method change
-                document.querySelectorAll('input[name="payment"]').forEach(radio => {
-                    radio.addEventListener('change', this.handlePaymentMethodChange.bind(this));
-                });
-                
-                // Delivery option change
-                document.querySelectorAll('input[name="delivery"]').forEach(radio => {
-                    radio.addEventListener('change', this.handleDeliveryChange.bind(this));
-                });
-                
-                // Credit card number formatting
-                const cardNumberInput = document.getElementById('cardNumber');
-                cardNumberInput.addEventListener('input', this.formatCardNumber.bind(this));
-                cardNumberInput.addEventListener('keydown', this.handleCardNumberKeydown.bind(this));
-                
-                // Credit card expiry formatting
-                const cardExpiryInput = document.getElementById('cardExpiry');
-                cardExpiryInput.addEventListener('input', this.formatCardExpiry.bind(this));
-                
-                // CVV input limiting
-                const cardCvvInput = document.getElementById('cardCvv');
-                cardCvvInput.addEventListener('input', this.formatCardCvv.bind(this));
-                
-                // Place order
-                document.getElementById('placeOrderBtn').addEventListener('click', this.placeOrder.bind(this));
-            }
-            
-            renderCartItems() {
-                const container = document.getElementById('checkoutCartItems');
-                
-                if (this.cart.length === 0) {
-                    container.innerHTML = '<p class="text-gray-500 text-center">Your cart is empty</p>';
-                    return;
-                }
-                
-                container.innerHTML = this.cart.map(item => `
-                    <div class="flex items-center space-x-3 py-2">
-                        <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-cover rounded-md">
-                        <div class="flex-1">
-                            <h4 class="font-medium text-gray-900 text-sm">${item.name}</h4>
-                            <p class="text-xs text-gray-600">by ${item.producer_name}</p>
-                            <p class="text-xs text-gray-500">Qty: ${item.quantity}</p>
-                        </div>
-                        <span class="font-semibold text-sm">$${(item.price * item.quantity).toFixed(2)}</span>
-                    </div>
-                `).join('');
-            }
-            
-            calculateTotals() {
-                const subtotal = this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-                const tax = subtotal * this.taxRate;
-                const total = subtotal + this.deliveryFee + tax;
-                
-                document.getElementById('checkoutSubtotal').textContent = `$${subtotal.toFixed(2)}`;
-                document.getElementById('checkoutDelivery').textContent = this.deliveryFee === 0 ? 'Free' : `$${this.deliveryFee.toFixed(2)}`;
-                document.getElementById('checkoutTax').textContent = `$${tax.toFixed(2)}`;
-                document.getElementById('checkoutTotal').textContent = `$${total.toFixed(2)}`;
-            }
-            
-            handlePaymentMethodChange(e) {
-                // Hide all payment details
-                document.querySelectorAll('.payment-details').forEach(div => {
-                    div.classList.add('hidden');
-                });
-                
-                // Show selected payment details
-                const selectedMethod = e.target.value;
-                const detailsDiv = document.getElementById(`${selectedMethod}Details`);
-                if (detailsDiv) {
-                    detailsDiv.classList.remove('hidden');
-                }
-            }
-            
-            handleDeliveryChange(e) {
-                const selectedDelivery = e.target.value;
-                
-                switch(selectedDelivery) {
-                    case 'express':
-                        this.deliveryFee = 5.99;
-                        break;
-                    case 'standard':
-                    case 'pickup':
-                    default:
-                        this.deliveryFee = 0;
-                        break;
-                }
-                
-                this.calculateTotals();
-            }
-            
-            // Format credit card number with spaces every 4 digits
-            formatCardNumber(e) {
-                let value = e.target.value;
-                
-                // Remove all non-digit characters
-                value = value.replace(/\D/g, '');
-                
-                // Limit to 16 digits
-                value = value.substring(0, 16);
-                
-                // Add spaces every 4 digits
-                value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
-                
-                // Update the input value
-                e.target.value = value;
-            }
-            
-            // Handle backspace and delete keys for card number
-            handleCardNumberKeydown(e) {
-                const input = e.target;
-                const value = input.value;
-                
-                // Allow backspace, delete, tab, escape, enter
-                if ([8, 9, 27, 13, 46].includes(e.keyCode) ||
-                    // Allow Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
-                    (e.keyCode === 65 && e.ctrlKey) ||
-                    (e.keyCode === 67 && e.ctrlKey) ||
-                    (e.keyCode === 86 && e.ctrlKey) ||
-                    (e.keyCode === 88 && e.ctrlKey) ||
-                    // Allow home, end, left, right
-                    (e.keyCode >= 35 && e.keyCode <= 39)) {
-                    return;
-                }
-                
-                // Ensure that it's a number and stop the keypress if it's not
-                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-                    e.preventDefault();
-                }
-                
-                // Prevent input if already at 19 characters (16 digits + 3 spaces)
-                if (value.length >= 19 && ![8, 46].includes(e.keyCode)) {
-                    e.preventDefault();
-                }
-            }
-            
-            // Format card expiry as MM/YY
-            formatCardExpiry(e) {
-                let value = e.target.value;
-                
-                // Remove all non-digit characters
-                value = value.replace(/\D/g, '');
-                
-                // Limit to 4 digits
-                value = value.substring(0, 4);
-                
-                // Add slash after 2 digits
-                if (value.length >= 2) {
-                    value = value.substring(0, 2) + '/' + value.substring(2);
-                }
-                
-                // Update the input value
-                e.target.value = value;
-            }
-            
-            // Format CVV to limit to 3-4 digits
-            formatCardCvv(e) {
-                let value = e.target.value;
-                
-                // Remove all non-digit characters
-                value = value.replace(/\D/g, '');
-                
-                // Limit to 4 digits (for American Express)
-                value = value.substring(0, 4);
-                
-                // Update the input value
-                e.target.value = value;
-            }
-            
-            placeOrder(e) {
-                e.preventDefault();
-                
-                // Basic form validation
-                const form = document.getElementById('checkoutForm');
-                if (!form.checkValidity()) {
-                    form.reportValidity();
-                    return;
-                }
-                
-                // Show loading state
-                const btn = document.getElementById('placeOrderBtn');
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
-                btn.disabled = true;
-                
-                // Simulate order processing
-                setTimeout(() => {
-                    // Clear cart
-                    localStorage.removeItem('harvestHubCart');
-                    
-                    // Show success modal
-                    document.getElementById('successModal').classList.remove('hidden');
-                    
-                    // Reset button
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
-                }, 2000);
-            }
+      class CheckoutPage {
+        constructor() {
+          this.cart = this.loadCart();
+          this.deliveryFee = 0;
+          this.taxRate = 0.08;
+
+          this.init();
         }
-        
-        // Initialize checkout page
-        const checkout = new CheckoutPage();
+
+        init() {
+          this.renderCartItems();
+          this.calculateTotals();
+          this.setupEventListeners();
+        }
+
+        loadCart() {
+          const savedCart = localStorage.getItem("harvestHubCart");
+          return savedCart ? JSON.parse(savedCart) : [];
+        }
+
+        setupEventListeners() {
+          // Payment method change
+          document
+            .querySelectorAll('input[name="payment"]')
+            .forEach((radio) => {
+              radio.addEventListener(
+                "change",
+                this.handlePaymentMethodChange.bind(this)
+              );
+            });
+
+          // Delivery option change
+          document
+            .querySelectorAll('input[name="delivery"]')
+            .forEach((radio) => {
+              radio.addEventListener(
+                "change",
+                this.handleDeliveryChange.bind(this)
+              );
+            });
+
+          // Credit card number formatting
+          const cardNumberInput = document.getElementById("cardNumber");
+          cardNumberInput.addEventListener(
+            "input",
+            this.formatCardNumber.bind(this)
+          );
+          cardNumberInput.addEventListener(
+            "keydown",
+            this.handleCardNumberKeydown.bind(this)
+          );
+
+          // Credit card expiry formatting
+          const cardExpiryInput = document.getElementById("cardExpiry");
+          cardExpiryInput.addEventListener(
+            "input",
+            this.formatCardExpiry.bind(this)
+          );
+
+          // CVV input limiting
+          const cardCvvInput = document.getElementById("cardCvv");
+          cardCvvInput.addEventListener("input", this.formatCardCvv.bind(this));
+
+          // Place order
+          document
+            .getElementById("placeOrderBtn")
+            .addEventListener("click", this.placeOrder.bind(this));
+        }
+
+        renderCartItems() {
+          const container = document.getElementById("checkoutCartItems");
+
+          if (this.cart.length === 0) {
+            container.innerHTML =
+              '<p class="text-gray-500 text-center">Your cart is empty</p>';
+            return;
+          }
+
+          container.innerHTML = this.cart
+            .map(
+              (item) => `
+                    <div class="flex items-center space-x-3 py-2">
+                        <img src="${item.image}" alt="${
+                item.name
+              }" class="w-12 h-12 object-cover rounded-md">
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-900 text-sm">${
+                              item.name
+                            }</h4>
+                            <p class="text-xs text-gray-600">by ${
+                              item.producer_name
+                            }</p>
+                            <p class="text-xs text-gray-500">Qty: ${
+                              item.quantity
+                            }</p>
+                        </div>
+                        <span class="font-semibold text-sm">$${(
+                          item.price * item.quantity
+                        ).toFixed(2)}</span>
+                    </div>
+                `
+            )
+            .join("");
+        }
+
+        calculateTotals() {
+          const subtotal = this.cart.reduce(
+            (sum, item) => sum + item.price * item.quantity,
+            0
+          );
+          const tax = subtotal * this.taxRate;
+          const total = subtotal + this.deliveryFee + tax;
+
+          document.getElementById(
+            "checkoutSubtotal"
+          ).textContent = `$${subtotal.toFixed(2)}`;
+          document.getElementById("checkoutDelivery").textContent =
+            this.deliveryFee === 0 ? "Free" : `$${this.deliveryFee.toFixed(2)}`;
+          document.getElementById("checkoutTax").textContent = `$${tax.toFixed(
+            2
+          )}`;
+          document.getElementById(
+            "checkoutTotal"
+          ).textContent = `$${total.toFixed(2)}`;
+        }
+
+        handlePaymentMethodChange(e) {
+          // Hide all payment details
+          document.querySelectorAll(".payment-details").forEach((div) => {
+            div.classList.add("hidden");
+          });
+
+          // Show selected payment details
+          const selectedMethod = e.target.value;
+          const detailsDiv = document.getElementById(
+            `${selectedMethod}Details`
+          );
+          if (detailsDiv) {
+            detailsDiv.classList.remove("hidden");
+          }
+        }
+
+        handleDeliveryChange(e) {
+          const selectedDelivery = e.target.value;
+
+          switch (selectedDelivery) {
+            case "express":
+              this.deliveryFee = 5.99;
+              break;
+            case "standard":
+            case "pickup":
+            default:
+              this.deliveryFee = 0;
+              break;
+          }
+
+          this.calculateTotals();
+        }
+
+        // Format credit card number with spaces every 4 digits
+        formatCardNumber(e) {
+          let value = e.target.value;
+
+          // Remove all non-digit characters
+          value = value.replace(/\D/g, "");
+
+          // Limit to 16 digits
+          value = value.substring(0, 16);
+
+          // Add spaces every 4 digits
+          value = value.replace(/(\d{4})(?=\d)/g, "$1 ");
+
+          // Update the input value
+          e.target.value = value;
+        }
+
+        // Handle backspace and delete keys for card number
+        handleCardNumberKeydown(e) {
+          const input = e.target;
+          const value = input.value;
+
+          // Allow backspace, delete, tab, escape, enter
+          if (
+            [8, 9, 27, 13, 46].includes(e.keyCode) ||
+            // Allow Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+            (e.keyCode === 65 && e.ctrlKey) ||
+            (e.keyCode === 67 && e.ctrlKey) ||
+            (e.keyCode === 86 && e.ctrlKey) ||
+            (e.keyCode === 88 && e.ctrlKey) ||
+            // Allow home, end, left, right
+            (e.keyCode >= 35 && e.keyCode <= 39)
+          ) {
+            return;
+          }
+
+          // Ensure that it's a number and stop the keypress if it's not
+          if (
+            (e.shiftKey || e.keyCode < 48 || e.keyCode > 57) &&
+            (e.keyCode < 96 || e.keyCode > 105)
+          ) {
+            e.preventDefault();
+          }
+
+          // Prevent input if already at 19 characters (16 digits + 3 spaces)
+          if (value.length >= 19 && ![8, 46].includes(e.keyCode)) {
+            e.preventDefault();
+          }
+        }
+
+        // Format card expiry as MM/YY
+        formatCardExpiry(e) {
+          let value = e.target.value;
+
+          // Remove all non-digit characters
+          value = value.replace(/\D/g, "");
+
+          // Limit to 4 digits
+          value = value.substring(0, 4);
+
+          // Add slash after 2 digits
+          if (value.length >= 2) {
+            value = value.substring(0, 2) + "/" + value.substring(2);
+          }
+
+          // Update the input value
+          e.target.value = value;
+        }
+
+        // Format CVV to limit to 3-4 digits
+        formatCardCvv(e) {
+          let value = e.target.value;
+
+          // Remove all non-digit characters
+          value = value.replace(/\D/g, "");
+
+          // Limit to 4 digits (for American Express)
+          value = value.substring(0, 4);
+
+          // Update the input value
+          e.target.value = value;
+        }
+
+        placeOrder(e) {
+          e.preventDefault();
+
+          // Basic form validation
+          const form = document.getElementById("checkoutForm");
+          if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+          }
+
+          // Show loading state
+          const btn = document.getElementById("placeOrderBtn");
+          const originalText = btn.innerHTML;
+          btn.innerHTML =
+            '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
+          btn.disabled = true;
+
+          // Simulate order processing
+          setTimeout(() => {
+            // Clear cart
+            localStorage.removeItem("harvestHubCart");
+
+            // Show success modal
+            document.getElementById("successModal").classList.remove("hidden");
+
+            // Reset button
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+          }, 2000);
+        }
+      }
+
+      // Initialize checkout page
+      const checkout = new CheckoutPage();
     </script>
-</body>
+  </body>
 </html>
