@@ -1256,7 +1256,7 @@ class HarvestHub {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-// ...existing code...
+        },
         body: JSON.stringify({ email, password }),
       });
 
@@ -1696,7 +1696,7 @@ class HarvestHub {
       console.log("Login attempt:", { email });
 
       // Make API call to backend
-     const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
+      const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -1848,7 +1848,7 @@ class HarvestHub {
       });
 
       // Make API call to backend
-    const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
+      const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
