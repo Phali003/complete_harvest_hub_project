@@ -1,5 +1,0 @@
-* text=auto eol=lf
-node_modules/
-.env
-.env.example
-.vscode/
