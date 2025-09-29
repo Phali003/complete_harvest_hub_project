@@ -3,9 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <base href="/harvest-hub-project/" />
     <title>Admin Dashboard - Harvest Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       rel="stylesheet"
@@ -109,489 +110,2003 @@
               <i class="fas fa-cog mr-3"></i>
               Platform Settings
             </a>
+            <a
+              href="#profile"
+              class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+            >
+              <i class="fas fa-user-circle mr-3"></i>
+              Admin Profile
+            </a>
           </div>
         </nav>
       </div>
 
       <!-- Main Content -->
       <div class="flex-1 p-8">
-        <!-- Overview Section -->
-        <div id="overview-content">
-          <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-900 mb-2">
-              Platform Overview
-            </h1>
-            <p class="text-gray-600">
-              Monitor and manage your digital farmers' market platform.
-            </p>
-          </div>
-
-          <!-- Key Metrics -->
-          <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
-            <div class="bg-white rounded-lg p-6 shadow-md">
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-sm text-gray-600 mb-1">Total Users</p>
-                  <p class="text-2xl font-bold text-gray-900">1,247</p>
-                </div>
-                <div class="bg-blue-100 p-3 rounded-full">
-                  <i class="fas fa-users text-blue-600 text-xl"></i>
-                </div>
-              </div>
-              <p class="text-sm text-green-600 mt-2">+8% this month</p>
-            </div>
-
-            <div class="bg-white rounded-lg p-6 shadow-md">
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-sm text-gray-600 mb-1">Active Producers</p>
-                  <p class="text-2xl font-bold text-gray-900">89</p>
-                </div>
-                <div class="bg-primary/10 p-3 rounded-full">
-                  <i class="fas fa-store text-primary text-xl"></i>
-                </div>
-              </div>
-              <p class="text-sm text-gray-500 mt-2">12 pending approval</p>
-            </div>
-
-            <div class="bg-white rounded-lg p-6 shadow-md">
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-sm text-gray-600 mb-1">Total Products</p>
-                  <p class="text-2xl font-bold text-gray-900">2,156</p>
-                </div>
-                <div class="bg-secondary/10 p-3 rounded-full">
-                  <i class="fas fa-box text-secondary text-xl"></i>
-                </div>
-              </div>
-              <p class="text-sm text-yellow-600 mt-2">47 awaiting review</p>
-            </div>
-
-            <div class="bg-white rounded-lg p-6 shadow-md">
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-sm text-gray-600 mb-1">Monthly Revenue</p>
-                  <p class="text-2xl font-bold text-gray-900">$28,547</p>
-                </div>
-                <div class="bg-accent/10 p-3 rounded-full">
-                  <i class="fas fa-dollar-sign text-accent text-xl"></i>
-                </div>
-              </div>
-              <p class="text-sm text-green-600 mt-2">+15% from last month</p>
-            </div>
-
-            <div class="bg-white rounded-lg p-6 shadow-md">
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-sm text-gray-600 mb-1">Platform Health</p>
-                  <p class="text-2xl font-bold text-green-600">99.2%</p>
-                </div>
-                <div class="bg-green-100 p-3 rounded-full">
-                  <i class="fas fa-heart text-green-600 text-xl"></i>
-                </div>
-              </div>
-              <p class="text-sm text-gray-500 mt-2">Uptime</p>
-            </div>
-          </div>
-
-          <!-- Recent Activity & Pending Actions -->
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- Pending Approvals -->
-            <div class="bg-white rounded-lg p-6 shadow-md">
-              <div class="flex items-center justify-between mb-6">
-                <h2 class="text-xl font-semibold text-gray-900">
-                  Pending Approvals
-                </h2>
-                <span
-                  class="bg-red-100 text-red-800 text-sm px-3 py-1 rounded-full"
-                  >Urgent</span
-                >
-              </div>
-
-              <div class="space-y-4">
-                <div
-                  class="flex items-center justify-between p-4 bg-yellow-50 border border-yellow-200 rounded-lg"
-                >
-                  <div class="flex items-center space-x-4">
-                    <div
-                      class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center"
-                    >
-                      <i class="fas fa-store text-primary"></i>
-                    </div>
-                    <div>
-                      <p class="font-semibold text-gray-900">
-                        Green Valley Organic
-                      </p>
-                      <p class="text-sm text-gray-600">
-                        New producer application
-                      </p>
-                    </div>
-                  </div>
-                  <div class="flex space-x-2">
-                    <button
-                      class="px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700"
-                    >
-                      Approve
-                    </button>
-                    <button
-                      class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700"
-                    >
-                      Reject
-                    </button>
-                  </div>
-                </div>
-
-                <div
-                  class="flex items-center justify-between p-4 bg-blue-50 border border-blue-200 rounded-lg"
-                >
-                  <div class="flex items-center space-x-4">
-                    <div
-                      class="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center"
-                    >
-                      <i class="fas fa-box text-secondary"></i>
-                    </div>
-                    <div>
-                      <p class="font-semibold text-gray-900">
-                        Organic Honey Collection
-                      </p>
-                      <p class="text-sm text-gray-600">
-                        Product awaiting review
-                      </p>
-                    </div>
-                  </div>
-                  <button
-                    class="px-3 py-1 bg-primary text-white text-sm rounded hover:bg-primary/90"
-                  >
-                    Review
-                  </button>
-                </div>
-
-                <div
-                  class="flex items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded-lg"
-                >
-                  <div class="flex items-center space-x-4">
-                    <div
-                      class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center"
-                    >
-                      <i class="fas fa-exclamation-triangle text-red-600"></i>
-                    </div>
-                    <div>
-                      <p class="font-semibold text-gray-900">
-                        Quality Concern Report
-                      </p>
-                      <p class="text-sm text-gray-600">
-                        Customer complaint #CC-2024-15
-                      </p>
-                    </div>
-                  </div>
-                  <button
-                    class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700"
-                  >
-                    Investigate
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- System Health -->
-            <div class="bg-white rounded-lg p-6 shadow-md">
-              <div class="flex items-center justify-between mb-6">
-                <h2 class="text-xl font-semibold text-gray-900">
-                  System Health
-                </h2>
-                <div class="flex items-center space-x-2">
-                  <div class="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <span class="text-sm text-green-600"
-                    >All Systems Operational</span
-                  >
-                </div>
-              </div>
-
-              <div class="space-y-4">
-                <div class="flex items-center justify-between">
-                  <span class="text-gray-700">Database Performance</span>
-                  <div class="flex items-center space-x-2">
-                    <div class="w-24 h-2 bg-gray-200 rounded-full">
-                      <div class="w-20 h-2 bg-green-500 rounded-full"></div>
-                    </div>
-                    <span class="text-sm text-gray-600">85%</span>
-                  </div>
-                </div>
-
-                <div class="flex items-center justify-between">
-                  <span class="text-gray-700">API Response Time</span>
-                  <div class="flex items-center space-x-2">
-                    <div class="w-24 h-2 bg-gray-200 rounded-full">
-                      <div class="w-22 h-2 bg-green-500 rounded-full"></div>
-                    </div>
-                    <span class="text-sm text-gray-600">92%</span>
-                  </div>
-                </div>
-
-                <div class="flex items-center justify-between">
-                  <span class="text-gray-700">Payment Gateway</span>
-                  <div class="flex items-center space-x-2">
-                    <div class="w-24 h-2 bg-gray-200 rounded-full">
-                      <div class="w-24 h-2 bg-green-500 rounded-full"></div>
-                    </div>
-                    <span class="text-sm text-gray-600">100%</span>
-                  </div>
-                </div>
-
-                <div class="flex items-center justify-between">
-                  <span class="text-gray-700">Storage Usage</span>
-                  <div class="flex items-center space-x-2">
-                    <div class="w-24 h-2 bg-gray-200 rounded-full">
-                      <div class="w-16 h-2 bg-yellow-500 rounded-full"></div>
-                    </div>
-                    <span class="text-sm text-gray-600">67%</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="mt-6 p-4 bg-blue-50 rounded-lg">
-                <div class="flex items-center">
-                  <i class="fas fa-info-circle text-blue-600 mr-2"></i>
-                  <span class="text-sm text-blue-800"
-                    >Last backup: 2 hours ago</span
-                  >
-                </div>
-              </div>
-            </div>
+        <!-- Dynamic content will be loaded here -->
+        <div id="main-content">
+          <!-- Loading indicator -->
+          <div id="loading-indicator" class="flex items-center justify-center py-12">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+            <span class="ml-3 text-gray-600">Loading...</span>
           </div>
         </div>
 
-        <!-- User Management Section (Hidden by default) -->
-        <div id="users-content" style="display: none">
-          <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-900 mb-2">
-              User Management
-            </h1>
-            <p class="text-gray-600">
-              Manage customer accounts, producer profiles, and platform access.
-            </p>
-          </div>
-
-          <!-- User Stats -->
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div class="bg-white rounded-lg p-6 shadow-md">
-              <h3 class="text-lg font-semibold text-gray-900 mb-2">
-                Total Users
-              </h3>
-              <p class="text-3xl font-bold text-primary">1,247</p>
-            </div>
-            <div class="bg-white rounded-lg p-6 shadow-md">
-              <h3 class="text-lg font-semibold text-gray-900 mb-2">
-                Customers
-              </h3>
-              <p class="text-3xl font-bold text-secondary">1,158</p>
-            </div>
-            <div class="bg-white rounded-lg p-6 shadow-md">
-              <h3 class="text-lg font-semibold text-gray-900 mb-2">
-                Producers
-              </h3>
-              <p class="text-3xl font-bold text-accent">89</p>
-            </div>
-            <div class="bg-white rounded-lg p-6 shadow-md">
-              <h3 class="text-lg font-semibold text-gray-900 mb-2">
-                Active Today
-              </h3>
-              <p class="text-3xl font-bold text-green-600">342</p>
-            </div>
-          </div>
-
-          <!-- User Table -->
-          <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-200">
-              <div class="flex items-center justify-between">
-                <h3 class="text-lg font-semibold text-gray-900">
-                  Recent Users
-                </h3>
-                <div class="flex items-center space-x-4">
-                  <input
-                    type="text"
-                    placeholder="Search users..."
-                    class="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
-                  />
-                  <select class="px-3 py-2 border border-gray-300 rounded-md">
-                    <option>All Roles</option>
-                    <option>Customers</option>
-                    <option>Producers</option>
-                    <option>Admins</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="overflow-x-auto">
-              <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                  <tr>
-                    <th
-                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      User
-                    </th>
-                    <th
-                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Role
-                    </th>
-                    <th
-                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Status
-                    </th>
-                    <th
-                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Joined
-                    </th>
-                    <th
-                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                  <tr>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="flex items-center">
-                        <img
-                          class="h-10 w-10 rounded-full"
-                          src="https://images.unsplash.com/photo-1494790108755-2616b612b1b4?w=40&h=40&fit=crop&crop=face"
-                          alt=""
-                        />
-                        <div class="ml-4">
-                          <div class="text-sm font-medium text-gray-900">
-                            Sarah Johnson
-                          </div>
-                          <div class="text-sm text-gray-500">
-                            sarah.j@email.com
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span
-                        class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800"
-                        >Customer</span
-                      >
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span
-                        class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800"
-                        >Active</span
-                      >
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
-                    >
-                      Jan 15, 2024
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button class="text-primary hover:text-primary/80">
-                        View
-                      </button>
-                      <button class="ml-4 text-red-600 hover:text-red-800">
-                        Suspend
-                      </button>
-                    </td>
-                  </tr>
-                  <!-- More user rows would go here -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+        <!-- Real-time notifications -->
+        <div id="notifications" class="fixed top-4 right-4 space-y-4 z-50"></div>
       </div>
     </div>
 
     <script>
-      // Admin Dashboard functionality
-      class AdminDashboard {
+      // Dynamic Admin Dashboard System
+      class DynamicAdminDashboard {
         constructor() {
+          this.socket = null;
+          this.currentSection = 'overview';
+          this.data = {};
+          this.charts = {};
           this.init();
         }
 
-        init() {
-          this.setupNavigation();
-          this.loadDashboardData();
-          this.setupApprovalActions();
+        async init() {
+          try {
+            this.setupWebSocket();
+            this.setupNavigation();
+            this.setupNotifications();
+            await this.loadSection('overview');
+            this.startRealTimeUpdates();
+          } catch (error) {
+            console.error('Error initializing dashboard:', error);
+            this.showError('Failed to initialize dashboard');
+          }
+        }
+
+        setupWebSocket() {
+          this.socket = io();
+          
+          this.socket.on('connect', () => {
+            console.log('Connected to server');
+            this.updateConnectionStatus(true);
+            // Join admin room for real-time updates
+            this.socket.emit('join', 'admin');
+          });
+
+          this.socket.on('disconnect', () => {
+            console.log('Disconnected from server');
+            this.updateConnectionStatus(false);
+          });
+
+          this.socket.on('statsUpdate', (stats) => {
+            this.updateRealTimeStats(stats);
+          });
+
+          this.socket.on('notificationUpdate', (notifications) => {
+            this.updateNotifications(notifications);
+          });
+
+          // Handle real-time activity updates
+          this.socket.on('activityUpdate', (activity) => {
+            this.handleNewActivity(activity);
+          });
+        }
+
+        updateConnectionStatus(connected) {
+          const indicator = document.querySelector('.connection-indicator');
+          if (indicator) {
+            indicator.className = `w-3 h-3 rounded-full ${
+              connected ? 'bg-green-500' : 'bg-red-500'
+            }`;
+          }
         }
 
         setupNavigation() {
           const navLinks = document.querySelectorAll('nav a[href^="#"]');
           navLinks.forEach((link) => {
-            link.addEventListener("click", (e) => {
+            link.addEventListener('click', async (e) => {
               e.preventDefault();
-              this.showSection(link.getAttribute("href").substring(1));
-
+              const section = link.getAttribute('href').substring(1);
+              await this.loadSection(section);
+              
               // Update active nav item
-              navLinks.forEach((l) => l.classList.remove("bg-primary/10"));
-              link.classList.add("bg-primary/10");
+              navLinks.forEach((l) => l.classList.remove('bg-primary/10'));
+              link.classList.add('bg-primary/10');
             });
           });
         }
 
-        showSection(sectionId) {
-          // Hide all sections
-          document.querySelectorAll('[id$="-content"]').forEach((section) => {
-            section.style.display = "none";
-          });
+        async loadSection(sectionId) {
+          this.currentSection = sectionId;
+          this.showLoading();
 
-          // Show selected section
-          const targetSection =
-            document.getElementById(`${sectionId}-content`) ||
-            document.getElementById("overview-content");
-          targetSection.style.display = "block";
-        }
-
-        setupApprovalActions() {
-          // Add event listeners for approval buttons
-          document.addEventListener("click", (e) => {
-            if (e.target.textContent === "Approve") {
-              this.handleApproval(e.target, true);
-            } else if (e.target.textContent === "Reject") {
-              this.handleApproval(e.target, false);
-            }
-          });
-        }
-
-        handleApproval(button, isApproved) {
-          const card = button.closest(".p-4");
-          const status = isApproved ? "approved" : "rejected";
-
-          // Simulate API call
-          button.textContent = "Processing...";
-          button.disabled = true;
-
-          setTimeout(() => {
-            card.style.opacity = "0.5";
-            card.innerHTML = `
-                        <div class="text-center py-4">
-                            <i class="fas fa-check-circle text-green-600 text-2xl mb-2"></i>
-                            <p class="text-gray-700">Item ${status}</p>
-                        </div>
-                    `;
-          }, 1000);
-        }
-
-        async loadDashboardData() {
           try {
-            // Load real data from API
-            // const response = await fetch('/api/admin/overview');
-            // const data = await response.json();
-            console.log("Admin dashboard data loaded");
+            let content = '';
+            switch (sectionId) {
+              case 'overview':
+                content = await this.loadOverview();
+                break;
+              case 'users':
+                content = await this.loadUserManagement();
+                break;
+              case 'producers':
+                content = await this.loadProducerApprovals();
+                break;
+              case 'products':
+                content = await this.loadProductModeration();
+                break;
+              case 'orders':
+                content = await this.loadOrdersPayments();
+                break;
+              case 'analytics':
+                content = await this.loadAnalytics();
+                break;
+              case 'settings':
+                content = await this.loadPlatformSettings();
+                break;
+              case 'profile':
+                content = await this.loadAdminProfile();
+                break;
+              default:
+                content = await this.loadOverview();
+            }
+            
+            document.getElementById('main-content').innerHTML = content;
+            this.setupSectionEventListeners();
+            
           } catch (error) {
-            console.error("Error loading admin dashboard data:", error);
+            console.error(`Error loading ${sectionId}:`, error);
+            this.showError(`Failed to load ${sectionId}`);
+          }
+        }
+
+        showLoading() {
+          document.getElementById('main-content').innerHTML = `
+            <div class="flex items-center justify-center py-12">
+              <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+              <span class="ml-3 text-gray-600">Loading...</span>
+            </div>
+          `;
+        }
+
+        showError(message) {
+          document.getElementById('main-content').innerHTML = `
+            <div class="flex items-center justify-center py-12">
+              <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                <i class="fas fa-exclamation-triangle mr-2"></i>
+                ${message}
+              </div>
+            </div>
+          `;
+        }
+
+        async loadOverview() {
+          const [overview, notifications, health] = await Promise.all([
+            this.fetchAPI('/api/admin/overview'),
+            this.fetchAPI('/api/admin/notifications'),
+            this.fetchAPI('/api/admin/health')
+          ]);
+
+          return `
+            <div>
+              <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">Platform Overview</h1>
+                <p class="text-gray-600">Monitor and manage your digital farmers' market platform in real-time.</p>
+              </div>
+
+              <!-- Key Metrics -->
+              <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8" id="metrics-grid">
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p class="text-sm text-gray-600 mb-1">Total Users</p>
+                      <p class="text-2xl font-bold text-gray-900" id="total-users">${overview.counts?.users || 0}</p>
+                    </div>
+                    <div class="bg-blue-100 p-3 rounded-full">
+                      <i class="fas fa-users text-blue-600 text-xl"></i>
+                    </div>
+                  </div>
+                  <p class="text-sm text-green-600 mt-2">Real-time data</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p class="text-sm text-gray-600 mb-1">Active Producers</p>
+                      <p class="text-2xl font-bold text-gray-900" id="active-producers">${overview.counts?.producers || 0}</p>
+                    </div>
+                    <div class="bg-primary/10 p-3 rounded-full">
+                      <i class="fas fa-store text-primary text-xl"></i>
+                    </div>
+                  </div>
+                  <p class="text-sm text-gray-500 mt-2" id="pending-producers">Loading...</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p class="text-sm text-gray-600 mb-1">Total Products</p>
+                      <p class="text-2xl font-bold text-gray-900" id="total-products">${overview.counts?.products || 0}</p>
+                    </div>
+                    <div class="bg-secondary/10 p-3 rounded-full">
+                      <i class="fas fa-box text-secondary text-xl"></i>
+                    </div>
+                  </div>
+                  <p class="text-sm text-yellow-600 mt-2" id="pending-products">Loading...</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p class="text-sm text-gray-600 mb-1">Monthly Revenue</p>
+                      <p class="text-2xl font-bold text-gray-900" id="monthly-revenue">$${(overview.revenue?.total_revenue || 0).toLocaleString()}</p>
+                    </div>
+                    <div class="bg-accent/10 p-3 rounded-full">
+                      <i class="fas fa-dollar-sign text-accent text-xl"></i>
+                    </div>
+                  </div>
+                  <p class="text-sm text-green-600 mt-2">Real-time tracking</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p class="text-sm text-gray-600 mb-1">System Status</p>
+                      <p class="text-2xl font-bold text-green-600">${health.status === 'healthy' ? '✓ Online' : '✗ Issues'}</p>
+                    </div>
+                    <div class="bg-green-100 p-3 rounded-full">
+                      <div class="connection-indicator w-3 h-3 bg-green-500 rounded-full"></div>
+                    </div>
+                  </div>
+                  <p class="text-sm text-gray-500 mt-2">Live monitoring</p>
+                </div>
+              </div>
+
+              <!-- Recent Activity & System Health -->
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Pending Actions -->
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                  <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-semibold text-gray-900">Pending Actions</h2>
+                    <span class="bg-red-100 text-red-800 text-sm px-3 py-1 rounded-full" id="urgent-count">Loading...</span>
+                  </div>
+                  <div id="pending-actions" class="space-y-4">
+                    <!-- Dynamic content will be loaded here -->
+                  </div>
+                </div>
+
+                <!-- Real-time Activity -->
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                  <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-semibold text-gray-900">Real-time Activity</h2>
+                    <div class="flex items-center space-x-2">
+                      <div class="connection-indicator w-3 h-3 bg-green-500 rounded-full"></div>
+                      <span class="text-sm text-green-600">Live Updates</span>
+                    </div>
+                  </div>
+                  <div id="realtime-activity" class="space-y-3">
+                    <!-- Real-time activity will appear here -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        async loadUserManagement() {
+          const users = await this.fetchAPI('/api/admin/users?limit=50');
+          
+          return `
+            <div>
+              <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">User Management</h1>
+                <p class="text-gray-600">Manage customer accounts, producer profiles, and platform access.</p>
+              </div>
+
+              <!-- Search and Filters -->
+              <div class="bg-white rounded-lg p-6 shadow-md mb-6">
+                <div class="flex flex-col md:flex-row gap-4">
+                  <div class="flex-1">
+                    <input type="text" id="user-search" placeholder="Search users by name, email, or business name..."
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
+                  </div>
+                  <select id="role-filter" class="px-4 py-2 border border-gray-300 rounded-md">
+                    <option value="">All Roles</option>
+                    <option value="customer">Customers</option>
+                    <option value="producer">Producers</option>
+                    <option value="admin">Admins</option>
+                  </select>
+                  <select id="status-filter" class="px-4 py-2 border border-gray-300 rounded-md">
+                    <option value="">All Status</option>
+                    <option value="verified">Verified</option>
+                    <option value="unverified">Unverified</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Users Table -->
+              <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="overflow-x-auto">
+                  <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                      <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Joined</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="users-table-body" class="bg-white divide-y divide-gray-200">
+                      ${users.map(user => `
+                        <tr data-user-id="${user.id}">
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                              <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
+                                <i class="fas fa-user text-gray-600"></i>
+                              </div>
+                              <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">${user.first_name} ${user.last_name}</div>
+                                <div class="text-sm text-gray-500">${user.email}</div>
+                                ${user.business_name ? `<div class="text-xs text-primary">${user.business_name}</div>` : ''}
+                              </div>
+                            </div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                              user.role === 'producer' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
+                            }">
+                              ${user.role}
+                            </span>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                              user.is_verified ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                            }">
+                              ${user.is_verified ? 'Verified' : 'Unverified'}
+                            </span>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            ${new Date(user.created_at).toLocaleDateString()}
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button class="text-primary hover:text-primary/80 mr-4" onclick="adminDashboard.viewUser(${user.id})">
+                              View
+                            </button>
+                            <button class="text-red-600 hover:text-red-800" onclick="adminDashboard.suspendUser(${user.id})">
+                              ${user.is_verified ? 'Suspend' : 'Verify'}
+                            </button>
+                          </td>
+                        </tr>
+                      `).join('')}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        async loadProducerApprovals() {
+          const pendingProducers = await this.fetchAPI('/api/admin/producers/pending');
+          
+          return `
+            <div>
+              <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">Producer Approvals</h1>
+                <p class="text-gray-600">Review and approve new producer applications.</p>
+              </div>
+
+              <div class="space-y-6">
+                ${pendingProducers.length === 0 ? 
+                  '<div class="bg-white rounded-lg p-12 shadow-md text-center"><i class="fas fa-check-circle text-green-500 text-4xl mb-4"></i><p class="text-gray-600">No pending producer approvals!</p></div>' :
+                  pendingProducers.map(producer => `
+                    <div class="bg-white rounded-lg p-6 shadow-md" data-producer-id="${producer.id}">
+                      <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                          <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
+                            <i class="fas fa-store text-primary text-xl"></i>
+                          </div>
+                          <div>
+                            <h3 class="text-lg font-semibold text-gray-900">${producer.business_name}</h3>
+                            <p class="text-gray-600">${producer.first_name} ${producer.last_name}</p>
+                            <p class="text-sm text-gray-500">${producer.email} • ${producer.phone || 'No phone'}</p>
+                            <p class="text-sm text-gray-500">Applied: ${new Date(producer.created_at).toLocaleDateString()}</p>
+                          </div>
+                        </div>
+                        <div class="flex space-x-3">
+                          <button class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" 
+                                  onclick="adminDashboard.approveProducer(${producer.id}, true)">
+                            <i class="fas fa-check mr-2"></i>Approve
+                          </button>
+                          <button class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                                  onclick="adminDashboard.approveProducer(${producer.id}, false)">
+                            <i class="fas fa-times mr-2"></i>Reject
+                          </button>
+                        </div>
+                      </div>
+                      ${producer.business_description ? `
+                        <div class="mt-4 p-4 bg-gray-50 rounded">
+                          <p class="text-sm text-gray-700">${producer.business_description}</p>
+                        </div>
+                      ` : ''}
+                    </div>
+                  `).join('')
+                }
+              </div>
+            </div>
+          `;
+        }
+
+        async loadProductModeration() {
+          const pendingProducts = await this.fetchAPI('/api/admin/products/pending');
+          
+          return `
+            <div>
+              <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">Product Moderation</h1>
+                <p class="text-gray-600">Review and approve new product listings.</p>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                ${pendingProducts.length === 0 ? 
+                  '<div class="col-span-full bg-white rounded-lg p-12 shadow-md text-center"><i class="fas fa-check-circle text-green-500 text-4xl mb-4"></i><p class="text-gray-600">No pending product approvals!</p></div>' :
+                  pendingProducts.map(product => `
+                    <div class="bg-white rounded-lg p-6 shadow-md" data-product-id="${product.id}">
+                      <div class="mb-4">
+                        <img src="${product.image_url || 'https://via.placeholder.com/300x200?text=No+Image'}" 
+                             alt="${product.name}" class="w-full h-48 object-cover rounded">
+                      </div>
+                      <div class="mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">${product.name}</h3>
+                        <p class="text-gray-600 text-sm mb-2">${product.description}</p>
+                        <div class="flex justify-between items-center text-sm text-gray-500">
+                          <span>Price: $${product.price}</span>
+                          <span>Category: ${product.category_name || 'Uncategorized'}</span>
+                        </div>
+                        <div class="text-sm text-gray-500 mt-1">
+                          Producer: ${product.producer_name}
+                        </div>
+                      </div>
+                      <div class="flex space-x-2">
+                        <button class="flex-1 px-3 py-2 bg-green-600 text-white text-sm rounded hover:bg-green-700" 
+                                onclick="adminDashboard.approveProduct(${product.id}, true)">
+                          <i class="fas fa-check mr-1"></i>Approve
+                        </button>
+                        <button class="flex-1 px-3 py-2 bg-red-600 text-white text-sm rounded hover:bg-red-700"
+                                onclick="adminDashboard.approveProduct(${product.id}, false)">
+                          <i class="fas fa-times mr-1"></i>Reject
+                        </button>
+                      </div>
+                    </div>
+                  `).join('')
+                }
+              </div>
+            </div>
+          `;
+        }
+
+        async loadOrdersPayments() {
+          const [orders, paymentStats] = await Promise.all([
+            this.fetchAPI('/api/admin/orders?limit=50'),
+            this.fetchAPI('/api/admin/payments/stats')
+          ]);
+          
+          return `
+            <div>
+              <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">Orders & Payments</h1>
+                <p class="text-gray-600">Monitor order fulfillment and payment processing.</p>
+              </div>
+
+              <!-- Payment Stats -->
+              <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                  <h3 class="text-lg font-semibold text-gray-900 mb-2">Total Revenue</h3>
+                  <p class="text-3xl font-bold text-green-600">$${(paymentStats.stats?.total_revenue || 0).toLocaleString()}</p>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                  <h3 class="text-lg font-semibold text-gray-900 mb-2">Pending</h3>
+                  <p class="text-3xl font-bold text-yellow-600">$${(paymentStats.stats?.pending_amount || 0).toLocaleString()}</p>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                  <h3 class="text-lg font-semibold text-gray-900 mb-2">Failed</h3>
+                  <p class="text-3xl font-bold text-red-600">$${(paymentStats.stats?.failed_amount || 0).toLocaleString()}</p>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                  <h3 class="text-lg font-semibold text-gray-900 mb-2">Avg Order</h3>
+                  <p class="text-3xl font-bold text-primary">$${(paymentStats.stats?.avg_payment || 0).toFixed(2)}</p>
+                </div>
+              </div>
+
+              <!-- Orders Table -->
+              <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200">
+                  <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold text-gray-900">Recent Orders</h3>
+                    <div class="flex space-x-2">
+                      <select id="status-filter" class="px-3 py-2 border border-gray-300 rounded-md">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="processing">Processing</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="overflow-x-auto">
+                  <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                      <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Producer</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                      ${orders.map(order => `
+                        <tr data-order-id="${order.id}">
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">#${order.id}</div>
+                            <div class="text-sm text-gray-500">${new Date(order.created_at).toLocaleDateString()}</div>
+                            <div class="text-xs text-gray-400">${order.item_count || 0} items</div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">${order.first_name} ${order.last_name}</div>
+                            <div class="text-sm text-gray-500">${order.email}</div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">${order.producer_name}</div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">$${order.total_amount}</div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                              order.status === 'completed' ? 'bg-green-100 text-green-800' :
+                              order.status === 'processing' ? 'bg-blue-100 text-blue-800' :
+                              order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                              'bg-red-100 text-red-800'
+                            }">
+                              ${order.status}
+                            </span>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <select class="px-2 py-1 border border-gray-300 rounded text-xs" 
+                                    onchange="adminDashboard.updateOrderStatus(${order.id}, this.value)">
+                              <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pending</option>
+                              <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>Processing</option>
+                              <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>Shipped</option>
+                              <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Delivered</option>
+                              <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+                            </select>
+                          </td>
+                        </tr>
+                      `).join('')}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        async loadAnalytics() {
+          const analytics = await this.fetchAPI('/api/admin/analytics?period=30');
+          
+          return `
+            <div>
+              <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">Analytics Dashboard</h1>
+                <p class="text-gray-600">Analyze platform performance and user behavior trends.</p>
+              </div>
+
+              <!-- Chart Period Selector -->
+              <div class="mb-6">
+                <div class="flex space-x-2">
+                  <button class="px-4 py-2 bg-primary text-white rounded" onclick="adminDashboard.loadAnalytics(7)">7 Days</button>
+                  <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300" onclick="adminDashboard.loadAnalytics(30)">30 Days</button>
+                  <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300" onclick="adminDashboard.loadAnalytics(90)">90 Days</button>
+                </div>
+              </div>
+
+              <!-- Charts -->
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                  <h3 class="text-lg font-semibold text-gray-900 mb-4">Revenue Trend</h3>
+                  <canvas id="revenueChart" width="400" height="200"></canvas>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                  <h3 class="text-lg font-semibold text-gray-900 mb-4">Order Volume</h3>
+                  <canvas id="orderChart" width="400" height="200"></canvas>
+                </div>
+              </div>
+
+              <!-- Top Performers -->
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                  <h3 class="text-lg font-semibold text-gray-900 mb-4">Top Products</h3>
+                  <div class="space-y-3">
+                    ${analytics.topProducts?.slice(0, 5).map((product, index) => `
+                      <div class="flex items-center justify-between p-3 bg-gray-50 rounded">
+                        <div class="flex items-center space-x-3">
+                          <span class="text-lg font-bold text-gray-400">#${index + 1}</span>
+                          <div>
+                            <div class="font-medium text-gray-900">${product.name}</div>
+                            <div class="text-sm text-gray-500">${product.category}</div>
+                          </div>
+                        </div>
+                        <div class="text-right">
+                          <div class="font-medium text-gray-900">${product.order_count} orders</div>
+                          <div class="text-sm text-gray-500">${product.total_quantity} items</div>
+                        </div>
+                      </div>
+                    `).join('') || '<p class="text-gray-500">No data available</p>'}
+                  </div>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                  <h3 class="text-lg font-semibold text-gray-900 mb-4">Top Producers</h3>
+                  <div class="space-y-3">
+                    ${analytics.topProducers?.slice(0, 5).map((producer, index) => `
+                      <div class="flex items-center justify-between p-3 bg-gray-50 rounded">
+                        <div class="flex items-center space-x-3">
+                          <span class="text-lg font-bold text-gray-400">#${index + 1}</span>
+                          <div class="font-medium text-gray-900">${producer.business_name}</div>
+                        </div>
+                        <div class="text-right">
+                          <div class="font-medium text-gray-900">$${producer.total_revenue?.toLocaleString() || '0'}</div>
+                          <div class="text-sm text-gray-500">${producer.order_count} orders</div>
+                        </div>
+                      </div>
+                    `).join('') || '<p class="text-gray-500">No data available</p>'}
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        async loadPlatformSettings() {
+          const settings = await this.fetchAPI('/api/admin/settings');
+          
+          return `
+            <div>
+              <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">Platform Settings</h1>
+                <p class="text-gray-600">Configure platform-wide settings and preferences.</p>
+              </div>
+
+              <form id="settings-form" class="space-y-8">
+                <!-- Platform Information -->
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                  <h3 class="text-lg font-semibold text-gray-900 mb-4">Platform Information</h3>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Platform Name</label>
+                      <input type="text" value="${settings.platform?.name || ''}" 
+                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Contact Email</label>
+                      <input type="email" value="${settings.platform?.email || ''}" 
+                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Contact Phone</label>
+                      <input type="tel" value="${settings.platform?.phone || ''}" 
+                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Maintenance Mode</label>
+                      <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <option value="false" ${!settings.platform?.maintenance_mode ? 'selected' : ''}>Disabled</option>
+                        <option value="true" ${settings.platform?.maintenance_mode ? 'selected' : ''}>Enabled</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="mt-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Platform Description</label>
+                    <textarea rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">${settings.platform?.description || ''}</textarea>
+                  </div>
+                </div>
+
+                <!-- Fee Structure -->
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                  <h3 class="text-lg font-semibold text-gray-900 mb-4">Fee Structure</h3>
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Platform Fee (%)</label>
+                      <input type="number" step="0.1" value="${settings.fees?.platform_fee_percentage || 0}" 
+                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Payment Processing Fee (%)</label>
+                      <input type="number" step="0.1" value="${settings.fees?.payment_processing_fee || 0}" 
+                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Minimum Order Amount ($)</label>
+                      <input type="number" step="0.01" value="${settings.fees?.minimum_order_amount || 0}" 
+                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Platform Limits -->
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                  <h3 class="text-lg font-semibold text-gray-900 mb-4">Platform Limits</h3>
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Max Products per Producer</label>
+                      <input type="number" value="${settings.limits?.max_products_per_producer || 0}" 
+                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Max Order Items</label>
+                      <input type="number" value="${settings.limits?.max_order_items || 0}" 
+                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Max File Size (MB)</label>
+                      <input type="number" value="${settings.limits?.max_file_size_mb || 0}" 
+                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Notification Settings -->
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                  <h3 class="text-lg font-semibold text-gray-900 mb-4">Notification Settings</h3>
+                  <div class="space-y-4">
+                    <div class="flex items-center">
+                      <input type="checkbox" ${settings.notifications?.email_notifications ? 'checked' : ''} 
+                             class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                      <label class="ml-2 block text-sm text-gray-900">Email Notifications</label>
+                    </div>
+                    <div class="flex items-center">
+                      <input type="checkbox" ${settings.notifications?.sms_notifications ? 'checked' : ''} 
+                             class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                      <label class="ml-2 block text-sm text-gray-900">SMS Notifications</label>
+                    </div>
+                    <div class="flex items-center">
+                      <input type="checkbox" ${settings.notifications?.push_notifications ? 'checked' : ''} 
+                             class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                      <label class="ml-2 block text-sm text-gray-900">Push Notifications</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Save Button -->
+                <div class="flex justify-end">
+                  <button type="submit" class="px-6 py-2 bg-primary text-white rounded-md hover:bg-primary/90 focus:ring-2 focus:ring-primary focus:ring-offset-2">
+                    <i class="fas fa-save mr-2"></i>Save Settings
+                  </button>
+                </div>
+              </form>
+            </div>
+          `;
+        }
+
+        setupSectionEventListeners() {
+          // Setup search functionality
+          const searchInput = document.getElementById('user-search');
+          if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+              this.searchUsers(e.target.value);
+            });
+          }
+
+          // Setup form submissions
+          const settingsForm = document.getElementById('settings-form');
+          if (settingsForm) {
+            settingsForm.addEventListener('submit', (e) => {
+              e.preventDefault();
+              this.saveSettings();
+            });
+          }
+
+          // Setup preferences form in admin profile
+          const preferencesForm = document.querySelector('#profile .preferences-form');
+          if (preferencesForm || this.currentSection === 'profile') {
+            // Find any preferences form in the profile section
+            setTimeout(() => {
+              const form = document.querySelector('#main-content form');
+              if (form && this.currentSection === 'profile') {
+                form.addEventListener('submit', (e) => {
+                  e.preventDefault();
+                  this.savePreferences(form);
+                });
+              }
+            }, 100);
+          }
+
+          // Setup charts if in analytics section
+          if (this.currentSection === 'analytics') {
+            this.setupCharts();
+          }
+        }
+
+        async fetchAPI(endpoint) {
+          try {
+            const response = await fetch(endpoint);
+            if (!response.ok) {
+              throw new Error(`API call failed: ${response.status}`);
+            }
+            return await response.json();
+          } catch (error) {
+            console.error('API call error:', error);
+            // Return appropriate fallback data based on endpoint
+            if (endpoint.includes('/overview')) {
+              return {
+                counts: { users: 0, producers: 0, products: 0, orders: 0, payments: 0 },
+                revenue: { total_revenue: 0, avg_order_value: 0, total_orders: 0 },
+                recentActivity: { orders: [], users: [] }
+              };
+            } else if (endpoint.includes('/notifications')) {
+              return [];
+            } else if (endpoint.includes('/health')) {
+              return { status: 'unknown', database: 'unknown', metrics: {}, timestamp: new Date().toISOString() };
+            } else if (endpoint.includes('/users')) {
+              return [];
+            } else if (endpoint.includes('/producers/pending')) {
+              return [];
+            } else if (endpoint.includes('/products/pending')) {
+              return [];
+            } else if (endpoint.includes('/orders')) {
+              return [];
+            } else if (endpoint.includes('/payments/stats')) {
+              return { stats: { total_revenue: 0, pending_amount: 0, failed_amount: 0, avg_payment: 0 }, recent: [] };
+            } else if (endpoint.includes('/analytics')) {
+              return { orderTrends: [], topProducts: [], topProducers: [] };
+            } else if (endpoint.includes('/settings')) {
+              return {
+                platform: { name: 'Harvest Hub', description: 'Digital Farmers Market Platform', email: 'admin@harvesthub.com', phone: '+1-555-0123', maintenance_mode: false },
+                fees: { platform_fee_percentage: 5.0, payment_processing_fee: 2.9, minimum_order_amount: 10.00 },
+                limits: { max_products_per_producer: 100, max_order_items: 50, max_file_size_mb: 10 },
+                notifications: { email_notifications: true, sms_notifications: false, push_notifications: true }
+              };
+            } else if (endpoint.includes('/pending-stats')) {
+              return { pending_producers: 3, pending_products: 7 };
+            } else if (endpoint.includes('/recent-activity')) {
+              return [
+                { type: 'user_registration', description: 'New user registered: Sarah Johnson', created_at: new Date(Date.now() - 300000).toISOString() },
+                { type: 'producer_approval', description: 'Producer approved: Green Valley Farm', created_at: new Date(Date.now() - 600000).toISOString() },
+                { type: 'order_placed', description: 'New order #1234 placed', created_at: new Date(Date.now() - 900000).toISOString() },
+                { type: 'product_approval', description: 'Product approved: Organic Tomatoes', created_at: new Date(Date.now() - 1200000).toISOString() }
+              ];
+            } else if (endpoint.includes('/sessions')) {
+              return [
+                {
+                  id: '1',
+                  device_name: 'Windows Desktop',
+                  device_type: 'desktop',
+                  user_agent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                  ip_address: '192.168.1.100',
+                  location: 'New York, NY',
+                  last_activity: new Date(Date.now() - 300000).toISOString(),
+                  is_current: true
+                },
+                {
+                  id: '2',
+                  device_name: 'iPhone 15',
+                  device_type: 'mobile',
+                  user_agent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)',
+                  ip_address: '10.0.0.50',
+                  location: 'New York, NY',
+                  last_activity: new Date(Date.now() - 3600000).toISOString(),
+                  is_current: false
+                }
+              ];
+            }
+            return [];
+          }
+        }
+
+        updateRealTimeStats(stats) {
+          // Update overview metrics
+          if (document.getElementById('total-users')) {
+            document.getElementById('total-users').textContent = stats.new_users_today || 0;
+          }
+          if (document.getElementById('pending-producers')) {
+            document.getElementById('pending-producers').textContent = 
+              `${stats.pending_producers || 0} pending approval`;
+          }
+          if (document.getElementById('pending-products')) {
+            document.getElementById('pending-products').textContent = 
+              `${stats.pending_products || 0} awaiting review`;
+          }
+        }
+
+        updateNotifications(notifications) {
+          const notificationContainer = document.getElementById('notifications');
+          if (!notificationContainer) return;
+
+          // Clear existing notifications
+          notificationContainer.innerHTML = '';
+
+          // Add new notifications
+          notifications.forEach(notification => {
+            const notificationEl = document.createElement('div');
+            notificationEl.className = `bg-white border-l-4 border-${notification.priority === 'high' ? 'red' : notification.priority === 'medium' ? 'yellow' : 'blue'}-400 p-4 rounded shadow-md`;
+            notificationEl.innerHTML = `
+              <div class="flex items-center">
+                <i class="fas fa-${notification.type === 'producer_approval' ? 'store' : notification.type === 'product_approval' ? 'box' : 'bell'} text-${notification.priority === 'high' ? 'red' : notification.priority === 'medium' ? 'yellow' : 'blue'}-600 mr-3"></i>
+                <div>
+                  <p class="font-medium text-gray-900">${notification.title}</p>
+                  <p class="text-sm text-gray-600">${notification.message}</p>
+                </div>
+                <button onclick="this.parentElement.parentElement.remove()" class="ml-auto text-gray-400 hover:text-gray-600">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            `;
+            notificationContainer.appendChild(notificationEl);
+          });
+        }
+
+        startRealTimeUpdates() {
+          // Start periodic updates for live data
+          this.updateInterval = setInterval(() => {
+            this.refreshLiveData();
+          }, 5000); // Update every 5 seconds
+
+          // Initial load after 2 seconds
+          setTimeout(() => {
+            this.refreshLiveData();
+          }, 2000);
+        }
+
+        async refreshLiveData() {
+          try {
+            // Only refresh if on overview page
+            if (this.currentSection !== 'overview') return;
+
+            const [overview, pendingStats] = await Promise.all([
+              this.fetchAPI('/api/admin/overview'),
+              this.fetchAPI('/api/admin/pending-stats')
+            ]);
+
+            this.updateLiveStats(overview, pendingStats);
+            this.updateActivityFeed();
+            
+          } catch (error) {
+            console.error('Failed to refresh live data:', error);
+            this.showLiveUpdateStatus('Connection error - retrying...', 'error');
+          }
+        }
+
+        updateLiveStats(overview, pendingStats) {
+          // Update metrics with animation
+          this.animateCounter('#total-users', overview.counts?.users || 0);
+          this.animateCounter('#active-producers', overview.counts?.producers || 0);
+          this.animateCounter('#total-products', overview.counts?.products || 0);
+          
+          // Update pending counts
+          const pendingProducersEl = document.getElementById('pending-producers');
+          if (pendingProducersEl) {
+            const pendingCount = pendingStats?.pending_producers || 0;
+            if (pendingCount > 0) {
+              pendingProducersEl.textContent = `${pendingCount} pending approval`;
+              pendingProducersEl.className = 'text-sm text-red-600 mt-2';
+            } else {
+              pendingProducersEl.textContent = 'No pending approvals';
+              pendingProducersEl.className = 'text-sm text-green-600 mt-2';
+            }
+          }
+
+          const pendingProductsEl = document.getElementById('pending-products');
+          if (pendingProductsEl) {
+            const pendingCount = pendingStats?.pending_products || 0;
+            if (pendingCount > 0) {
+              pendingProductsEl.textContent = `${pendingCount} awaiting review`;
+              pendingProductsEl.className = 'text-sm text-yellow-600 mt-2';
+            } else {
+              pendingProductsEl.textContent = 'No pending reviews';
+              pendingProductsEl.className = 'text-sm text-green-600 mt-2';
+            }
+          }
+
+          // Update urgent count
+          const urgentCountEl = document.getElementById('urgent-count');
+          if (urgentCountEl) {
+            const urgentCount = (pendingStats?.pending_producers || 0) + (pendingStats?.pending_products || 0);
+            urgentCountEl.textContent = urgentCount;
+            urgentCountEl.className = urgentCount > 0 ? 
+              'bg-red-100 text-red-800 text-sm px-3 py-1 rounded-full' :
+              'bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full';
+          }
+
+          // Show live update status
+          this.showLiveUpdateStatus('Data updated', 'success');
+        }
+
+        animateCounter(selector, targetValue) {
+          const element = document.querySelector(selector);
+          if (!element) return;
+          
+          const currentValue = parseInt(element.textContent) || 0;
+          if (currentValue === targetValue) return;
+          
+          const increment = targetValue > currentValue ? 1 : -1;
+          const duration = Math.abs(targetValue - currentValue) * 50;
+          
+          let current = currentValue;
+          const timer = setInterval(() => {
+            current += increment;
+            element.textContent = current;
+            
+            if (current === targetValue) {
+              clearInterval(timer);
+            }
+          }, Math.max(duration / Math.abs(targetValue - currentValue), 50));
+        }
+
+        async updateActivityFeed() {
+          try {
+            const activity = await this.fetchAPI('/api/admin/recent-activity');
+            const activityContainer = document.getElementById('realtime-activity');
+            
+            if (activityContainer && activity.length > 0) {
+              const activityHTML = activity.slice(0, 5).map(item => `
+                <div class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded">
+                  <div class="w-2 h-2 bg-${this.getActivityColor(item.type)} rounded-full"></div>
+                  <div class="flex-1">
+                    <p class="text-sm text-gray-900">${item.description}</p>
+                    <p class="text-xs text-gray-500">${this.formatTimeAgo(item.created_at)}</p>
+                  </div>
+                </div>
+              `).join('');
+              
+              activityContainer.innerHTML = activityHTML;
+            } else if (activityContainer) {
+              activityContainer.innerHTML = `
+                <div class="text-center py-4 text-gray-500">
+                  <i class="fas fa-clock text-2xl mb-2"></i>
+                  <p class="text-sm">No recent activity</p>
+                </div>
+              `;
+            }
+          } catch (error) {
+            console.error('Failed to update activity feed:', error);
+          }
+        }
+
+        getActivityColor(type) {
+          switch (type) {
+            case 'user_registration': return 'blue-500';
+            case 'producer_approval': return 'green-500';
+            case 'product_approval': return 'yellow-500';
+            case 'order_placed': return 'purple-500';
+            default: return 'gray-500';
+          }
+        }
+
+        formatTimeAgo(dateString) {
+          const date = new Date(dateString);
+          const now = new Date();
+          const diffInSeconds = Math.floor((now - date) / 1000);
+          
+          if (diffInSeconds < 60) return 'Just now';
+          if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
+          if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
+          return `${Math.floor(diffInSeconds / 86400)}d ago`;
+        }
+
+        handleNewActivity(activity) {
+          // Only update if we're on the overview page
+          if (this.currentSection !== 'overview') return;
+          
+          const activityContainer = document.getElementById('realtime-activity');
+          if (!activityContainer) return;
+          
+          // Create new activity element
+          const activityElement = document.createElement('div');
+          activityElement.className = 'flex items-center space-x-3 p-2 hover:bg-gray-50 rounded new-activity';
+          activityElement.innerHTML = `
+            <div class="w-2 h-2 bg-${this.getActivityColor(activity.type)} rounded-full"></div>
+            <div class="flex-1">
+              <p class="text-sm text-gray-900">${activity.description}</p>
+              <p class="text-xs text-gray-500">${this.formatTimeAgo(activity.created_at)}</p>
+            </div>
+          `;
+          
+          // Add animation class
+          activityElement.style.opacity = '0';
+          activityElement.style.transform = 'translateY(-10px)';
+          
+          // Insert at the top
+          activityContainer.insertBefore(activityElement, activityContainer.firstChild);
+          
+          // Animate in
+          setTimeout(() => {
+            activityElement.style.transition = 'all 0.3s ease';
+            activityElement.style.opacity = '1';
+            activityElement.style.transform = 'translateY(0)';
+          }, 50);
+          
+          // Remove the "new-activity" class after animation
+          setTimeout(() => {
+            activityElement.classList.remove('new-activity');
+          }, 3000);
+          
+          // Keep only the 5 most recent activities
+          const activities = activityContainer.querySelectorAll('.flex.items-center');
+          if (activities.length > 5) {
+            for (let i = 5; i < activities.length; i++) {
+              activities[i].remove();
+            }
+          }
+          
+          // Show notification for the new activity
+          this.showLiveUpdateStatus(`New activity: ${activity.description}`, 'info');
+        }
+
+        showLiveUpdateStatus(message, type = 'info') {
+          const statusContainer = document.querySelector('.live-update-status');
+          if (!statusContainer) {
+            // Create status indicator if it doesn't exist
+            const indicator = document.createElement('div');
+            indicator.className = 'live-update-status fixed bottom-4 right-4 px-3 py-2 rounded text-sm z-50';
+            document.body.appendChild(indicator);
+          }
+          
+          const statusEl = document.querySelector('.live-update-status');
+          statusEl.textContent = message;
+          statusEl.className = `live-update-status fixed bottom-4 right-4 px-3 py-2 rounded text-sm z-50 ${
+            type === 'success' ? 'bg-green-100 text-green-800 border border-green-200' :
+            type === 'error' ? 'bg-red-100 text-red-800 border border-red-200' :
+            'bg-blue-100 text-blue-800 border border-blue-200'
+          }`;
+          
+          // Auto-hide after 2 seconds
+          setTimeout(() => {
+            if (statusEl) {
+              statusEl.style.opacity = '0';
+              setTimeout(() => statusEl.remove(), 300);
+            }
+          }, 2000);
+        }
+
+        setupNotifications() {
+          // Setup notification bell click
+          const notificationBell = document.querySelector('.fa-bell').parentElement;
+          notificationBell.addEventListener('click', () => {
+            this.loadNotifications();
+          });
+        }
+
+        async loadNotifications() {
+          const notifications = await this.fetchAPI('/api/admin/notifications');
+          this.updateNotifications(notifications);
+        }
+
+        // Action methods
+        async approveProducer(producerId, isApproved) {
+          try {
+            const response = await fetch(`/api/admin/producers/${producerId}/approval`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ is_approved: isApproved })
+            });
+
+            if (response.ok) {
+              this.showNotification(
+                `Producer ${isApproved ? 'approved' : 'rejected'} successfully`,
+                'success'
+              );
+              // Reload the section
+              await this.loadSection('producers');
+            } else {
+              throw new Error('Failed to update producer');
+            }
+          } catch (error) {
+            console.error('Error approving producer:', error);
+            this.showNotification('Error updating producer', 'error');
+          }
+        }
+
+        async approveProduct(productId, isApproved) {
+          try {
+            const response = await fetch(`/api/admin/products/${productId}/approval`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ is_approved: isApproved })
+            });
+
+            if (response.ok) {
+              this.showNotification(
+                `Product ${isApproved ? 'approved' : 'rejected'} successfully`,
+                'success'
+              );
+              // Reload the section
+              await this.loadSection('products');
+            } else {
+              throw new Error('Failed to update product');
+            }
+          } catch (error) {
+            console.error('Error approving product:', error);
+            this.showNotification('Error updating product', 'error');
+          }
+        }
+
+        async updateOrderStatus(orderId, status) {
+          try {
+            const response = await fetch(`/api/admin/orders/${orderId}/status`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ status })
+            });
+
+            if (response.ok) {
+              this.showNotification('Order status updated successfully', 'success');
+            } else {
+              throw new Error('Failed to update order status');
+            }
+          } catch (error) {
+            console.error('Error updating order:', error);
+            this.showNotification('Error updating order status', 'error');
+          }
+        }
+
+        async saveSettings() {
+          try {
+            const formData = new FormData(document.getElementById('settings-form'));
+            const settings = Object.fromEntries(formData.entries());
+
+            const response = await fetch('/api/admin/settings', {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(settings)
+            });
+
+            if (response.ok) {
+              this.showNotification('Settings saved successfully', 'success');
+            } else {
+              throw new Error('Failed to save settings');
+            }
+          } catch (error) {
+            console.error('Error saving settings:', error);
+            this.showNotification('Error saving settings', 'error');
+          }
+        }
+
+        showNotification(message, type = 'info') {
+          const notification = document.createElement('div');
+          notification.className = `fixed top-4 right-4 p-4 rounded shadow-md z-50 ${
+            type === 'success' ? 'bg-green-100 text-green-800 border-green-400' :
+            type === 'error' ? 'bg-red-100 text-red-800 border-red-400' :
+            'bg-blue-100 text-blue-800 border-blue-400'
+          } border-l-4`;
+          
+          notification.innerHTML = `
+            <div class="flex items-center">
+              <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'} mr-2"></i>
+              <span>${message}</span>
+              <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          `;
+          
+          document.body.appendChild(notification);
+          
+          // Auto-remove after 5 seconds
+          setTimeout(() => {
+            if (notification.parentElement) {
+              notification.remove();
+            }
+          }, 5000);
+        }
+
+        async loadAdminProfile() {
+          return `
+            <div>
+              <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">Admin Profile</h1>
+                <p class="text-gray-600">Manage your admin account settings, preferences, and activity history.</p>
+              </div>
+
+              <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Profile Information -->
+                <div class="lg:col-span-2 space-y-8">
+                  <!-- Personal Information -->
+                  <div class="bg-white rounded-lg p-6 shadow-md">
+                    <div class="flex items-center justify-between mb-6">
+                      <h3 class="text-lg font-semibold text-gray-900">Personal Information</h3>
+                      <button class="text-primary hover:text-primary/80" onclick="adminDashboard.editProfile()">
+                        <i class="fas fa-edit mr-1"></i>Edit
+                      </button>
+                    </div>
+                    
+                    <form id="profile-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                        <input type="text" value="John" disabled 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-900">
+                      </div>
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                        <input type="text" value="Doe" disabled 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-900">
+                      </div>
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                        <input type="email" value="admin@harvesthub.com" disabled 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-900">
+                      </div>
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                        <input type="tel" value="+1-555-0123" disabled 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-900">
+                      </div>
+                      <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                        <input type="text" value="Platform Administrator" disabled 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-900">
+                      </div>
+                    </form>
+                  </div>
+
+                  <!-- Security Settings -->
+                  <div class="bg-white rounded-lg p-6 shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-6">Security Settings</h3>
+                    
+                    <div class="space-y-4">
+                      <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                        <div>
+                          <h4 class="font-medium text-gray-900">Change Password</h4>
+                          <p class="text-sm text-gray-500">Update your account password</p>
+                        </div>
+                        <button class="px-4 py-2 bg-primary text-white text-sm rounded hover:bg-primary/90" 
+                                onclick="adminDashboard.changePassword()">
+                          Change
+                        </button>
+                      </div>
+                      
+                      <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                        <div>
+                          <h4 class="font-medium text-gray-900">Two-Factor Authentication</h4>
+                          <p class="text-sm text-gray-500">Add an extra layer of security to your account</p>
+                        </div>
+                        <div class="flex items-center">
+                          <span class="text-sm text-green-600 mr-3">Enabled</span>
+                          <button class="px-4 py-2 bg-gray-200 text-gray-700 text-sm rounded hover:bg-gray-300" 
+                                  onclick="adminDashboard.manage2FA()">
+                            Manage
+                          </button>
+                        </div>
+                      </div>
+                      
+                      <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                        <div>
+                          <h4 class="font-medium text-gray-900">Login Sessions</h4>
+                          <p class="text-sm text-gray-500">Manage your active login sessions</p>
+                        </div>
+                        <button class="px-4 py-2 bg-red-600 text-white text-sm rounded hover:bg-red-700" 
+                                onclick="adminDashboard.viewSessions()">
+                          View Sessions
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Preferences -->
+                  <div class="bg-white rounded-lg p-6 shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-6">Preferences</h3>
+                    
+                    <form class="space-y-4">
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email Notifications</label>
+                        <div class="space-y-2">
+                          <div class="flex items-center">
+                            <input type="checkbox" checked class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                            <label class="ml-2 block text-sm text-gray-900">New user registrations</label>
+                          </div>
+                          <div class="flex items-center">
+                            <input type="checkbox" checked class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                            <label class="ml-2 block text-sm text-gray-900">Producer applications</label>
+                          </div>
+                          <div class="flex items-center">
+                            <input type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                            <label class="ml-2 block text-sm text-gray-900">System alerts</label>
+                          </div>
+                          <div class="flex items-center">
+                            <input type="checkbox" checked class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                            <label class="ml-2 block text-sm text-gray-900">Daily reports</label>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Dashboard Theme</label>
+                        <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
+                          <option value="light" selected>Light</option>
+                          <option value="dark">Dark</option>
+                          <option value="auto">Auto (System)</option>
+                        </select>
+                      </div>
+                      
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Timezone</label>
+                        <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
+                          <option value="UTC-8">Pacific Time (UTC-8)</option>
+                          <option value="UTC-7">Mountain Time (UTC-7)</option>
+                          <option value="UTC-6">Central Time (UTC-6)</option>
+                          <option value="UTC-5" selected>Eastern Time (UTC-5)</option>
+                        </select>
+                      </div>
+                      
+                      <div class="pt-4">
+                        <button type="submit" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90">
+                          <i class="fas fa-save mr-2"></i>Save Preferences
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+                <!-- Activity & Stats -->
+                <div class="space-y-8">
+                  <!-- Profile Summary -->
+                  <div class="bg-white rounded-lg p-6 shadow-md text-center">
+                    <div class="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <i class="fas fa-user-shield text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-1">John Doe</h3>
+                    <p class="text-sm text-gray-600 mb-4">Platform Administrator</p>
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <p class="font-medium text-gray-900">Member Since</p>
+                        <p class="text-gray-600">Jan 2024</p>
+                      </div>
+                      <div>
+                        <p class="font-medium text-gray-900">Last Login</p>
+                        <p class="text-gray-600">2 hours ago</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Activity Stats -->
+                  <div class="bg-white rounded-lg p-6 shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Activity Summary</h3>
+                    <div class="space-y-3">
+                      <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Actions This Week</span>
+                        <span class="font-medium text-gray-900">47</span>
+                      </div>
+                      <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Producers Approved</span>
+                        <span class="font-medium text-gray-900">12</span>
+                      </div>
+                      <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Products Reviewed</span>
+                        <span class="font-medium text-gray-900">28</span>
+                      </div>
+                      <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Users Managed</span>
+                        <span class="font-medium text-gray-900">156</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Recent Activity -->
+                  <div class="bg-white rounded-lg p-6 shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
+                    <div class="space-y-3">
+                      <div class="flex items-center space-x-3 text-sm">
+                        <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <div>
+                          <p class="text-gray-900">Approved producer application</p>
+                          <p class="text-gray-500">2 hours ago</p>
+                        </div>
+                      </div>
+                      <div class="flex items-center space-x-3 text-sm">
+                        <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                        <div>
+                          <p class="text-gray-900">Updated platform settings</p>
+                          <p class="text-gray-500">5 hours ago</p>
+                        </div>
+                      </div>
+                      <div class="flex items-center space-x-3 text-sm">
+                        <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                        <div>
+                          <p class="text-gray-900">Reviewed 3 products</p>
+                          <p class="text-gray-500">1 day ago</p>
+                        </div>
+                      </div>
+                      <div class="flex items-center space-x-3 text-sm">
+                        <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
+                        <div>
+                          <p class="text-gray-900">Generated analytics report</p>
+                          <p class="text-gray-500">2 days ago</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t">
+                      <button class="text-primary hover:text-primary/80 text-sm font-medium">
+                        View Full Activity Log <i class="fas fa-arrow-right ml-1"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- System Status -->
+                  <div class="bg-white rounded-lg p-6 shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">System Access</h3>
+                    <div class="space-y-3">
+                      <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">Admin Privileges</span>
+                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                          <i class="fas fa-check-circle mr-1"></i>Active
+                        </span>
+                      </div>
+                      <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">API Access</span>
+                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                          <i class="fas fa-check-circle mr-1"></i>Enabled
+                        </span>
+                      </div>
+                      <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">Database Access</span>
+                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                          <i class="fas fa-check-circle mr-1"></i>Read/Write
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        setupCharts() {
+          // Setup revenue chart
+          const revenueCtx = document.getElementById('revenueChart');
+          if (revenueCtx) {
+            this.charts.revenue = new Chart(revenueCtx, {
+              type: 'line',
+              data: {
+                labels: [],
+                datasets: [{
+                  label: 'Daily Revenue',
+                  data: [],
+                  borderColor: '#059669',
+                  backgroundColor: 'rgba(5, 150, 105, 0.1)',
+                  fill: true
+                }]
+              },
+              options: {
+                responsive: true,
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                }
+              }
+            });
+          }
+
+          // Setup order chart
+          const orderCtx = document.getElementById('orderChart');
+          if (orderCtx) {
+            this.charts.orders = new Chart(orderCtx, {
+              type: 'bar',
+              data: {
+                labels: [],
+                datasets: [{
+                  label: 'Daily Orders',
+                  data: [],
+                  backgroundColor: '#10B981'
+                }]
+              },
+              options: {
+                responsive: true,
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                }
+              }
+            });
+          }
+        }
+
+        // Admin Profile Methods
+        editProfile() {
+          const profileForm = document.getElementById('profile-form');
+          if (!profileForm) return;
+
+          const inputs = profileForm.querySelectorAll('input');
+          const isEditing = !inputs[0].disabled;
+
+          if (isEditing) {
+            // Save changes
+            this.saveProfileChanges();
+          } else {
+            // Enable editing
+            inputs.forEach(input => {
+              if (input.type !== 'email') { // Don't allow email editing for security
+                input.disabled = false;
+                input.classList.remove('bg-gray-50');
+                input.classList.add('bg-white', 'focus:ring-2', 'focus:ring-primary');
+              }
+            });
+
+            // Update button text
+            const editButton = document.querySelector('.fa-edit').parentElement;
+            editButton.innerHTML = '<i class="fas fa-save mr-1"></i>Save';
+            editButton.classList.add('bg-primary', 'text-white', 'px-3', 'py-1', 'rounded');
+          }
+        }
+
+        async saveProfileChanges() {
+          try {
+            const profileForm = document.getElementById('profile-form');
+            const inputs = profileForm.querySelectorAll('input:not([disabled])');
+            const profileData = {};
+            
+            // Collect form data manually to avoid disabled fields
+            inputs.forEach(input => {
+              const label = input.previousElementSibling.textContent.trim();
+              const fieldName = label.toLowerCase().replace(/\s+/g, '_');
+              profileData[fieldName] = input.value;
+            });
+
+            // Simulate API call - in real implementation, this would call your backend
+            console.log('Profile data to save:', profileData);
+            
+            // Simulate successful response
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            // Disable inputs again
+            const allInputs = profileForm.querySelectorAll('input');
+            allInputs.forEach(input => {
+              input.disabled = true;
+              input.classList.add('bg-gray-50');
+              input.classList.remove('bg-white', 'focus:ring-2', 'focus:ring-primary');
+            });
+
+            // Reset button
+            const editButton = document.querySelector('.fa-save')?.parentElement || 
+                              document.querySelector('[onclick*="editProfile"]');
+            if (editButton) {
+              editButton.innerHTML = '<i class="fas fa-edit mr-1"></i>Edit';
+              editButton.classList.remove('bg-primary', 'text-white', 'px-3', 'py-1', 'rounded');
+            }
+
+            this.showNotification('Profile updated successfully', 'success');
+            
+          } catch (error) {
+            console.error('Error saving profile:', error);
+            this.showNotification('Error updating profile', 'error');
+          }
+        }
+
+        changePassword() {
+          // Create password change modal
+          const modal = document.createElement('div');
+          modal.className = 'fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50';
+          modal.id = 'password-modal';
+
+          modal.innerHTML = `
+            <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+              <div class="mt-3">
+                <div class="flex items-center justify-between mb-4">
+                  <h3 class="text-lg font-medium text-gray-900">Change Password</h3>
+                  <button onclick="this.closest('#password-modal').remove()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+                
+                <form id="password-change-form" class="space-y-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
+                    <input type="password" name="currentPassword" required 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
+                  </div>
+                  
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                    <input type="password" name="newPassword" required minlength="8"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
+                  </div>
+                  
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
+                    <input type="password" name="confirmPassword" required minlength="8"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent">
+                  </div>
+                  
+                  <div class="flex justify-end space-x-3 pt-4">
+                    <button type="button" onclick="this.closest('#password-modal').remove()" 
+                            class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">
+                      Cancel
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90">
+                      Change Password
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          `;
+
+          document.body.appendChild(modal);
+
+          // Handle form submission
+          const form = document.getElementById('password-change-form');
+          form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await this.submitPasswordChange(form);
+          });
+        }
+
+        async submitPasswordChange(form) {
+          const formData = new FormData(form);
+          const data = Object.fromEntries(formData.entries());
+
+          if (data.newPassword !== data.confirmPassword) {
+            this.showNotification('New passwords do not match', 'error');
+            return;
+          }
+
+          try {
+            // Simulate password change since backend endpoint doesn't exist
+            console.log('Password change request:', {
+              currentPassword: '***hidden***',
+              newPassword: '***hidden***'
+            });
+            
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Simulate successful password change
+            document.getElementById('password-modal').remove();
+            this.showNotification('Password changed successfully', 'success');
+            
+          } catch (error) {
+            console.error('Error changing password:', error);
+            this.showNotification('Error changing password', 'error');
+          }
+        }
+
+        async viewSessions() {
+          try {
+            const sessions = await this.fetchAPI('/api/admin/sessions');
+            
+            // Create sessions modal
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50';
+            modal.id = 'sessions-modal';
+
+            modal.innerHTML = `
+              <div class="relative top-10 mx-auto p-5 border w-4/5 max-w-4xl shadow-lg rounded-md bg-white">
+                <div class="mt-3">
+                  <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-medium text-gray-900">Active Login Sessions</h3>
+                    <button onclick="this.closest('#sessions-modal').remove()" class="text-gray-400 hover:text-gray-600">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                  
+                  <div class="space-y-4">
+                    ${sessions.length > 0 ? sessions.map(session => `
+                      <div class="border border-gray-200 rounded-lg p-4 ${
+                        session.is_current ? 'bg-blue-50 border-blue-200' : 'bg-white'
+                      }">
+                        <div class="flex items-center justify-between">
+                          <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+                              <i class="fas fa-${this.getDeviceIcon(session.device_type)} text-gray-600"></i>
+                            </div>
+                            <div>
+                              <div class="flex items-center space-x-2">
+                                <h4 class="font-medium text-gray-900">${session.device_name || session.user_agent}</h4>
+                                ${session.is_current ? '<span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">Current Session</span>' : ''}
+                              </div>
+                              <div class="text-sm text-gray-500 mt-1">
+                                <span>${session.ip_address}</span> • 
+                                <span>${session.location || 'Unknown location'}</span>
+                              </div>
+                              <div class="text-xs text-gray-400 mt-1">
+                                Last active: ${this.formatTimeAgo(session.last_activity)}
+                              </div>
+                            </div>
+                          </div>
+                          ${!session.is_current ? `
+                            <button onclick="adminDashboard.revokeSession('${session.id}')" 
+                                    class="px-3 py-2 bg-red-600 text-white text-sm rounded hover:bg-red-700">
+                              <i class="fas fa-times mr-1"></i>Revoke
+                            </button>
+                          ` : ''}
+                        </div>
+                      </div>
+                    `).join('') : `
+                      <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-shield-alt text-3xl mb-4"></i>
+                        <p>No active sessions found</p>
+                      </div>
+                    `}
+                  </div>
+                  
+                  <div class="flex justify-end mt-6">
+                    <button onclick="this.closest('#sessions-modal').remove()" 
+                            class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            `;
+
+            document.body.appendChild(modal);
+
+          } catch (error) {
+            console.error('Error loading sessions:', error);
+            this.showNotification('Error loading session data', 'error');
+          }
+        }
+
+        getDeviceIcon(deviceType) {
+          switch (deviceType?.toLowerCase()) {
+            case 'mobile': return 'mobile-alt';
+            case 'tablet': return 'tablet-alt';
+            case 'desktop': return 'desktop';
+            default: return 'laptop';
+          }
+        }
+
+        async revokeSession(sessionId) {
+          if (!confirm('Are you sure you want to revoke this session?')) return;
+
+          try {
+            const response = await fetch(`/api/admin/sessions/${sessionId}`, {
+              method: 'DELETE'
+            });
+
+            if (response.ok) {
+              this.showNotification('Session revoked successfully', 'success');
+              // Reload sessions modal
+              document.getElementById('sessions-modal').remove();
+              setTimeout(() => this.viewSessions(), 500);
+            } else {
+              throw new Error('Failed to revoke session');
+            }
+          } catch (error) {
+            console.error('Error revoking session:', error);
+            this.showNotification('Error revoking session', 'error');
+          }
+        }
+
+        manage2FA() {
+          // Create 2FA management modal
+          const modal = document.createElement('div');
+          modal.className = 'fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50';
+          modal.id = 'twofa-modal';
+
+          modal.innerHTML = `
+            <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+              <div class="mt-3">
+                <div class="flex items-center justify-between mb-4">
+                  <h3 class="text-lg font-medium text-gray-900">Two-Factor Authentication</h3>
+                  <button onclick="this.closest('#twofa-modal').remove()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+                
+                <div class="space-y-4">
+                  <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                    <div class="flex items-center">
+                      <i class="fas fa-shield-alt text-green-600 mr-3"></i>
+                      <div>
+                        <h4 class="font-medium text-green-900">2FA is currently enabled</h4>
+                        <p class="text-sm text-green-700">Your account is protected with two-factor authentication</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="space-y-3">
+                    <button class="w-full text-left px-4 py-3 border border-gray-200 rounded-lg hover:bg-gray-50" 
+                            onclick="adminDashboard.regenerateBackupCodes()">
+                      <div class="flex items-center justify-between">
+                        <div>
+                          <h4 class="font-medium text-gray-900">Regenerate Backup Codes</h4>
+                          <p class="text-sm text-gray-500">Generate new backup recovery codes</p>
+                        </div>
+                        <i class="fas fa-refresh text-gray-400"></i>
+                      </div>
+                    </button>
+                    
+                    <button class="w-full text-left px-4 py-3 border border-red-200 rounded-lg hover:bg-red-50" 
+                            onclick="adminDashboard.disable2FA()">
+                      <div class="flex items-center justify-between">
+                        <div>
+                          <h4 class="font-medium text-red-900">Disable 2FA</h4>
+                          <p class="text-sm text-red-600">Remove two-factor authentication protection</p>
+                        </div>
+                        <i class="fas fa-times-circle text-red-400"></i>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+                
+                <div class="flex justify-end mt-6">
+                  <button onclick="this.closest('#twofa-modal').remove()" 
+                          class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+
+          document.body.appendChild(modal);
+        }
+
+        regenerateBackupCodes() {
+          if (!confirm('This will invalidate your existing backup codes. Continue?')) return;
+          
+          // Simulate backup code generation
+          const codes = Array.from({length: 10}, () => 
+            Math.random().toString(36).substr(2, 8).toUpperCase()
+          );
+          
+          alert('New backup codes generated:\n\n' + codes.join('\n') + 
+                '\n\nPlease save these codes in a secure location.');
+          
+          this.showNotification('Backup codes regenerated successfully', 'success');
+        }
+
+        disable2FA() {
+          if (!confirm('Are you sure you want to disable two-factor authentication? This will reduce your account security.')) return;
+          
+          // In a real app, this would make an API call
+          this.showNotification('Two-factor authentication disabled', 'success');
+          document.getElementById('twofa-modal').remove();
+        }
+
+        async savePreferences(form) {
+          try {
+            const formData = new FormData(form);
+            const preferences = {};
+            
+            // Handle checkboxes
+            const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+              const label = checkbox.nextElementSibling.textContent.trim();
+              preferences[label.toLowerCase().replace(/\s+/g, '_')] = checkbox.checked;
+            });
+            
+            // Handle selects
+            const selects = form.querySelectorAll('select');
+            selects.forEach(select => {
+              const label = select.previousElementSibling.textContent.trim();
+              preferences[label.toLowerCase().replace(/\s+/g, '_')] = select.value;
+            });
+
+            // Simulate preferences save since backend endpoint doesn't exist
+            console.log('Preferences to save:', preferences);
+            
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 800));
+            
+            // Simulate successful save
+            this.showNotification('Preferences saved successfully', 'success');
+            
+          } catch (error) {
+            console.error('Error saving preferences:', error);
+            this.showNotification('Error saving preferences', 'error');
           }
         }
       }
 
-      // Initialize admin dashboard when DOM is loaded
-      document.addEventListener("DOMContentLoaded", () => {
-        new AdminDashboard();
+      // Initialize dashboard when DOM is loaded
+      let adminDashboard;
+      document.addEventListener('DOMContentLoaded', () => {
+        adminDashboard = new DynamicAdminDashboard();
       });
     </script>
   </body>

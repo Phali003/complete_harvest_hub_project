@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <base href="/harvest-hub-project/" />
     <title>Producer Dashboard - Harvest Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
@@ -26,178 +25,423 @@
   </head>
   <body class="bg-gray-50">
     <!-- Navigation -->
-    <nav class="bg-white shadow-lg">
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
+          <!-- Logo -->
           <div class="flex items-center">
-            <div class="text-2xl text-primary font-bold">🌾 Harvest Hub</div>
-            <span class="ml-4 text-gray-600">Producer Dashboard</span>
+            <a href="/" class="text-2xl text-primary font-bold">🌾 Harvest Hub</a>
           </div>
 
+          <!-- Navigation Links -->
+          <div class="hidden md:flex items-center space-x-8">
+            <a href="#" id="dashboardTab" class="text-primary font-medium border-b-2 border-primary pb-1">Dashboard</a>
+            <a href="#" id="productsTab" class="text-gray-700 hover:text-primary transition-colors">My Products</a>
+            <a href="#" id="ordersTab" class="text-gray-700 hover:text-primary transition-colors">Orders</a>
+            <a href="#" id="profileTab" class="text-gray-700 hover:text-primary transition-colors">Profile</a>
+          </div>
+
+          <!-- User Actions -->
           <div class="flex items-center space-x-4">
-            <button class="text-gray-700 hover:text-primary">
-              <i class="fas fa-bell text-xl"></i>
-            </button>
-            <div class="flex items-center space-x-2">
-              <img
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face"
-                alt="Profile"
-                class="w-10 h-10 rounded-full"
-              />
-              <span class="text-gray-700">John's Farm</span>
+            <div class="text-sm text-gray-600">
+              Welcome, <span id="producerName" class="font-medium">Producer</span>
             </div>
+            <button
+              id="logoutBtn"
+              class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors text-sm"
+            >
+              <i class="fas fa-sign-out-alt mr-2"></i>Logout
+            </button>
           </div>
         </div>
       </div>
     </nav>
 
-    <div class="flex">
-      <!-- Sidebar -->
-      <div class="w-64 bg-white shadow-lg min-h-screen">
-        <nav class="mt-8">
-          <div class="px-4 space-y-2">
-            <a
-              href="#dashboard"
-              class="flex items-center px-4 py-2 text-gray-700 bg-primary/10 rounded-lg"
-            >
-              <i class="fas fa-chart-line mr-3"></i>
-              Dashboard
-            </a>
-            <a
-              href="#products"
-              class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
-            >
-              <i class="fas fa-box mr-3"></i>
-              Products
-            </a>
-            <a
-              href="#orders"
-              class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
-            >
-              <i class="fas fa-shopping-cart mr-3"></i>
-              Orders
-            </a>
-            <a
-              href="#analytics"
-              class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
-            >
-              <i class="fas fa-chart-bar mr-3"></i>
-              Analytics
-            </a>
-            <a
-              href="#profile"
-              class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
-            >
-              <i class="fas fa-user mr-3"></i>
-              Business Profile
-            </a>
-            <a
-              href="#schedule"
-              class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
-            >
-              <i class="fas fa-calendar mr-3"></i>
-              Schedule
-            </a>
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      
+      <!-- Dashboard Overview -->
+      <div id="dashboardContent" class="tab-content">
+        <div class="mb-8">
+          <h1 class="text-3xl font-bold text-gray-900 mb-2">Producer Dashboard</h1>
+          <p class="text-gray-600">Manage your products, orders, and business profile</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center">
+              <div class="p-3 bg-primary/10 rounded-lg">
+                <i class="fas fa-box text-primary text-xl"></i>
+              </div>
+              <div class="ml-4">
+                <p class="text-sm text-gray-600">Total Products</p>
+                <p id="totalProducts" class="text-2xl font-bold text-gray-900">0</p>
+              </div>
+            </div>
           </div>
-        </nav>
+
+          <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center">
+              <div class="p-3 bg-accent/10 rounded-lg">
+                <i class="fas fa-clock text-accent text-xl"></i>
+              </div>
+              <div class="ml-4">
+                <p class="text-sm text-gray-600">Pending Products</p>
+                <p id="pendingProducts" class="text-2xl font-bold text-gray-900">0</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center">
+              <div class="p-3 bg-secondary/10 rounded-lg">
+                <i class="fas fa-shopping-cart text-secondary text-xl"></i>
+              </div>
+              <div class="ml-4">
+                <p class="text-sm text-gray-600">Total Orders</p>
+                <p id="totalOrders" class="text-2xl font-bold text-gray-900">0</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center">
+              <div class="p-3 bg-green-100 rounded-lg">
+                <i class="fas fa-dollar-sign text-green-600 text-xl"></i>
+              </div>
+              <div class="ml-4">
+                <p class="text-sm text-gray-600">Revenue</p>
+                <p id="totalRevenue" class="text-2xl font-bold text-gray-900">$0</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="bg-white rounded-lg shadow p-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
+          <div id="recentActivity" class="space-y-4">
+            <!-- Recent activity will be loaded here -->
+            <p class="text-gray-500">No recent activity</p>
+          </div>
+        </div>
       </div>
 
-      <!-- Main Content -->
-      <div class="flex-1 p-8">
-        <!-- Dashboard Overview -->
-        <div id="dashboard-content">
-          <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-900 mb-2">
-              Welcome back, John!
-            </h1>
-            <p class="text-gray-600">
-              Here's what's happening with your farm today.
-            </p>
+      <!-- Products Management -->
+      <div id="productsContent" class="tab-content hidden">
+        <div class="flex justify-between items-center mb-6">
+          <div>
+            <h2 class="text-2xl font-bold text-gray-900">My Products</h2>
+            <p class="text-gray-600">Manage your product listings</p>
+          </div>
+          <button
+            id="addProductBtn"
+            class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/90 transition-colors"
+          >
+            <i class="fas fa-plus mr-2"></i>Add New Product
+          </button>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Products will be loaded here -->
+        </div>
+      </div>
+
+      <!-- Orders Management -->
+      <div id="ordersContent" class="tab-content hidden">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-gray-900">Orders</h2>
+          <p class="text-gray-600">View and manage your orders</p>
+        </div>
+
+        <!-- Orders Table -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Order ID
+                  </th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Customer
+                  </th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Products
+                  </th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Total
+                  </th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Date
+                  </th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="ordersTableBody" class="bg-white divide-y divide-gray-200">
+                <!-- Orders will be loaded here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Management -->
+      <div id="profileContent" class="tab-content hidden">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-gray-900">Business Profile</h2>
+          <p class="text-gray-600">Update your business information</p>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6">
+          <form id="profileForm" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Business Name</label>
+                <input
+                  type="text"
+                  id="businessName"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Contact Email</label>
+                <input
+                  type="email"
+                  id="contactEmail"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Business Description</label>
+              <textarea
+                id="businessDescription"
+                rows="4"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                placeholder="Describe your business, products, and what makes you special..."
+              ></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                <input
+                  type="tel"
+                  id="phoneNumber"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                <input
+                  type="text"
+                  id="location"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                  placeholder="City, County"
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/90 transition-colors"
+            >
+              <i class="fas fa-save mr-2"></i>Save Changes
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Add Product Modal -->
+    <div id="addProductModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+      <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6">
+          <div class="flex justify-between items-center mb-6">
+            <h3 class="text-xl font-semibold">Add New Product</h3>
+            <button id="closeProductModal" class="text-gray-400 hover:text-gray-600">
+              <i class="fas fa-times"></i>
+            </button>
           </div>
 
-          <!-- Stats Cards -->
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div class="bg-white rounded-lg p-6 shadow-md">
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-sm text-gray-600 mb-1">Total Revenue</p>
-                  <p class="text-2xl font-bold text-gray-900">$2,847</p>
-                </div>
-                <div class="bg-primary/10 p-3 rounded-full">
-                  <i class="fas fa-dollar-sign text-primary text-xl"></i>
-                </div>
+          <form id="addProductForm" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Product Name *</label>
+                <input
+                  type="text"
+                  id="productName"
+                  required
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                  placeholder="e.g., Organic Tomatoes"
+                />
               </div>
-              <p class="text-sm text-green-600 mt-2">+12% from last month</p>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Category *</label>
+                <select
+                  id="productCategory"
+                  required
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                >
+                  <option value="">Select Category</option>
+                  <option value="Vegetables">Vegetables</option>
+                  <option value="Fruits">Fruits</option>
+                  <option value="Herbs">Herbs</option>
+                  <option value="Dairy">Dairy</option>
+                  <option value="Eggs">Eggs</option>
+                  <option value="Meat">Meat</option>
+                  <option value="Poultry">Poultry</option>
+                  <option value="Bread">Bread</option>
+                  <option value="Pastries">Pastries</option>
+                  <option value="Cakes">Cakes</option>
+                  <option value="Cookies">Cookies</option>
+                  <option value="Grains">Grains</option>
+                  <option value="Legumes">Legumes</option>
+                  <option value="Nuts">Nuts</option>
+                  <option value="Seeds">Seeds</option>
+                  <option value="Honey">Honey</option>
+                  <option value="Maple">Maple</option>
+                  <option value="Juices">Juices</option>
+                  <option value="Coffee">Coffee</option>
+                  <option value="Tea">Tea</option>
+                  <option value="Jams">Jams</option>
+                  <option value="Pickles">Pickles</option>
+                  <option value="Mushrooms">Mushrooms</option>
+                  <option value="Flowers">Flowers</option>
+                  <option value="Sauces">Sauces</option>
+                  <option value="Soups">Soups</option>
+                  <option value="Salads">Salads</option>
+                  <option value="Oils">Oils</option>
+                  <option value="Vinegars">Vinegars</option>
+                  <option value="Spices">Spices</option>
+                </select>
+              </div>
             </div>
 
-            <div class="bg-white rounded-lg p-6 shadow-md">
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-sm text-gray-600 mb-1">Active Products</p>
-                  <p class="text-2xl font-bold text-gray-900">24</p>
-                </div>
-                <div class="bg-secondary/10 p-3 rounded-full">
-                  <i class="fas fa-box text-secondary text-xl"></i>
-                </div>
-              </div>
-              <p class="text-sm text-gray-500 mt-2">3 pending approval</p>
-            </div>
-
-            <div class="bg-white rounded-lg p-6 shadow-md">
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-sm text-gray-600 mb-1">Orders This Week</p>
-                  <p class="text-2xl font-bold text-gray-900">47</p>
-                </div>
-                <div class="bg-accent/10 p-3 rounded-full">
-                  <i class="fas fa-shopping-cart text-accent text-xl"></i>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Price *</label>
+                <div class="relative">
+                  <span class="absolute left-3 top-2 text-gray-500">$</span>
+                  <input
+                    type="number"
+                    id="productPrice"
+                    required
+                    min="0"
+                    step="0.01"
+                    class="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                    placeholder="0.00"
+                  />
                 </div>
               </div>
-              <p class="text-sm text-green-600 mt-2">+8% from last week</p>
-            </div>
-
-            <div class="bg-white rounded-lg p-6 shadow-md">
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-sm text-gray-600 mb-1">Customer Rating</p>
-                  <p class="text-2xl font-bold text-gray-900">4.8</p>
-                </div>
-                <div class="bg-yellow-100 p-3 rounded-full">
-                  <i class="fas fa-star text-yellow-500 text-xl"></i>
-                </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Unit *</label>
+                <select
+                  id="productUnit"
+                  required
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                >
+                  <option value="">Select Unit</option>
+                  <option value="per kg">per kg</option>
+                  <option value="per lb">per lb</option>
+                  <option value="per piece">per piece</option>
+                  <option value="per dozen">per dozen</option>
+                  <option value="per bunch">per bunch</option>
+                  <option value="per bag">per bag</option>
+                  <option value="per jar">per jar</option>
+                  <option value="per bottle">per bottle</option>
+                  <option value="per loaf">per loaf</option>
+                  <option value="per liter">per liter</option>
+                </select>
               </div>
-              <p class="text-sm text-gray-500 mt-2">Based on 127 reviews</p>
             </div>
-          </div>
 
-          <!-- Recent Orders -->
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div class="bg-white rounded-lg p-6 shadow-md">
-              <div class="flex items-center justify-between mb-6">
-                <h2 class="text-xl font-semibold text-gray-900">
-                  Recent Orders
-                </h2>
-                <button class="text-primary hover:text-primary/80">
-                  View All
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Product Description *</label>
+              <textarea
+                id="productDescription"
+                required
+                rows="4"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                placeholder="Describe your product, growing methods, certifications, etc..."
+              ></textarea>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Stock Quantity</label>
+              <input
+                type="number"
+                id="productStock"
+                min="0"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                placeholder="Available quantity (optional)"
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Product Image</label>
+              <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                <p class="text-gray-600 mb-2">Click to upload or drag and drop</p>
+                <p class="text-sm text-gray-500">PNG, JPG up to 5MB</p>
+                <input
+                  type="file"
+                  id="productImage"
+                  accept="image/*"
+                  class="hidden"
+                />
+                <button
+                  type="button"
+                  onclick="document.getElementById('productImage').click()"
+                  class="mt-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-200 transition-colors"
+                >
+                  Choose File
                 </button>
               </div>
+              <div id="imagePreview" class="hidden mt-4">
+                <img id="previewImage" class="w-32 h-32 object-cover rounded-lg" />
+              </div>
+            </div>
 
-              <div class="space-y-4">
-                <div
-                  class="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
-                >
-                  <div class="flex items-center space-x-4">
-                    <div
-                      class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center"
-                    >
-                      <i class="fas fa-user text-primary"></i>
-                    </div>
-                    <div>
-                      <p class="font-semibold text-gray-900">Sarah Johnson</p>
-                      <p class="text-sm text-gray-600">Order #HH-2024-001</p>
-                    </div>
-                  </div>
-                  <div class="text-right">
+            <div class="flex justify-end space-x-4">
+              <button
+                type="button"
+                id="cancelProductBtn"
+                class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                id="submitProductBtn"
+                class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/90 transition-colors"
+              >
+                <i class="fas fa-plus mr-2"></i>Add Product
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notifications" class="fixed top-4 right-4 z-50 space-y-2">
+      <!-- Notifications will appear here -->
+    </div>
+
+    <script src="js/producer-dashboard.js"></script>
+  </body>
+</html>
                     <p class="font-semibold text-gray-900">$24.50</p>
                     <span
                       class="inline-block px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full"

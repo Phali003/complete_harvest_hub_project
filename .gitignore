@@ -19,3 +19,8 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+certs/
+/backups/
+# local DB credentials
+/db-credentials.cnf
+/Backups/

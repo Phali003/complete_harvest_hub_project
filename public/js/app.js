@@ -1,5 +1,5 @@
-const API_BASE_URL = "https://harvest-hub-8xn4.onrender.com";
-
+// const API_BASE_URL = "https://harvest-hub-8xn4.onrender.com";
+const API_BASE_URL = "http://localhost:5000";
 class HarvestHub {
   constructor() {
     this.cart = [];
@@ -1243,50 +1243,6 @@ class HarvestHub {
     }
   }
 
-  async handleLogin(e) {
-    e.preventDefault();
-    const email = document.getElementById("loginEmail").value;
-    const password = document.getElementById("loginPassword").value;
-
-    try {
-      console.log("Login attempt:", { email });
-
-      // Make API call to backend
-      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (response.ok) {
-        const user = await response.json();
-        this.currentUser = user;
-        if (user && user.role) {
-          localStorage.setItem("harvestHubRole", user.role);
-        }
-        this.hideModal("loginModal");
-        this.showNotification("Successfully logged in!");
-        this.updateUserInterface();
-        // Redirect by role
-        if (this.isProducer()) {
-          window.location.href = "producers.html";
-        } else {
-          window.location.href = "/";
-        }
-      } else {
-        this.showNotification(
-          "Login failed. Please check your credentials.",
-          "error"
-        );
-      }
-    } catch (error) {
-      console.error("Login error:", error);
-      this.showNotification("Login failed. Please try again.", "error");
-    }
-  }
-
   updateUserInterface() {
     const loginBtn = document.getElementById("loginBtn");
     if (!loginBtn) return;
@@ -1684,7 +1640,6 @@ class HarvestHub {
       this.showNotification("Please fill in all fields", "error");
       return;
     }
-
     // Show loading state
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
@@ -1695,8 +1650,8 @@ class HarvestHub {
     try {
       console.log("Login attempt:", { email });
 
-      // Make API call to backend
-      const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
+      // Make API call to backend (login endpoint)
+      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -1728,8 +1683,12 @@ class HarvestHub {
         this.showNotification(`Welcome back, ${result.user.first_name}!`);
         // Redirect by role
         if (this.isProducer()) {
-          window.location.href = "producers.html";
+          console.log(
+            "isProducer() returned true. Redirecting to producer dashboard."
+          ); // Debugging line
+          window.location.href = "producer-dashboard.html";
         } else {
+          console.log("isProducer() returned false. Redirecting to home."); // Debugging line
           window.location.href = "/";
         }
       } else {
@@ -1896,7 +1855,7 @@ class HarvestHub {
         );
         // Redirect by role
         if (selectedRole === "producer" || this.isProducer()) {
-          window.location.href = "producers.html";
+          window.location.href = "producer-dashboard.html";
         } else {
           window.location.href = "/";
         }
