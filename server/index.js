@@ -137,8 +137,8 @@ app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
-// Serve static files from public directory
-app.use(express.static(path.join(__dirname, "../public")));
+// Serve static files from docs directory
+app.use(express.static(path.join(__dirname, "../docs")));
 
 // Make pool available to routes
 app.locals.db = pool;
@@ -148,7 +148,7 @@ app.get("/test", (req, res) => {
   res.json({
     message: "Server is working!",
     timestamp: new Date().toISOString(),
-    staticPath: path.join(__dirname, "../public"),
+    staticPath: path.join(__dirname, "../docs"),
   });
 });
 
@@ -189,7 +189,7 @@ app.use("/api/categories", require("./routes/categories"));
 
 // Serve the main HTML file
 app.get("/", (req, res) => {
-  const htmlPath = path.join(__dirname, "../public/index.html");
+  const htmlPath = path.join(__dirname, "../docs/index.html");
   console.log("Serving HTML from:", htmlPath);
   res.sendFile(htmlPath);
 });
