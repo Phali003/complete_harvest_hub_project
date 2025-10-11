@@ -1,3 +1,5 @@
+require("dotenv").config();
+console.log("DB_HOST:", process.env.DB_HOST);
 const express = require("express");
 const mysql = require("mysql2/promise");
 const cors = require("cors");
@@ -14,7 +16,7 @@ const { Server } = require("socket.io");
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 
 // Build SSL options for DB (allow dev overrides)
 let sslOptions = undefined;
@@ -203,8 +205,8 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
     origin: "*",
-    methods: ["GET", "POST"]
-  }
+    methods: ["GET", "POST"],
+  },
 });
 
 // WebSocket connection handling
@@ -223,9 +225,10 @@ io.on("connection", (socket) => {
   socket.on("requestStats", async () => {
     try {
       const db = pool;
-      const today = new Date().toISOString().split('T')[0];
-      
-      const [todayStats] = await db.execute(`
+      const today = new Date().toISOString().split("T")[0];
+
+      const [todayStats] = await db.execute(
+        `
         SELECT 
           COUNT(DISTINCT CASE WHEN DATE(u.created_at) = ? THEN u.id END) as new_users_today,
           COUNT(DISTINCT CASE WHEN DATE(o.created_at) = ? THEN o.id END) as orders_today,
@@ -236,11 +239,13 @@ io.on("connection", (socket) => {
         LEFT JOIN orders o ON 1=1
         LEFT JOIN producer_profiles pp ON 1=1
         LEFT JOIN products p ON 1=1
-      `, [today, today, today]);
+      `,
+        [today, today, today]
+      );
 
       socket.emit("statsUpdate", {
         ...todayStats[0],
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       console.error("Error sending stats:", error);
@@ -264,16 +269,16 @@ global.broadcastAdminUpdate = broadcastAdminUpdate;
 setInterval(async () => {
   try {
     const db = pool;
-    
+
     // Get notification counts
     const [pendingProducers] = await db.execute(`
       SELECT COUNT(*) as count FROM producer_profiles WHERE is_approved = FALSE
     `);
-    
+
     const [pendingProducts] = await db.execute(`
       SELECT COUNT(*) as count FROM products WHERE is_approved = FALSE
     `);
-    
+
     const [newOrders] = await db.execute(`
       SELECT COUNT(*) as count FROM orders WHERE status = 'pending' AND created_at >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
     `);
@@ -281,26 +286,25 @@ setInterval(async () => {
     const notifications = [
       {
         id: 1,
-        type: 'producer_approval',
+        type: "producer_approval",
         count: pendingProducers[0].count,
-        message: `${pendingProducers[0].count} producers awaiting approval`
+        message: `${pendingProducers[0].count} producers awaiting approval`,
       },
       {
         id: 2,
-        type: 'product_approval',
+        type: "product_approval",
         count: pendingProducts[0].count,
-        message: `${pendingProducts[0].count} products awaiting review`
+        message: `${pendingProducts[0].count} products awaiting review`,
       },
       {
         id: 3,
-        type: 'new_orders',
+        type: "new_orders",
         count: newOrders[0].count,
-        message: `${newOrders[0].count} new orders in the last hour`
-      }
-    ].filter(n => n.count > 0);
+        message: `${newOrders[0].count} new orders in the last hour`,
+      },
+    ].filter((n) => n.count > 0);
 
     broadcastAdminUpdate("notificationUpdate", notifications);
-    
   } catch (error) {
     console.error("Error broadcasting updates:", error);
   }
