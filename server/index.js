@@ -105,29 +105,9 @@ app.use(compression());
 
 // Define the list of approved frontend URLs
 const allowedOrigins = [
-  "http://127.0.0.1:5500", // For local testing with Live Server
+  "http://127.0.0.1:4000", // For local testing with Live Server
   "https://phali003.github.io", // Your live GitHub Pages site
 ];
-
-// Secure CORS configuration
-// app.use(
-//   cors({
-//     origin: function (origin, callback) {
-//       // Allow requests that don't have an origin (like Postman or mobile apps)
-//       if (!origin) return callback(null, true);
-
-//       // If the incoming request's origin is NOT in our approved list, reject it
-//       if (allowedOrigins.indexOf(origin) === -1) {
-//         const msg =
-//           "The CORS policy for this site does not allow access from the specified Origin.";
-//         return callback(new Error(msg), false);
-//       }
-
-//       // If the origin is in our approved list, allow it
-//       return callback(null, true);
-//     },
-//   })
-// );
 
 app.use(cors());
 
