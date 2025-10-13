@@ -76,7 +76,7 @@ const pool = mysql.createPool({
   user: process.env.DB_USER || "root",
   password: process.env.DB_PASSWORD || "",
   database: process.env.DB_NAME || "harvest_hub",
-  port: process.env.DB_PORT || 4000,
+  port: process.env.DATABASE_PORT || process.env.DB_PORT || 4000, // Support both for compatibility
   ssl: sslOptions,
   waitForConnections: true,
   connectionLimit: 10,
