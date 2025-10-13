@@ -1,5 +1,23 @@
-// const API_BASE_URL = "https://harvest-hub-8xn4.onrender.com";
-const API_BASE_URL = "http://localhost:000";
+// Auto-pick backend base URL with better detection
+const API_BASE_URL = (() => {
+  const hostname = location.hostname;
+  
+  // GitHub Pages - point to your Render backend
+  if (hostname.endsWith('.github.io')) {
+    return 'https://harvest-hub-project.onrender.com';
+  }
+  
+  // Local development
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    return 'http://localhost:4000';
+  }
+  
+  // Render or other production (same origin)
+  return '';
+})();
+
+console.log('API_BASE_URL detected:', API_BASE_URL);
+
 class HarvestHub {
   constructor() {
     this.cart = [];
@@ -46,7 +64,7 @@ class HarvestHub {
       .addEventListener("click", () => this.handleFindFood());
 
     // Search functionality
-    // Navigation search bar - food search only
+    // Navigation search - food search only
     document
       .getElementById("searchInput")
       .addEventListener("input", (e) => this.handleFoodSearch(e.target.value));
@@ -1635,78 +1653,62 @@ class HarvestHub {
     const email = form.querySelector("#loginEmail").value;
     const password = form.querySelector("#loginPassword").value;
 
-    // Basic validation
     if (!email || !password) {
       this.showNotification("Please fill in all fields", "error");
       return;
     }
-    // Show loading state
+
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
-    submitBtn.innerHTML =
-      '<i class="fas fa-spinner fa-spin mr-2"></i>Signing in...';
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Signing in...';
     submitBtn.disabled = true;
 
     try {
-      console.log("Login attempt:", { email });
+      console.log("Login attempt to:", `${API_BASE_URL}/api/auth/login`);
+      console.log("Login data:", { email: email.substring(0,3) + "***" });
 
-      // Make API call to backend (login endpoint)
       const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: "POST",
-        headers: {
+        headers: { 
           "Content-Type": "application/json",
+          "Accept": "application/json"
         },
         body: JSON.stringify({ email, password }),
       });
 
+      console.log("Response status:", response.status);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Response error:", errorText);
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
+
       const result = await response.json();
+      console.log("Login result:", { success: result.success, user: result.user?.email });
 
-      if (response.ok) {
-        // Login successful
-        console.log("Login successful:", result);
-
-        // Store token and user data
-        if (result.token) {
-          localStorage.setItem("harvestHubToken", result.token);
-        }
-
+      if (result.success || response.ok) {
+        if (result.token) localStorage.setItem("harvestHubToken", result.token);
         this.currentUser = result.user;
-        if (result.user && result.user.role) {
-          localStorage.setItem("harvestHubRole", result.user.role);
-        }
+        if (result.user?.role) localStorage.setItem("harvestHubRole", result.user.role);
         this.updateUserInterface();
-
-        // Close modal
         this.hideModal("loginModal");
 
-        // Show success message
-        this.showNotification(`Welcome back, ${result.user.first_name}!`);
-        // Redirect by role
+        const displayName = result.user?.first_name || result.user?.name || result.user?.email || "User";
+        this.showNotification(`Welcome back, ${displayName}!`);
+
         if (this.isProducer()) {
-          console.log(
-            "isProducer() returned true. Redirecting to producer dashboard."
-          ); // Debugging line
           window.location.href = "producer-dashboard.html";
         } else {
-          console.log("isProducer() returned false. Redirecting to home."); // Debugging line
           window.location.href = "/";
         }
       } else {
-        // Login failed
-        console.error("Login failed:", result);
-        this.showNotification(
-          result.message || "Invalid email or password. Please try again.",
-          "error"
-        );
+        this.showNotification(result.message || "Invalid email or password. Please try again.", "error");
       }
     } catch (error) {
-      console.error("Login error:", error);
-      this.showNotification(
-        "Network error. Please check your connection and try again.",
-        "error"
-      );
+      console.error("Login error details:", error);
+      this.showNotification(`Login failed: ${error.message}`, "error");
     } finally {
-      // Reset button
       submitBtn.innerHTML = originalText;
       submitBtn.disabled = false;
     }
@@ -1955,24 +1957,6 @@ class HarvestHub {
       } else {
         // Show error message
         let errorMessage =
-          result.message || "Failed to send password reset email";
-
-        messageEl.innerHTML = `
-                    <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
-                        <i class="fas fa-exclamation-circle mr-2"></i>
-                        ${errorMessage}
-                    </div>
-                `;
-        messageEl.classList.remove("hidden");
-      }
-    } catch (error) {
-      console.error("Password reset error:", error);
-      messageEl.innerHTML = `
-                <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
-                    <i class="fas fa-exclamation-circle mr-2"></i>
-                    Network error. Please check your connection and try again.
-                </div>
-            `;
       messageEl.classList.remove("hidden");
     } finally {
       // Reset button state
@@ -1982,7 +1966,7 @@ class HarvestHub {
     }
   }
 
-  // Reset registration modal to initial state
+  // Reset registration modal to original state
   resetRegistrationModal() {
     const roleSelectionStep = document.getElementById("roleSelectionStep");
     const registrationFormStep = document.getElementById(
@@ -2547,6 +2531,26 @@ class HarvestHub {
 
   createMapSection() {
     // Create the map section HTML if it doesn't exist
+    const mapHTML = `
+            <section id="map-section" class="py-16 bg-gray-50" style="display: none;">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-4">Local Producers Near You</h2>
+                        <p class="text-xl text-gray-600">Fresh food from trusted local vendors in your area</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Interactive Map -->
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                            <div id="map" class="h-96 bg-gray-200 flex items-center justify-center">
+                                <div class="text-center">
+                                    <i class="fas fa-map-marker-alt text-4xl text-primary mb-4"></i>
+                                    <p class="text-gray-600">Map will load here</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Nearby Producers List -->
     const mapHTML = `
             <section id="map-section" class="py-16 bg-gray-50" style="display: none;">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

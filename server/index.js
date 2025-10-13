@@ -105,11 +105,37 @@ app.use(compression());
 
 // Define the list of approved frontend URLs
 const allowedOrigins = [
-  "http://127.0.0.1:4000", // For local testing with Live Server
-  "https://phali003.github.io", // Your live GitHub Pages site
-];
+  process.env.FRONTEND_URL, // Render frontend (from .env)
+  "http://127.0.0.1:4000", // local same-origin
+  "http://localhost:4000", // localhost
+  "http://127.0.0.1:5500", // VSCode Live Server
+  "http://localhost:5500",
+  "https://phali003.github.io", // GitHub Pages main
+  "https://phali003.github.io/complete_harvest_hub_project", // GitHub Pages with repo path
+  "https://*.github.io", // Any GitHub Pages subdomain
+].filter(Boolean);
 
-app.use(cors());
+// Use dynamic origin check to allow GitHub Pages and Postman
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (mobile apps, curl, Postman)
+      if (!origin) return callback(null, true);
+
+      // Allow any GitHub Pages origin
+      if (origin.includes(".github.io")) return callback(null, true);
+
+      // Allow specific origins
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+
+      console.log(`CORS blocked origin: ${origin}`);
+      return callback(
+        new Error(`CORS policy violation: ${origin} not allowed`)
+      );
+    },
+    credentials: true,
+  })
+);
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
@@ -294,8 +320,4 @@ httpServer.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Frontend available at: http://localhost:${PORT}`);
   console.log(`WebSocket server running for real-time updates`);
-  console.log(`Static files served from: ${path.join(__dirname, "../public")}`);
-  console.log(
-    `HTML file location: ${path.join(__dirname, "../public/index.html")}`
-  );
 });
