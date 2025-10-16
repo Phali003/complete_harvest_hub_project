@@ -1,5 +1,17 @@
-// const API_BASE_URL = "https://harvest-hub-8xn4.onrender.com";
-const API_BASE_URL = "http://localhost:5000";
+// Auto-detect API base URL for local, Render, and GitHub Pages
+const API_BASE_URL = (() => {
+  const { hostname, href } = window.location;
+  // GitHub Pages (repo or user)
+  if (hostname.endsWith(".github.io")) {
+    return "https://harvest-hub-project.onrender.com";
+  }
+  // Localhost
+  if (hostname === "localhost" || hostname === "127.0.0.1") {
+    return "http://localhost:5000";
+  }
+  // Render (same origin)
+  return "";
+})();
 class HarvestHub {
   constructor() {
     this.cart = [];
