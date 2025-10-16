@@ -1,5 +1,6 @@
-require("dotenv").config();
+require("dotenv").config({ override: true });
 console.log("DB_HOST:", process.env.DB_HOST);
+console.log("DB_NAME:", process.env.DB_NAME);
 const express = require("express");
 const mysql = require("mysql2/promise");
 const cors = require("cors");
@@ -12,8 +13,8 @@ const os = require("os");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 
-// Load environment variables
-dotenv.config();
+// Load environment variables (ensure override in case process envs are set)
+dotenv.config({ override: true });
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -105,14 +106,19 @@ app.use(compression());
 
 // Define the list of approved frontend URLs
 const allowedOrigins = [
-  process.env.FRONTEND_URL, // Render frontend (from .env)
-  "http://127.0.0.1:4000", // local same-origin
-  "http://localhost:4000", // localhost
+  process.env.FRONTEND_URL, // Render or custom frontend (from .env)
+  // Dynamic locals based on server PORT
+  `http://127.0.0.1:${PORT}`,
+  `http://localhost:${PORT}`,
+  // Common local dev ports
+  "http://127.0.0.1:4000",
+  "http://localhost:4000",
   "http://127.0.0.1:5500", // VSCode Live Server
   "http://localhost:5500",
-  "https://phali003.github.io", // GitHub Pages main
-  "https://phali003.github.io/complete_harvest_hub_project", // GitHub Pages with repo path
-  "https://*.github.io", // Any GitHub Pages subdomain
+  // GitHub pages
+  "https://phali003.github.io",
+  "https://phali003.github.io/complete_harvest_hub_project",
+  "https://*.github.io",
 ].filter(Boolean);
 
 // Use dynamic origin check to allow GitHub Pages and Postman

@@ -4,7 +4,7 @@ Find users by email pattern. Usage:
   node .\scripts\find-users.js --pattern prisc
 Defaults to pattern 'prisc'
 */
-require("dotenv").config();
+require("dotenv").config({ path: __dirname + "/../.env", override: true });
 const mysql = require("mysql2/promise");
 const fs = require("fs");
 const path = require("path");
@@ -24,10 +24,14 @@ function parseArgs() {
 async function buildPoolConfig() {
   const cfg = {
     host: process.env.DB_HOST || "localhost",
-    port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306,
+    port: process.env.DATABASE_PORT
+      ? Number(process.env.DATABASE_PORT)
+      : process.env.DB_PORT
+      ? Number(process.env.DB_PORT)
+      : 4000,
     user: process.env.DB_USER || "root",
     password: process.env.DB_PASSWORD || "",
-    database: process.env.DB_NAME || "test",
+    database: process.env.DB_NAME || "harvest_hub",
     waitForConnections: true,
     connectionLimit: 1,
     queueLimit: 0,
